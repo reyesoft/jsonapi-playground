@@ -17,32 +17,29 @@ class CreateTables extends Migration
             $table->increments('id');
             $table->integer('photoable_id')->unsigned();
             $table->string('photoable_type');
-            $table->string('title');
-            $table->string('uri');
+            $table->string('title')->nullable();;
+            $table->string('uri')->nullable();;
             $table->timestamps();
         });
 
         Schema::create('series', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
+            $table->string('title')->nullable();;
             $table->timestamps();
-
-            $table->unique('title');
-
         });
 
         Schema::create('authors', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->date('date_of_birth');
+            $table->date('date_of_birth')->nullable();
             $table->date('date_of_death')->nullable();
             $table->timestamps();
         });
 
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('author_id')->unsigned();;
-            $table->integer('serie_id')->nullable()->unsigned();;
+            $table->integer('author_id')->unsigned();
+            $table->integer('serie_id')->nullable()->unsigned();
             $table->date('date_published');
             $table->string('title')->nullable();
             $table->timestamps();
@@ -54,8 +51,8 @@ class CreateTables extends Migration
         Schema::create('chapters', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('book_id')->unsigned();;
-            $table->string('title');
-            $table->integer('ordering');
+            $table->string('title')->nullable();;
+            $table->integer('ordering')->nullable();;
             $table->timestamps();
 
             $table->foreign('book_id')->references('id')->on('books');
@@ -63,7 +60,7 @@ class CreateTables extends Migration
 
         Schema::create('stores', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->nullable();;
             $table->timestamps();
         });
 
