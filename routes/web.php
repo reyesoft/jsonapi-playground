@@ -9,3 +9,4 @@ Route::get('/{resource}/{resource_id}','ApicultorWay@get');
 Route::get('/{resource}/{resource_id}','ApicultorWay@delete');
 Route::patch('/{resource}/{resource_id}','ApicultorWay@update');
 Route::put('/{resource}/{resource_id}','ApicultorWay@update');
+Route::post('/{resource}','ApicultorWay@store');

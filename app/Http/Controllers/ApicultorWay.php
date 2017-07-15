@@ -40,6 +40,18 @@ class ApicultorWay extends Controller
         return $result;
     }
 
+    public function store(Request $request,string $resource){
+
+        $resourceArray = $request->all();
+        $class = $this->mapResource($resource);
+        $object = new $class;
+        $object->fill($resourceArray);
+        $object->save();
+        $result =  $this->jsonApiTransform->transform($object, $object, '');
+
+        return $result;
+    }
+
     public function delete(string $resource, int $resource_id)
     {
         $class = $this->mapResource($resource);
