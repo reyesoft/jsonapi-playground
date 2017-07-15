@@ -47,7 +47,7 @@ class ApicultorWay extends Controller
         $object = new $class;
         $object->fill($resourceArray);
         $object->save();
-        $result =  $this->jsonApiTransform->transform($object, $class, '');
+        $result =  $this->jsonApiTransform->transform($class, $object, '');
 
         return $result;
     }
