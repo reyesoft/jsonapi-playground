@@ -1,56 +1,93 @@
-# Instrucciones
+# Laravel JSONAPI
 
-### 1er paso
+## Installation
+
+### Environment
+
+#### Laradock
+
+Agregar a `laradock/nginx/sites/laravel-jsonapi.conf`
+
 ```
-php artisan migrate
+server_name laravel-jsonapi.dev;
+root /var/www/laravel-jsonapi/public;
 ```
 
-### 2do paso
+y a `/etc/hosts`
+
 ```
-php artisan db:seed
+127.0.0.1   laravel-jsonapi.dev
 ```
 
-### 3er paso
+Now, just need
+
+```bash
+sudo docker-compose up nginx mysql -d
 ```
+
+and go to <http://laravel-jsonapi.dev/>
+
+#### Apache + MySQL
+
+### Laravel
+
+```
+composer install
+php artisan migrate --seed
 php artisan serve
 ```
 
-### Resources
-##### GETALL
+## Resources
+
+### GETALL
+
 ```
 [GET] localhost/{resource}
 ```
-##### GET
+
+### GET
+
 ```
 [GET] localhost/{resource}/{resource_id}
 ```
-##### UPDATE
+
+### UPDATE
+
 ```
 [PUT/PATCH] localhost/{resource}/{resource_id}
 ```
-##### DELETE
+
+### DELETE
+
 ```
 [DELETE] localhost/{resource}/{resource_id}
 ```
 
 ### Example
+
 ```
 localhost:8000/authors
 ```
-##### GET
-```
-localhost:8000/authors/1
-```
-##### UPDATE
-```
-localhost:8000/authors/1
-```
-##### DELETE
+
+### GET
+
 ```
 localhost:8000/authors/1
 ```
 
-### Como instalar php 7.1 en ubuntu 
+### UPDATE
+
+```
+localhost:8000/authors/1
+```
+
+### DELETE
+
+```
+localhost:8000/authors/1
+```
+
+## Como instalar php 7.1 en ubuntu
 
 ```
 sudo add-apt-repository ppa:ondrej/php
