@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Schemas;
+namespace App\Neomerx\Schemas;
 
 use Neomerx\JsonApi\Schema\SchemaProvider;
 
-class AuthorSchema extends SchemaProvider
+class ChapterSchema extends SchemaProvider
 {
-    protected $resourceType = 'authors';
-    protected $selfSubUrl = '/authors';
+    protected $resourceType = 'chapters';
+    protected $selfSubUrl = '/chapters';
 
     public function getId($obj)
     {
@@ -17,9 +17,8 @@ class AuthorSchema extends SchemaProvider
     public function getAttributes($obj)
     {
         return [
-            'name' => $obj->name,
-            'date_of_birth' => $obj->date_of_birth,
-            'date_of_death' => $obj->date_of_death,
+            'title' => $obj->title,
+            'ordering' => $obj->ordering,
         ];
     }
 
@@ -27,11 +26,11 @@ class AuthorSchema extends SchemaProvider
     {
         if ($isPrimary) {
             return [
+                'books' => [self::DATA => $obj->books->toArrayObjects()],
                 'photos' => [self::DATA => $obj->photos->toArrayObjects()],
             ];
         } else {
             return [];
         }
-
     }
 }

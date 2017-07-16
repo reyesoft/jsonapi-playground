@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Neomerx\Models;
 
 class Collection extends \Illuminate\Database\Eloquent\Collection
 {

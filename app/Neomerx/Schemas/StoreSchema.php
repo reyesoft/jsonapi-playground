@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Schemas;
+namespace App\Neomerx\Schemas;
 
 use Neomerx\JsonApi\Schema\SchemaProvider;
 

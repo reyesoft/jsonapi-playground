@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Neomerx\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -52,9 +52,9 @@ class JsonApiTransform
             foreach ($url as $key => $value) {
                 $result = $result.'/'.$key.'/'.$value;
             }
-            $result = url('/').'/v1'.$result;
+            $result = url('/').'/merx'.$result;
         } else {
-            $result = url('/')."/v1".$url;
+            $result = url('/')."/merx".$url;
         }
 
         $url = $result;

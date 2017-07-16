@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Author;
-use App\Book;
-use App\Chapter;
-use App\JsonApiTransform;
-use App\Photo;
-use App\Serie;
-use App\Store;
+use App\Neomerx\Models\Author;
+use App\Neomerx\Models\Book;
+use App\Neomerx\Models\Chapter;
+use App\Neomerx\Models\JsonApiTransform;
+use App\Neomerx\Models\Photo;
+use App\Neomerx\Models\Serie;
+use App\Neomerx\Models\Store;
 use Illuminate\Http\Request;
 
-class ApicultorWay extends Controller
+class NeomerxMethod extends Controller
 {
     protected $jsonApiTransform;
 
