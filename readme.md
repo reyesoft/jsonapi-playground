@@ -42,25 +42,25 @@ php artisan serve
 ### GETALL
 
 ```
-[GET] localhost/{resource}
+[GET] localhost/neomerx/{resource}
 ```
 
 ### GET
 
 ```
-[GET] localhost/{resource}/{resource_id}
+[GET] localhost/neomerx/{resource}/{resource_id}
 ```
 
 ### UPDATE
 
 ```
-[PUT/PATCH] localhost/{resource}/{resource_id}
+[PUT/PATCH] localhost/neomerx/{resource}/{resource_id}
 ```
 
 ### DELETE
 
 ```
-[DELETE] localhost/{resource}/{resource_id}
+[DELETE] localhost/neomerx/{resource}/{resource_id}
 ```
 
 ### Example

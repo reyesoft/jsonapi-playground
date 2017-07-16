@@ -1,10 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Neomerx\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Photo extends Model
+class Photo extends BaseModel
 {
     protected $fillable =[
         'title',

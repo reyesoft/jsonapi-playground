@@ -2,38 +2,10 @@
 
 namespace App;
 
-use App\Schemas\AuthorSchema;
-use App\Schemas\BookSchema;
-use App\Schemas\ChapterSchema;
-use App\Schemas\PhotoSchema;
-use App\Schemas\SerieSchema;
-use App\Schemas\StoreSchema;
+use Illuminate\Database\Eloquent\Model;
 
-class Book extends BaseModel
+class Book extends Model
 {
-    /**
-     * Posibles relaciones para el include de neomerx, no van todas, sólo las que me puede pedir frontend
-     */
-    const RELATIONS = [
-        'author' => 'author',
-        'serie' => 'serie',
-        'chapters' => 'chapters',
-        'stores' => 'stores',
-        'photos' => 'photos'
-    ];
-
-    /**
-     * Define el total de relaciones posibles, que luego se usara en la librería.
-     */
-    const ENCODER = [
-        self::class => BookSchema::class,
-        Author::class => AuthorSchema::class,
-        Serie::class => SerieSchema::class,
-        Chapter::class => ChapterSchema::class,
-        Store::class => StoreSchema::class,
-        Photo::class => PhotoSchema::class,
-    ];
-
     protected $fillable =[
         'author_id',
         'serie_id',

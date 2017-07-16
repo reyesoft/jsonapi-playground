@@ -2,27 +2,10 @@
 
 namespace App;
 
-use App\Schemas\AuthorSchema;
-use App\Schemas\PhotoSchema;
+use Illuminate\Database\Eloquent\Model;
 
-class Author extends BaseModel
+class Author extends Model
 {
-
-    /**
-     * Posibles relaciones para el include de neomerx, no van todas, sólo las que me puede pedir frontend
-     */
-    const RELATIONS = [
-        'photos' => 'photos'
-    ];
-
-    /**
-     * Define el total de relaciones posibles, que luego se usara en la librería.
-     */
-    const ENCODER = [
-        self::class => AuthorSchema::class,
-        Photo::class => PhotoSchema::class,
-    ];
-
     protected $fillable=[
         'name',
         'date_of_birth',

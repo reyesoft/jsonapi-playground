@@ -4,9 +4,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/{resource}','ApicultorWay@getAll');
-Route::get('/{resource}/{resource_id}','ApicultorWay@get');
-Route::get('/{resource}/{resource_id}','ApicultorWay@delete');
-Route::patch('/{resource}/{resource_id}','ApicultorWay@update');
-Route::put('/{resource}/{resource_id}','ApicultorWay@update');
-Route::post('/{resource}','ApicultorWay@store');
+## NEOMERX RESOLUTION
+Route::get('/neomerx/{resource}','NeomerxMethod@getAll');
+Route::get('/neomerx/{resource}/{resource_id}','NeomerxMethod@get');
+Route::delete('/neomerx/{resource}/{resource_id}','NeomerxMethod@delete');
+Route::patch('/neomerx/{resource}/{resource_id}','NeomerxMethod@update');
+Route::put('/neomerx/{resource}/{resource_id}','NeomerxMethod@update');
+Route::post('/neomerx/{resource}','NeomerxMethod@store');
