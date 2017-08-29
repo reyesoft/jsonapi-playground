@@ -26,7 +26,7 @@ class Serie extends BaseModel
         Book::class => BookSchema::class
     ];
 
-    protected $fillable =[
+    protected $fillable = [
         'title',
     ];
 

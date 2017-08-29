@@ -25,7 +25,7 @@ class NeomerxMethod extends Controller
         $include = $this->getInclude($request);
         $objects = $this->mapResult($resource);
         $object = $this->mapResource($resource);
-        $result =  $this->jsonApiTransform->transform($object, $objects, '', $include);
+        $result = $this->jsonApiTransform->transform($object, $objects, '', $include);
 
         return $result;
     }
@@ -35,7 +35,7 @@ class NeomerxMethod extends Controller
         $include = $this->getInclude($request);
         $objects = $this->mapResult($resource, $resource_id);
         $object = $this->mapResource($resource);
-        $result =  $this->jsonApiTransform->transform($object, $objects, '', $include);
+        $result = $this->jsonApiTransform->transform($object, $objects, '', $include);
 
         return $result;
     }
@@ -47,7 +47,7 @@ class NeomerxMethod extends Controller
         $object = new $class;
         $object->fill($resourceArray);
         $object->save();
-        $result =  $this->jsonApiTransform->transform($class, $object, '');
+        $result = $this->jsonApiTransform->transform($class, $object, '');
 
         return $result;
     }
@@ -71,7 +71,7 @@ class NeomerxMethod extends Controller
         $object->fill($resourceArray);
         $object->save();
 
-        $result =  $this->jsonApiTransform->transform($class, $object, '');
+        $result = $this->jsonApiTransform->transform($class, $object, '');
 
         return $result;
     }

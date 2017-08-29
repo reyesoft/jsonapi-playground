@@ -68,4 +68,3 @@ $factory->define(App\Photo::class, function (Faker\Generator $faker) {
         'uri' => $faker->url
     ];
 });
-

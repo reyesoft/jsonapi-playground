@@ -151,8 +151,7 @@ class BookResourceTransformer extends AbstractResourceTransformer
                                 ]
                             )
                         )
-                        ->setData($book["authors"], $this->authorTransformer)
-                    ;
+                        ->setData($book["authors"], $this->authorTransformer);
             },
             "publisher" => function ($book) {
                 return
@@ -166,8 +165,7 @@ class BookResourceTransformer extends AbstractResourceTransformer
                             )
                         )
                         ->setData($book["publisher"], $this->publisherTransformer)
-                        ->omitWhenNotIncluded()
-                    ;
+                        ->omitWhenNotIncluded();
             }
         ];
     }

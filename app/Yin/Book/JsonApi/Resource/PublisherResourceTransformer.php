@@ -115,8 +115,7 @@ class PublisherResourceTransformer extends AbstractResourceTransformer
             "representative" => function ($publisher) {
                 return
                     ToOneRelationship::create()
-                        ->setData($publisher["representative"], $this->representativeTransformer)
-                    ;
+                        ->setData($publisher["representative"], $this->representativeTransformer);
             }
         ];
     }

@@ -4,7 +4,7 @@ namespace App\Neomerx\Models;
 
 class Photo extends BaseModel
 {
-    protected $fillable =[
+    protected $fillable = [
         'title',
         'uri',
     ];

@@ -26,7 +26,7 @@ class Chapter extends BaseModel
         Book::class => BookSchema::class
     ];
 
-    protected $fillable =[
+    protected $fillable = [
         'book_id',
         'title',
         'ordering'

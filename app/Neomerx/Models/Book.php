@@ -34,7 +34,7 @@ class Book extends BaseModel
         Photo::class => PhotoSchema::class,
     ];
 
-    protected $fillable =[
+    protected $fillable = [
         'author_id',
         'serie_id',
         'date_published',

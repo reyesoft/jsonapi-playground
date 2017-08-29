@@ -23,7 +23,7 @@ class Author extends BaseModel
         Photo::class => PhotoSchema::class,
     ];
 
-    protected $fillable=[
+    protected $fillable = [
         'name',
         'date_of_birth',
         'date_of_death'

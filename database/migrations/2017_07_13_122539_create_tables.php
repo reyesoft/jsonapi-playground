@@ -17,14 +17,14 @@ class CreateTables extends Migration
             $table->increments('id');
             $table->integer('photoable_id')->unsigned();
             $table->string('photoable_type');
-            $table->string('title')->nullable();;
-            $table->string('uri')->nullable();;
+            $table->string('title')->nullable();
+            $table->string('uri')->nullable();
             $table->timestamps();
         });
 
         Schema::create('series', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title')->nullable();;
+            $table->string('title')->nullable();
             $table->timestamps();
         });
 
@@ -50,9 +50,9 @@ class CreateTables extends Migration
 
         Schema::create('chapters', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('book_id')->unsigned();;
-            $table->string('title')->nullable();;
-            $table->integer('ordering')->nullable();;
+            $table->integer('book_id')->unsigned();
+            $table->string('title')->nullable();
+            $table->integer('ordering')->nullable();
             $table->timestamps();
 
             $table->foreign('book_id')->references('id')->on('books');
@@ -60,7 +60,7 @@ class CreateTables extends Migration
 
         Schema::create('stores', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->nullable();;
+            $table->string('name')->nullable();
             $table->timestamps();
         });
 

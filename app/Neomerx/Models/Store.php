@@ -26,7 +26,7 @@ class Store extends BaseModel
         Book::class => BookSchema::class
     ];
 
-    protected $fillable =[
+    protected $fillable = [
         'name',
     ];
 
