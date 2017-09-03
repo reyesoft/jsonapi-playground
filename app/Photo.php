@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\JsonApi\Eloquent\BaseModel;
 
-class Photo extends Model
+class Photo extends BaseModel
 {
     protected $fillable = [
         'title',

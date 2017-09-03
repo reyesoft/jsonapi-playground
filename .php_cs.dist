@@ -7,71 +7,34 @@ EOF;
 return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules([
-        // '@Symfony' => true,
-        // '@Symfony:risky' => true,
+        '@Symfony' => true,
+        '@Symfony:risky' => true,
+        'psr4' => false,    // change name of classes
         'array_syntax' => ['syntax' => 'short'],
-        // 'combine_consecutive_unsets' => true,
-        // // one should use PHPUnit methods to set up expected exception instead of annotations
+        'combine_consecutive_unsets' => true,
         'general_phpdoc_annotation_remove' => ['expectedException', 'expectedExceptionMessage', 'expectedExceptionMessageRegExp'],
-        // 'header_comment' => array('header' => $header),
-        'heredoc_to_nowdoc' => true,
-        // 'no_extra_consecutive_blank_lines' => array('break', 'continue', 'extra', 'return', 'throw', 'use', 'parenthesis_brace_block', 'square_brace_block', 'curly_brace_block'),
         'no_short_echo_tag' => true,
         'no_unreachable_default_argument_value' => true,
-        // 'no_useless_else' => true,
         'no_useless_return' => true,
-        // 'ordered_class_elements' => true,
-        // 'ordered_imports' => true,
-        // 'php_unit_strict' => true,
-        // 'phpdoc_add_missing_param_annotation' => true,
-
-        /* tal vez phpstorm está haciéndolo al revés */
-        // 'phpdoc_order' => true,
-
-        // 'no_unused_imports' => true,
+        'braces' => false,
+        'ordered_imports' => true,
+        'no_unused_imports' => true,
         'semicolon_after_instruction' => true,
-        // 'strict_comparison' => true,
 
-        /* no activamos ya que muchas funciones PHP tienen parámetros extra que deberían ser agregados */
-        // 'strict_param' => true,
+        /* added by pablorsk 2 */
+        'ternary_to_null_coalescing' => true,
+        // 'pow_to_exponentiation' => true,
+        'binary_operator_spaces' => true,
+        'single_blank_line_before_namespace' => true,
+        'random_api_migration' => true,
 
         /* added by pablorsk */
-        'no_whitespace_before_comma_in_array' => true,
-        // 'whitespace_after_comma_in_array' => true,
-        // 'concat_space' => ['spacing' => 'one'],
-        'no_multiline_whitespace_around_double_arrow' => true,
-        'no_empty_statement' => true,
-        'single_blank_line_at_eof' => true,
-        // 'no_extra_consecutive_blank_lines' => true,
-        'no_spaces_after_function_name' => true,
-        'no_alias_functions' => true,
-        // 'blank_line_after_namespace' => true,
-        'line_ending' => true,
-        'no_trailing_comma_in_list_call' => true,
-        'no_unreachable_default_argument_value' => true,
+        'concat_space' => ['spacing' => 'one'],
         'no_unreachable_default_argument_value' => true,
         'no_multiline_whitespace_before_semicolons' => true,
-        'no_leading_namespace_whitespace' => true,
-        'object_operator_without_whitespace' => true,
-        'no_spaces_inside_parenthesis' => true,
-        'no_closing_tag' => true,
-        'no_mixed_echo_print' => true,
-        'no_leading_import_slash' => true,
-        'no_short_bool_cast' => true,
-        'space_after_semicolon' => true,
-        'no_singleline_whitespace_before_semicolons' => true,
-        'cast_spaces' => true,
-        'standardize_not_equals' => true,
-        'ternary_operator_spaces' => true,
-        'no_trailing_whitespace' => true,
-        'binary_operator_spaces' => true,
-        'unary_operator_spaces' => true,
-        'visibility_required' => true,
-        'no_whitespace_in_blank_line' => true
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->exclude('tests/Fixtures')
             ->in(__DIR__)
-    )
-;
+    );

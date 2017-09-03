@@ -2,15 +2,15 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\JsonApi\Eloquent\BaseModel;
 
-class Book extends Model
+class Book extends BaseModel
 {
     protected $fillable = [
         'author_id',
         'serie_id',
         'date_published',
-        'title'
+        'title',
     ];
 
     /* BelongTo */
@@ -36,7 +36,7 @@ class Book extends Model
 
     public function stores()
     {
-        return $this->belongsToMany(Store::class,'book_store')
+        return $this->belongsToMany(Store::class, 'book_store')
             ->withTimestamps();
     }
 
@@ -46,6 +46,4 @@ class Book extends Model
     {
         return $this->morphMany(Photo::class, 'photoable');
     }
-
-
 }

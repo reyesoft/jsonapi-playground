@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Yin\Book\JsonApi\Resource;
@@ -28,7 +29,7 @@ class PublisherResourceTransformer extends AbstractResourceTransformer
      */
     public function getType($publisher): string
     {
-        return "publishers";
+        return 'publishers';
     }
 
     /**
@@ -40,7 +41,7 @@ class PublisherResourceTransformer extends AbstractResourceTransformer
      */
     public function getId($publisher): string
     {
-        return $publisher["id"];
+        return $publisher['id'];
     }
 
     /**
@@ -63,6 +64,7 @@ class PublisherResourceTransformer extends AbstractResourceTransformer
      * data about the resource or null if it should be omitted from the response.
      *
      * @param array $publisher
+     *
      * @return Links|null
      */
     public function getLinks($publisher)
@@ -78,13 +80,14 @@ class PublisherResourceTransformer extends AbstractResourceTransformer
      * and they should return the value of the corresponding attribute.
      *
      * @param array $publisher
+     *
      * @return callable[]
      */
     public function getAttributes($publisher): array
     {
         return [
-            "name" => function (array $publisher) {
-                return $publisher["name"];
+            'name' => function (array $publisher) {
+                return $publisher['name'];
             },
         ];
     }
@@ -107,16 +110,17 @@ class PublisherResourceTransformer extends AbstractResourceTransformer
      * and they should return a new relationship instance (to-one or to-many).
      *
      * @param array $publisher
+     *
      * @return callable[]
      */
     public function getRelationships($publisher): array
     {
         return [
-            "representative" => function ($publisher) {
+            'representative' => function ($publisher) {
                 return
                     ToOneRelationship::create()
-                        ->setData($publisher["representative"], $this->representativeTransformer);
-            }
+                        ->setData($publisher['representative'], $this->representativeTransformer);
+            },
         ];
     }
 }

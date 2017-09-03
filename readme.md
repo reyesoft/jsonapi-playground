@@ -1,10 +1,8 @@
-# Laravel JSONAPI
+# JsonApi Playground
 
 ## Installation
 
-### Environment
-
-#### Laradock
+### Laradock
 
 Agregar a `laradock/nginx/sites/laravel-jsonapi.conf`
 
@@ -27,9 +25,7 @@ sudo docker-compose up nginx mysql -d
 
 and go to <http://laravel-jsonapi.dev/>
 
-#### Apache + MySQL
-
-### Laravel
+### Apache + MySQL
 
 ```
 composer install
@@ -39,60 +35,28 @@ php artisan serve
 
 ## Resources
 
-### GETALL
+## Resources
+
+- authors
+- books
+- photos
+
+## Entry points
 
 ```
-[GET] localhost/neomerx/{resource}
+[GET] localhost/v2/{resource}
+
+[GET] localhost/v2/{resource}/{resource_id}
+
+[GET] localhost/v2/{resource}/{resource_id}/related
+
+[PUT/PATCH] localhost/v1/{resource}/{resource_id}
+
+[DELETE] localhost/v1/{resource}/{resource_id}
 ```
 
-### GET
+## PhpCsFixer autofix
 
 ```
-[GET] localhost/neomerx/{resource}/{resource_id}
-```
-
-### UPDATE
-
-```
-[PUT/PATCH] localhost/neomerx/{resource}/{resource_id}
-```
-
-### DELETE
-
-```
-[DELETE] localhost/neomerx/{resource}/{resource_id}
-```
-
-### Example
-
-```
-localhost:8000/authors
-```
-
-### GET
-
-```
-localhost:8000/authors/1
-```
-
-### UPDATE
-
-```
-localhost:8000/authors/1
-```
-
-### DELETE
-
-```
-localhost:8000/authors/1
-```
-
-## Como instalar php 7.1 en ubuntu
-
-```
-sudo add-apt-repository ppa:ondrej/php
-sudo apt-get update
-sudo apt-get remove php7.0
-sudo apt-get install php7.1
-sudo apt-get install   php7.1-mcrypt php7.1-gd php7.1-soap php7.1-mbstring php7.1-gd php7.1-xml php7.1-json php7.1-zip  php7.1-bz2 php7.1-mysql php7.1-curl
+./vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --path-mode=intersection ./app ./bootstrap/ ./config/ ./database/ ./resources/ ./tests/
 ```

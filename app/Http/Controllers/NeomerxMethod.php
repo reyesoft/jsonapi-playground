@@ -40,11 +40,10 @@ class NeomerxMethod extends Controller
         return $result;
     }
 
-    public function store(Request $request,string $resource){
-
+    public function store(Request $request, string $resource) {
         $resourceArray = $request->all();
         $class = $this->mapResource($resource);
-        $object = new $class;
+        $object = new $class();
         $object->fill($resourceArray);
         $object->save();
         $result = $this->jsonApiTransform->transform($class, $object, '');
@@ -55,18 +54,18 @@ class NeomerxMethod extends Controller
     public function delete(string $resource, int $resource_id)
     {
         $class = $this->mapResource($resource);
-        $object = new $class;
+        $object = new $class();
         $object = $object->findOrFail($resource_id);
         $object->delete();
 
         return response(json_encode(['status' => 'success']), 200);
     }
 
-    public function update(Request $request, string $resource,int $resource_id)
+    public function update(Request $request, string $resource, int $resource_id)
     {
         $resourceArray = $request->all();
         $class = $this->mapResource($resource);
-        $object = new $class;
+        $object = new $class();
         $object = $object->findOrFail($resource_id);
         $object->fill($resourceArray);
         $object->save();
@@ -77,18 +76,16 @@ class NeomerxMethod extends Controller
     }
 
     /**
-     * Refactorizar en otro lado
-     *
+     * Refactorizar en otro lado.
      */
-
     private function mapResult(string $resource, int $resouce_id = 0)
     {
         $resource = $this->mapResource($resource);
 
         if ($resouce_id === 0) {
-            $objects = (new $resource)->paginate();
+            $objects = (new $resource())->paginate();
         } else {
-            $objects = (new $resource)->findOrFail($resouce_id);
+            $objects = (new $resource())->findOrFail($resouce_id);
         }
 
         return $objects;

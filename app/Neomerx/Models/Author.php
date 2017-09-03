@@ -7,12 +7,11 @@ use App\Neomerx\Schemas\PhotoSchema;
 
 class Author extends BaseModel
 {
-
     /**
-     * Posibles relaciones para el include de neomerx, no van todas, sólo las que me puede pedir frontend
+     * Posibles relaciones para el include de neomerx, no van todas, sólo las que me puede pedir frontend.
      */
     const RELATIONS = [
-        'photos' => 'photos'
+        'photos' => 'photos',
     ];
 
     /**
@@ -26,7 +25,7 @@ class Author extends BaseModel
     protected $fillable = [
         'name',
         'date_of_birth',
-        'date_of_death'
+        'date_of_death',
     ];
 
     /* MorphBy */
@@ -35,5 +34,4 @@ class Author extends BaseModel
     {
         return $this->morphMany(Photo::class, 'photoable');
     }
-
 }

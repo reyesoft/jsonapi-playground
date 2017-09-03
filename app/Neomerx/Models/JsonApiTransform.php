@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Neomerx\Models;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -10,19 +11,23 @@ use Neomerx\JsonApi\Encoder\Parameters\EncodingParameters;
 
 class JsonApiTransform
 {
-    public function transform($class, $objects, $url, $include = null, $encoderp = null)
+    private function isAjax() {
+        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+    }
+
+    public function transform($class_name, $objects, $url, $include = null, $encoderp = null)
     {
+        $pretty = !$this->isAjax();
 
         // Me fijo si es un objeto de tipo paginación y pongo paginate true
-        $option = null;
         if (is_a($objects, LengthAwarePaginator::class)) {
             $option = 'paginate';
         } elseif (is_a($objects, Collection::class)) {
             $option = 'collection';
-        } elseif (is_a($objects, $class)) {
+        } elseif (is_a($objects, $class_name)) {
             $option = 'object';
         } else {
-            throw new \Exception('El objeto no es válido para la clase JsonApiTransform '.$class);
+            throw new \Exception('El objeto no es válido para la clase JsonApiTransform ' . $class_name);
         }
 
         $options = [];
@@ -32,7 +37,7 @@ class JsonApiTransform
             $isInclude = true;
             // Llamo a la función, para convertir  los include que vienen por get en array bien formado
             // y además validar que no manden cualquier valor
-            $includeEncoderArray = $this->includeValidate($class, $include);
+            $includeEncoderArray = $this->includeValidate($class_name, $include);
 
             if (empty($include)) {
                 throw new \Exception('El elemento `include` tiene un objeto vacío.');
@@ -45,22 +50,21 @@ class JsonApiTransform
             );
         }
 
-
         // Creo las relaciones que puedo llegar a obtener de los arrays
         $result = '';
         if (is_array($url)) {
             foreach ($url as $key => $value) {
-                $result = $result.'/'.$key.'/'.$value;
+                $result = $result . '/' . $key . '/' . $value;
             }
-            $result = url('/').'/merx'.$result;
+            $result = url('/') . '/merx' . $result;
         } else {
-            $result = url('/')."/merx".$url;
+            $result = url('/') . '/merx' . $url;
         }
 
         $url = $result;
 
-        $encoderArray = (new $class)::ENCODER;
-        $encoder = Encoder::instance($encoderArray, new EncoderOptions(JSON_PRETTY_PRINT, $url));
+        $encoderArray = $class_name::ENCODER;
+        $encoder = Encoder::instance($encoderArray, new EncoderOptions($pretty ? JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES : 0, $url));
 
         $result = null;
 
@@ -74,10 +78,10 @@ class JsonApiTransform
             ];
             // Creo los links de paginación
             $links = [
-                'first' => new Link($objects->url(1).'', null, true),
-                'last' => new Link($objects->url($objects->lastPage()).'', null, true),
-                'prev' => new Link($objects->previousPageUrl().'', null, true),
-                'next' => new Link($objects->nextPageUrl().'', null, true),
+                'first' => new Link($objects->url(1) . '', null, true),
+                'last' => new Link($objects->url($objects->lastPage()) . '', null, true),
+                'prev' => new Link($objects->previousPageUrl() . '', null, true),
+                'next' => new Link($objects->nextPageUrl() . '', null, true),
             ];
 
             // Esto se hace para convertir una colección en un array y que lo entienda
@@ -120,22 +124,19 @@ class JsonApiTransform
             throw new \Exception('El problema no es reconocido por JsonApiTransform.');
         }
 
-
-        return $result;
+        return $pretty ? '<pre>' . $result . '</pre>' : $result;
     }
-
 
     private function includeValidate($modelClass, $includeString)
     {
-
         // Saco los paréntesis, que no me sirven
-        $includeString = str_replace(['[', ']'], "", $includeString);
+        $includeString = str_replace(['[', ']'], '', $includeString);
 
         // Convierto a array lo que viene separado por coma
         $includeArray = explode(',', $includeString);
 
         // Busco las relaciones que existen en ese modelos
-        $relations = (new $modelClass)::RELATIONS;
+        $relations = (new $modelClass())::RELATIONS;
 
         // Convierto el array a uno solo que solo tenga las keys del array para después poder buscarlo con in_array
         $relationsKeys = array_keys($relations);
