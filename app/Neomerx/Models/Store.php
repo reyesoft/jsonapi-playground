@@ -8,9 +8,8 @@ use App\Neomerx\Schemas\StoreSchema;
 
 class Store extends BaseModel
 {
-
     /**
-     * Posibles relaciones para el include de neomerx, no van todas, sólo las que me puede pedir frontend
+     * Posibles relaciones para el include de neomerx, no van todas, sólo las que me puede pedir frontend.
      */
     const RELATIONS = [
         'photos' => 'photos',
@@ -23,7 +22,7 @@ class Store extends BaseModel
     const ENCODER = [
         self::class => StoreSchema::class,
         Photo::class => PhotoSchema::class,
-        Book::class => BookSchema::class
+        Book::class => BookSchema::class,
     ];
 
     protected $fillable = [
@@ -41,7 +40,7 @@ class Store extends BaseModel
 
     public function books()
     {
-        return $this->belongsToMany(Book::class,'book_store')
+        return $this->belongsToMany(Book::class, 'book_store')
             ->withTimestamps();
     }
 }

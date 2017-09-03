@@ -5,7 +5,7 @@ namespace App\Neomerx\Models;
 class Collection extends \Illuminate\Database\Eloquent\Collection
 {
     /**
-     * Get the collection of items as a plain array of only first level
+     * Get the collection of items as a plain array of only first level.
      *
      * @return array
      */
@@ -13,7 +13,6 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
     {
         return array_map(function ($value) {
             return $value;
-
         }, $this->items);
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
 use App\Author;
 use App\Book;
 use App\Chapter;
@@ -8,16 +7,13 @@ use App\Photo;
 use App\Serie;
 use App\Store;
 use Faker\Factory;
-
-
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class GeneralSeed extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
@@ -54,6 +50,5 @@ class GeneralSeed extends Seeder
         factory(Chapter::class, 50)->create()->each(function ($u) {
             $u->photos()->save(factory(Photo::class)->make());
         });
-
     }
 }

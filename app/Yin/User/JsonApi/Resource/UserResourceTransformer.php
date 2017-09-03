@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Yin\User\JsonApi\Resource;
@@ -29,7 +30,7 @@ class UserResourceTransformer extends AbstractResourceTransformer
      */
     public function getType($user): string
     {
-        return "users";
+        return 'users';
     }
 
     /**
@@ -41,7 +42,7 @@ class UserResourceTransformer extends AbstractResourceTransformer
      */
     public function getId($user): string
     {
-        return $user["id"];
+        return $user['id'];
     }
 
     /**
@@ -64,6 +65,7 @@ class UserResourceTransformer extends AbstractResourceTransformer
      * data about the resource or null if it should be omitted from the response.
      *
      * @param array $user
+     *
      * @return Links|null
      */
     public function getLinks($user)
@@ -79,16 +81,17 @@ class UserResourceTransformer extends AbstractResourceTransformer
      * and they should return the value of the corresponding attribute.
      *
      * @param array $user
+     *
      * @return callable[]
      */
     public function getAttributes($user): array
     {
         return [
-            "firstname" => function (array $user) {
-                return $user["firstname"];
+            'firstname' => function (array $user) {
+                return $user['firstname'];
             },
-            "surname" => function (array $user) {
-                return $user["lastname"];
+            'surname' => function (array $user) {
+                return $user['lastname'];
             },
         ];
     }
@@ -111,25 +114,26 @@ class UserResourceTransformer extends AbstractResourceTransformer
      * and they should return a new relationship instance (to-one or to-many).
      *
      * @param array $user
+     *
      * @return callable[]
      */
     public function getRelationships($user): array
     {
         return [
-            "contacts" => function (array $user) {
+            'contacts' => function (array $user) {
                 return
                     ToManyRelationship::create()
                         ->setLinks(
                             Links::createWithoutBaseUri([
-                                "related" => new Link("/?path=/users/" . $user["id"] . "/contacts"),
-                                "self" => new Link("/?path=/users/" . $user["id"] . "/relationships/contacts")
+                                'related' => new Link('/?path=/users/' . $user['id'] . '/contacts'),
+                                'self' => new Link('/?path=/users/' . $user['id'] . '/relationships/contacts'),
                             ])
                         )
                         ->setDataAsCallable(function () use ($user) {
-                            return $user["contacts"];
+                            return $user['contacts'];
                         }, $this->contactTransformer)
                         ->omitWhenNotIncluded();
-            }
+            },
         ];
     }
 }

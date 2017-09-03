@@ -8,9 +8,8 @@ use App\Neomerx\Schemas\PhotoSchema;
 
 class Chapter extends BaseModel
 {
-
     /**
-     * Posibles relaciones para el include de neomerx, no van todas, sólo las que me puede pedir frontend
+     * Posibles relaciones para el include de neomerx, no van todas, sólo las que me puede pedir frontend.
      */
     const RELATIONS = [
         'books' => 'books',
@@ -23,13 +22,13 @@ class Chapter extends BaseModel
     const ENCODER = [
         self::class => ChapterSchema::class,
         Photo::class => PhotoSchema::class,
-        Book::class => BookSchema::class
+        Book::class => BookSchema::class,
     ];
 
     protected $fillable = [
         'book_id',
         'title',
-        'ordering'
+        'ordering',
     ];
 
     /* BelongTo */

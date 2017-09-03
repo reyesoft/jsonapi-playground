@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>JsonApi Playground</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -13,54 +13,35 @@
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fff;
+                background-color: #fafafa;
                 color: #636b6f;
                 font-family: 'Raleway', sans-serif;
-                font-weight: 100;
+                font-weight: 800;
                 height: 100vh;
                 margin: 0;
             }
 
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
+            .title {
+                font-weight: 500;
+                font-size: 5em;
             }
 
             .content {
-                text-align: center;
+                padding: 2em;
             }
 
-            .title {
-                font-size: 84px;
+            li {
+                padding: 0.5em 0;
+                list-style: none;
             }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
+            .uris {
             }
-
-            .m-b-md {
-                margin-bottom: 30px;
+            .uris span {
+                background: #888;
+                color: #fff;
+                font-size: 0.8em;
+                font-weight: bold;
+                padding: 0.3em;
             }
         </style>
     </head>
@@ -79,16 +60,22 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Json-Api playground
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                <h2>More info</h2>
+                <ul>
+                    <li><a href="http://jsonapi.org">JSON API Specification</a></li>
+                    <li><a href="https://github.com/reyesoft/ts-angular-jsonapi">Client library for AngularJS in Typescript</a></li>
+                </ul>
+
+                <h2>Data</h2>
+                <ul class="uris">
+                    <li><span>GET</span> <a href="/v2/authors">/v2/authors</a></li>
+                    <li><span>GET</span> <a href="/v2/authors/1">/v2/authors/1</a></li>
+                    <li><span>GET</span> <a href="/v2/authors/1/books">/v2/authors/1/books</a></li>
+                    <li><span>GET</span> <a href="/v2/authors/?page[number]=1&page[size]=3&filter[name]=S&include=books,photos">/v2/authors/?page[number]=1&page[size]=3&filter[name]=S&include=books,photos</a></li>
+                </ul>
             </div>
         </div>
     </body>

@@ -12,14 +12,14 @@ use App\Neomerx\Schemas\StoreSchema;
 class Book extends BaseModel
 {
     /**
-     * Posibles relaciones para el include de neomerx, no van todas, sólo las que me puede pedir frontend
+     * Posibles relaciones para el include de neomerx, no van todas, sólo las que me puede pedir frontend.
      */
     const RELATIONS = [
         'author' => 'author',
         'serie' => 'serie',
         'chapters' => 'chapters',
         'stores' => 'stores',
-        'photos' => 'photos'
+        'photos' => 'photos',
     ];
 
     /**
@@ -38,7 +38,7 @@ class Book extends BaseModel
         'author_id',
         'serie_id',
         'date_published',
-        'title'
+        'title',
     ];
 
     /* BelongTo */
@@ -64,7 +64,7 @@ class Book extends BaseModel
 
     public function stores()
     {
-        return $this->belongsToMany(Store::class,'book_store')
+        return $this->belongsToMany(Store::class, 'book_store')
             ->withTimestamps();
     }
 
@@ -74,6 +74,4 @@ class Book extends BaseModel
     {
         return $this->morphMany(Photo::class, 'photoable');
     }
-
-
 }

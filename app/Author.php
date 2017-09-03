@@ -2,15 +2,22 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\JsonApi\Eloquent\BaseModel;
 
-class Author extends Model
+class Author extends BaseModel
 {
     protected $fillable = [
         'name',
         'date_of_birth',
-        'date_of_death'
+        'date_of_death',
     ];
+
+    /* HasMany */
+
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
 
     /* MorphBy */
 
@@ -18,5 +25,4 @@ class Author extends Model
     {
         return $this->morphMany(Photo::class, 'photoable');
     }
-
 }

@@ -21,7 +21,7 @@ class Store extends Model
 
     public function books()
     {
-        return $this->belongsToMany(Book::class,'book_store')
+        return $this->belongsToMany(Book::class, 'book_store')
             ->withTimestamps();
     }
 }

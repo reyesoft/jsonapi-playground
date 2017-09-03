@@ -26,12 +26,13 @@ class AuthorSchema extends SchemaProvider
     public function getRelationships($obj, $isPrimary, array $includeList)
     {
         if ($isPrimary) {
+            return [];
+
             return [
                 'photos' => [self::DATA => $obj->photos->toArrayObjects()],
             ];
         } else {
             return [];
         }
-
     }
 }

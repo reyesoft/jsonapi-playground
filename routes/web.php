@@ -1,13 +1,16 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
 Route::get('/', function () {
     return view('welcome');
 });
-
-## NEOMERX RESOLUTION
-Route::get('/neomerx/{resource}','NeomerxMethod@getAll');
-Route::get('/neomerx/{resource}/{resource_id}','NeomerxMethod@get');
-Route::delete('/neomerx/{resource}/{resource_id}','NeomerxMethod@delete');
-Route::patch('/neomerx/{resource}/{resource_id}','NeomerxMethod@update');
-Route::put('/neomerx/{resource}/{resource_id}','NeomerxMethod@update');
-Route::post('/neomerx/{resource}','NeomerxMethod@store');

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Yin\Book\JsonApi\Resource;
@@ -38,7 +39,7 @@ class BookResourceTransformer extends AbstractResourceTransformer
      */
     public function getType($book): string
     {
-        return "books";
+        return 'books';
     }
 
     /**
@@ -50,7 +51,7 @@ class BookResourceTransformer extends AbstractResourceTransformer
      */
     public function getId($book): string
     {
-        return $book["id"];
+        return $book['id'];
     }
 
     /**
@@ -73,24 +74,26 @@ class BookResourceTransformer extends AbstractResourceTransformer
      * data about the resource or null if it should be omitted from the response.
      *
      * @param array $book
+     *
      * @return Links|null
      */
     public function getLinks($book)
     {
         return Links::createWithoutBaseUri(
             [
-                "self" => new Link($this->getSelfLinkHref($book))
+                'self' => new Link($this->getSelfLinkHref($book)),
             ]
         );
     }
 
     /**
      * @param array $book
+     *
      * @return string
      */
     public function getSelfLinkHref(array $book): string
     {
-        return "/?path=/books/" . $this->getId($book);
+        return '/?path=/books/' . $this->getId($book);
     }
 
     /**
@@ -103,16 +106,17 @@ class BookResourceTransformer extends AbstractResourceTransformer
      * attribute.
      *
      * @param array $book
+     *
      * @return callable[]
      */
     public function getAttributes($book): array
     {
         return [
-            "title" => function (array $book) {
-                return $book["title"];
+            'title' => function (array $book) {
+                return $book['title'];
             },
-            "pages" => function (array $book) {
-                return $this->toInt($book["pages"]);
+            'pages' => function (array $book) {
+                return $this->toInt($book['pages']);
             },
         ];
     }
@@ -124,7 +128,7 @@ class BookResourceTransformer extends AbstractResourceTransformer
      */
     public function getDefaultIncludedRelationships($book): array
     {
-        return ["authors"];
+        return ['authors'];
     }
 
     /**
@@ -135,38 +139,39 @@ class BookResourceTransformer extends AbstractResourceTransformer
      * and they should return a new relationship instance (to-one or to-many).
      *
      * @param array $book
+     *
      * @return callable[]
      */
     public function getRelationships($book): array
     {
         return [
-            "authors" => function (array $book) {
+            'authors' => function (array $book) {
                 return
                     ToManyRelationship::create()
                         ->setLinks(
                             new Links(
                                 $this->getSelfLinkHref($book),
                                 [
-                                    "self" => new Link("/relationships/authors")
+                                    'self' => new Link('/relationships/authors'),
                                 ]
                             )
                         )
-                        ->setData($book["authors"], $this->authorTransformer);
+                        ->setData($book['authors'], $this->authorTransformer);
             },
-            "publisher" => function ($book) {
+            'publisher' => function ($book) {
                 return
                     ToOneRelationship::create()
                         ->setLinks(
                             new Links(
                                 $this->getSelfLinkHref($book),
                                 [
-                                    "self" => new Link("/relationships/publisher")
+                                    'self' => new Link('/relationships/publisher'),
                                 ]
                             )
                         )
-                        ->setData($book["publisher"], $this->publisherTransformer)
+                        ->setData($book['publisher'], $this->publisherTransformer)
                         ->omitWhenNotIncluded();
-            }
+            },
         ];
     }
 }
