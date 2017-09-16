@@ -2,17 +2,12 @@
 
 namespace App\JsonApi\Core;
 
-use App\Author;
 use App\Http\JsonApiRequest;
 use App\JsonApi\ObjectsBuilder;
-use App\Neomerx\Models\Book;
-use App\Neomerx\Models\Chapter;
-use App\Neomerx\Models\Serie;
 use App\Neomerx\Models\Store;
-use App\Photo;
 use Illuminate\Http\Request;
-use Psr\Http\Message\ServerRequestInterface;
 use Laravel\Lumen\Routing\Controller as BaseController;
+use Psr\Http\Message\ServerRequestInterface;
 
 abstract class JsonApiController extends BaseController
 {

@@ -43,8 +43,8 @@ class User extends Authenticatable implements AuthenticatableUserContract
     {
         return [
             'user' => [
-                'id' => $this->id
-             ]
+                'id' => $this->id,
+             ],
         ];
     }
 }

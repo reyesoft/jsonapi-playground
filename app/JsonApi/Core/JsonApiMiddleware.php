@@ -3,6 +3,7 @@
 namespace App\JsonApi\Core;
 
 use Closure;
+
 // use Psr\Http\Message\ServerRequestInterface;
 
 class JsonApiMiddleware
