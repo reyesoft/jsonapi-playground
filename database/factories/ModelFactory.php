@@ -28,7 +28,7 @@ $factory->define(App\Author::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Book::class, function (Faker\Generator $faker) {
     return [
-        'author_id' => $faker->randomElement(Author::all()->pluck('id')->toArray()),
+        'author_id' => (random_int(0, 3) ? $faker->randomElement(Author::all()->pluck('id')->toArray()) : 0),
         'serie_id' => $faker->randomElement(Serie::all()->pluck('id')->toArray()),
         'date_published' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'title' => $faker->company,
