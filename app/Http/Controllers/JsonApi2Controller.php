@@ -67,7 +67,7 @@ class JsonApi2Controller extends JsonApiController
         return response(json_encode(['status' => 'success']), 200);
     }
 
-    protected function resource2class(string $resource): string
+    public function resource2class(string $resource): string
     {
         $arrayKeyValue = [
             'books' => Book::class,
