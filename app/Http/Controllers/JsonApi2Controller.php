@@ -12,8 +12,9 @@ use App\Neomerx\Models\Store;
 use App\Photo;
 use Illuminate\Http\Request;
 use Psr\Http\Message\ServerRequestInterface;
+use App\JsonApi\Core\JsonApiController;
 
-class JsonApi2Controller extends Controller
+class JsonApi2Controller extends JsonApiController
 {
     public function getCollection(ServerRequestInterface $request, string $resource_type)
     {
@@ -66,21 +67,7 @@ class JsonApi2Controller extends Controller
         return response(json_encode(['status' => 'success']), 200);
     }
 
-    public function update(Request $request, string $resource, int $resource_id)
-    {
-        $resourceArray = $request->all();
-        $class = $this->resource2class($resource);
-        $object = new $class();
-        $object = $object->findOrFail($resource_id);
-        $object->fill($resourceArray);
-        $object->save();
-
-        $result = $this->jsonApiTransform->transform($class, $object, '');
-
-        return $result;
-    }
-
-    private function resource2class(string $resource): string
+    protected function resource2class(string $resource): string
     {
         $arrayKeyValue = [
             'books' => Book::class,
@@ -92,19 +79,5 @@ class JsonApi2Controller extends Controller
         ];
 
         return $arrayKeyValue[$resource];
-    }
-
-    private function resource2ModelInstance($resource_name): \Illuminate\Database\Eloquent\Model {
-        $model_class_name = '\\App\\' . studly_case(str_singular($resource_name));
-        if (!class_exists($model_class_name))
-            throw new \Exception('No se encontró el recurso `' . $resource_name . '`.');
-        return new $model_class_name();
-    }
-
-    private function resource2SchemaInstance($resource_name): \App\JsonApi\SchemaProvider {
-        $model_class_name = '\\App\\JsonApi\\Schemas\\' . studly_case(str_singular($resource_name)) . 'Schema';
-        if (!class_exists($model_class_name))
-            throw new \Exception('No se encontró el recurso `' . $resource_name . '`.');
-        return new $model_class_name();
     }
 }
