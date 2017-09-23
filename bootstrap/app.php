@@ -63,9 +63,9 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    App\Http\Middleware\CorsMiddleware::class
+]);
 
 // $app->routeMiddleware([
 //     'jsonapi' => App\JsonApi\Core\JsonApiMiddleware::class,
@@ -105,7 +105,6 @@ $app->router->group([
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
-    // 'middleware' => 'jsonapi',
     'prefix' => 'v2',
 ], function ($router) {
     require __DIR__ . '/../routes/apiv2.php';
