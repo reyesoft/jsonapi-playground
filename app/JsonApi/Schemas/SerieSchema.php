@@ -4,6 +4,7 @@ namespace App\JsonApi\Schemas;
 
 use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Core\SchemaRelationsTrait;
+use App\Serie;
 
 class SerieSchema extends SchemaProvider
 {

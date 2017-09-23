@@ -1,0 +1,5 @@
+## Ignore everything in this directory
+## Except this file
+##
+## This prevent problem on bitbucket test when bootstrap/cache don't exist
+!.gitignore
