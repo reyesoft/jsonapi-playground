@@ -14,6 +14,9 @@ class BookSchema extends SchemaProvider
     public static $model = Book::class;
 
     protected $filterBySchema = [
+        'title' => [
+            'type' => 'like',
+        ],
         'date_published' => [
             'type' => 'date',
         ],
