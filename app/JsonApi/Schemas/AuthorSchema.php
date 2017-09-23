@@ -2,11 +2,16 @@
 
 namespace App\JsonApi\Schemas;
 
-use App\JsonApi\SchemaProvider;
+use App\Author;
+use App\JsonApi\Core\SchemaProvider;
+use App\JsonApi\Core\SchemaRelationsTrait;
 
 class AuthorSchema extends SchemaProvider
 {
+    use SchemaRelationsTrait;
+
     protected $resourceType = 'authors';
+    public static $model = Author::class;
 
     protected $filterBySchema = [
         'name' => [
@@ -14,11 +19,13 @@ class AuthorSchema extends SchemaProvider
         ],
     ];
 
-    protected $relationshipsSchema = [
+    public $relationshipsSchema = [
         'photos' => [
+            'schema' => PhotoSchema::class,
             'hasMany' => true,
         ],
         'books' => [
+            'schema' => BookSchema::class,
             'hasMany' => true,
         ],
     ];
@@ -35,17 +42,5 @@ class AuthorSchema extends SchemaProvider
             'date_of_birth' => $obj->date_of_birth,
             'date_of_death' => $obj->date_of_death,
         ];
-    }
-
-    public function getRelationships($obj, $isPrimary, array $includeList)
-    {
-        if ($isPrimary) {
-            return [
-                'photos' => [self::DATA => $obj->photos->toArrayObjects()],
-                'books' => [self::DATA => $obj->books->toArrayObjects()],
-            ];
-        } else {
-            return [];
-        }
     }
 }

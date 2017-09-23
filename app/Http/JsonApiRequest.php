@@ -2,8 +2,8 @@
 
 namespace App\Http;
 
+use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Helpers\ParametersChecker;
-use App\JsonApi\SchemaProvider;
 use Neomerx\JsonApi\Encoder\Parameters\EncodingParameters;
 use Neomerx\JsonApi\Factories\Factory;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,6 +14,11 @@ class JsonApiRequest
      * @var SchemaProvider
      */
     protected $schema;
+
+    /**
+     * @var array
+     */
+    protected $encoder = [];
 
     /**
      * @var ServerRequestInterface
@@ -30,8 +35,9 @@ class JsonApiRequest
      */
     protected $factory = null;
 
-    public function __construct(string $resource_type, ServerRequestInterface $request, int $id = 0) {
-        $this->schema = $this->resource2SchemaInstance($resource_type);
+    public function __construct(array $avaiable_resources, string $resource_type, ServerRequestInterface $request, int $id = 0) {
+        $this->schema = $this->resource2SchemaInstance($resource_type, $avaiable_resources);
+        $this->buildEncoder();
         $this->request = $request;
         $this->id = $id;
 
@@ -42,12 +48,21 @@ class JsonApiRequest
         $this->parsedparameters = new JsonApiParameters($parameters);
     }
 
-    public function getSchema(): SchemaProvider {
-        return $this->schema;
+    private function buildEncoder() {
+        // add this schema to encoder
+        $this->encoder = [
+            $this->schema->getModelName() => get_class($this->schema),
+        ];
+        // add related schemas to encoder
+        foreach ($this->schema->relationshipsSchema as $relation_alias => $relation_schema) {
+            $schema_class = $relation_schema['schema'];
+            $model_class = $schema_class::$model;
+            $this->encoder[$model_class] = $schema_class;
+        }
     }
 
     public function getResponses(): AppResponses {
-        return AppResponses::instance($this->request);
+        return AppResponses::instance($this->request, $this->encoder);
     }
 
     public function getRequest(): ServerRequestInterface {
@@ -58,8 +73,8 @@ class JsonApiRequest
         return $this->id;
     }
 
-    public function getModel(): \Illuminate\Database\Eloquent\Model {
-        return $this->resource2ModelInstance($this->getSchema()->getResourceType());
+    public function getSchema(): SchemaProvider {
+        return $this->schema;
     }
 
     public function getFactory(): Factory {
@@ -80,17 +95,11 @@ class JsonApiRequest
         return $factory->createQueryParametersParser()->parse($this->request);
     }
 
-    private function resource2SchemaInstance($resource_name): SchemaProvider {
-        $model_class_name = '\\App\\JsonApi\\Schemas\\' . studly_case(str_singular($resource_name)) . 'Schema';
-        if (!class_exists($model_class_name))
+    private function resource2SchemaInstance($resource_name, array $avaiable_resources): SchemaProvider {
+        if (!isset($avaiable_resources[$resource_name]))
             throw new \Exception('No se encontró el recurso `' . $resource_name . '`.');
-        return new $model_class_name();
-    }
+        $ret = new $avaiable_resources[$resource_name]();
 
-    private function resource2ModelInstance($resource_name): \Illuminate\Database\Eloquent\Model {
-        $model_class_name = '\\App\\' . studly_case(str_singular($resource_name));
-        if (!class_exists($model_class_name))
-            throw new \Exception('No se encontró el recurso `' . $resource_name . '`.');
-        return new $model_class_name();
+        return $ret;
     }
 }

@@ -1,0 +1,13 @@
+!.gitignore
+!images
+images/*
+!images/avatars
+images/avatars/*
+!images/avatars/default.png
+
+!images/logos
+images/logos/*
+!images/logos/default.png
+!/Afip/
+/Afip/*
+!/Afip/privateKey

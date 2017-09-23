@@ -2,7 +2,7 @@
 
 namespace App\JsonApi\Helpers;
 
-use App\JsonApi\SchemaProvider;
+use App\JsonApi\Core\SchemaProvider;
 use Neomerx\JsonApi\Encoder\Parameters\EncodingParameters;
 use Neomerx\JsonApi\Factories\Factory;
 

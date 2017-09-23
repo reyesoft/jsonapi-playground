@@ -2,13 +2,12 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Tymon\JWTAuth\Contracts\JWTSubject as AuthenticatableUserContract;
+use Illuminate\Auth\Authenticatable;
+use Laravel\Lumen\Auth\Authorizable;
 
-class User extends Authenticatable implements AuthenticatableUserContract
+class User extends Authenticatable
 {
-    use Notifiable;
+    use Authenticatable, Authorizable;
 
     /**
      * The attributes that are mass assignable.
@@ -27,24 +26,4 @@ class User extends Authenticatable implements AuthenticatableUserContract
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    /**
-     * @return mixed
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();  // Eloquent model method
-    }
-
-    /**
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [
-            'user' => [
-                'id' => $this->id,
-             ],
-        ];
-    }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-use App\JsonApi\EncoderArray;
 use Neomerx\JsonApi\Contracts\Encoder\EncoderInterface;
 use Neomerx\JsonApi\Contracts\Encoder\Parameters\EncodingParametersInterface;
 use Neomerx\JsonApi\Contracts\Http\Headers\MediaTypeInterface;
@@ -27,13 +26,14 @@ class AppResponses extends Responses
 
     public static function instance(
         ServerRequestInterface $request,
+        array $encoderArray,
         string $urlPrefix = null
     ): self {
         $encodeOptions = new EncoderOptions();
 
         $factory = new Factory();
         $parameters = $factory->createQueryParametersParser()->parse($request);
-        $schemasContainer = $factory->createContainer(EncoderArray::ENCODER_ARRAY);
+        $schemasContainer = $factory->createContainer($encoderArray);
         $encoder = $factory->createEncoder($schemasContainer, $encodeOptions);
 
         $responses = new static(

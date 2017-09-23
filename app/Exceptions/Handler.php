@@ -2,14 +2,13 @@
 
 namespace App\Exceptions;
 
-use App\Http\AppResponses;
-use App\Http\EncoderOptions;
-use App\JsonApi\Error;
+use App\JsonApi\Core\JsonApiExceptionHandler;
 use Exception;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Neomerx\JsonApi\Encoder\Encoder;
-use Neomerx\JsonApi\Exceptions\JsonApiException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -19,12 +18,10 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
+        AuthorizationException::class,
+        HttpException::class,
+        ModelNotFoundException::class,
+        ValidationException::class,
     ];
 
     /**
@@ -32,84 +29,31 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param \Exception $exception
+     * @param \Exception $e
+     *
+     * @return void
      */
-    public function report(Exception $exception)
+    public function report(Exception $e)
     {
-        parent::report($exception);
+        // jsonapi catch error
+        parent::report($e);
     }
 
     /**
      * Render an exception into an HTTP response.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Exception               $exception
+     * @param \Exception               $e
      *
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Exception $e)
     {
-        if($request->is('v2/*')) {
-            return $this->renderApiV2($request, $exception);
+        // jsonapi catch error
+        try {
+            return JsonApiExceptionHandler::render($e);
+        } catch (Exception $e) {
+            return parent::render($request, $e);
         }
-
-        $json = [
-            'success' => false,
-            'error' => [
-                'code' => $exception->getCode(),
-                'message' => $exception->getMessage(),
-                'file' => $exception->getFile(),
-                'line' => $exception->getLine(),
-            ],
-        ];
-
-        return response()->json($json, 400);
-    }
-
-    private function renderApiV2($request, Exception $exception) {
-        $encodeOptions = new EncoderOptions();
-
-        if ($exception instanceof JsonApiException) {
-            $encoded_error = Encoder::instance([], $encodeOptions)->encodeErrors($exception->getErrors());
-        } else {
-            $error = new Error(
-                $exception->getCode(),
-                $exception->getMessage()
-            );
-
-            if (env('APP_DEBUG')) {
-                $error->setMeta([
-                    'file' => $exception->getFile(),
-                    'line' => $exception->getLine(),
-                ]);
-            }
-
-            /* $responses = AppResponses::instance(
-                [],
-                $requestg
-            );
-            return $responses->getContentResponse($error); */
-            $encoded_error = Encoder::instance([], $encodeOptions)->encodeError($error);
-        }
-
-        return response($encoded_error, $exception->getCode() + 400)
-                ->header('Content-Type', 'application/vnd.api+json; charset=utf8');
-    }
-
-    /**
-     * Convert an authentication exception into an unauthenticated response.
-     *
-     * @param \Illuminate\Http\Request                 $request
-     * @param \Illuminate\Auth\AuthenticationException $exception
-     *
-     * @return \Illuminate\Http\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
-        }
-
-        return redirect()->guest(route('login'));
     }
 }
