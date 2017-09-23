@@ -1,4 +1,12 @@
-# Created by https://www.gitignore.io/api/laravel,vagrant,netbeans,phpstorm
+/storage/Afip/
+/storage/testing/
+/app/Http/Routes/
+/storage/downloads/
+/storage/framework/cache/
+.php_cs.cache
+
+
+# Created by https://www.gitignore.io/api/phpstorm,netbeans,visualstudiocode,laravel,phpcodesniffer
 
 ### Laravel ###
 vendor/
@@ -30,6 +38,12 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+### PHPCodeSniffer ###
+# CodeSniffer
+
+/vendor/*
+/wpcs/*
 
 ### PhpStorm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
@@ -93,7 +107,12 @@ fabric.properties
 # Sonarlint plugin
 .idea/sonarlint
 
-### Vagrant ###
-.vagrant/
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history
 
-# End of https://www.gitignore.io/api/laravel,vagrant,netbeans,phpstorm
+# End of https://www.gitignore.io/api/phpstorm,netbeans,visualstudiocode,laravel,phpcodesniffer

@@ -85,6 +85,6 @@ class CreateTables extends Migration
         Schema::dropIfExists('books');
         Schema::dropIfExists('chapters');
         Schema::dropIfExists('stores');
-        Schema::dropIfExists('books_stores');
+        Schema::dropIfExists('book_store');
     }
 }

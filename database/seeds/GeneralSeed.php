@@ -29,19 +29,27 @@ class GeneralSeed extends Seeder
         $faker = Faker\Factory::create();
 
         factory(Author::class, 50)->create()->each(function ($u) {
-            $u->photos()->save(factory(Photo::class)->make());
+            for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {
+                $u->photos()->save(factory(Photo::class)->make());
+            }
         });
 
         factory(Store::class, 50)->create()->each(function ($u) {
-            $u->photos()->save(factory(Photo::class)->make());
+            for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {
+                $u->photos()->save(factory(Photo::class)->make());
+            }
         });
 
         factory(Serie::class, 50)->create()->each(function ($u) {
-            $u->photos()->save(factory(Photo::class)->make());
+            for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {
+                $u->photos()->save(factory(Photo::class)->make());
+            }
         });
 
         factory(Book::class, 50)->create()->each(function ($u) use ($faker) {
-            $u->photos()->save(factory(Photo::class)->make());
+            for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {
+                $u->photos()->save(factory(Photo::class)->make());
+            }
 
             $store_id = $faker->randomElement(Store::all()->pluck('id')->toArray());
             $u->stores()->attach($store_id);

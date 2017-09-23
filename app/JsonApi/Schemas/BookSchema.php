@@ -2,11 +2,16 @@
 
 namespace App\JsonApi\Schemas;
 
-use App\JsonApi\SchemaProvider;
+use App\Book;
+use App\JsonApi\Core\SchemaProvider;
+use App\JsonApi\Core\SchemaRelationsTrait;
 
 class BookSchema extends SchemaProvider
 {
+    use SchemaRelationsTrait;
+
     protected $resourceType = 'books';
+    public static $model = Book::class;
 
     protected $filterBySchema = [
         'date_published' => [
@@ -14,13 +19,23 @@ class BookSchema extends SchemaProvider
         ],
     ];
 
-    protected $relationshipsSchema = [
+    public $relationshipsSchema = [
         'photos' => [
+            'schema' => PhotoSchema::class,
             'hasMany' => true,
         ],
         'author' => [
+            'schema' => AuthorSchema::class,
             'type' => 'authors',
             'hasMany' => false,
+        ],
+        'stores' => [
+            'schema' => StoreSchema::class,
+            'hasMany' => true,
+        ],
+        'chapters' => [
+            'schema' => ChapterSchema::class,
+            'hasMany' => true,
         ],
     ];
 
@@ -37,19 +52,17 @@ class BookSchema extends SchemaProvider
         ];
     }
 
+    /*
     public function getRelationships($object, $isPrimary, array $includeList)
     {
         if ($isPrimary) {
             return [
                 'author' => $this->buildRelationship($object, $includeList, '\App\Author', 'author'),
-                // 'author' => [self::DATA => $object->author],
-                // 'serie' => [self::DATA => $object->serie],
-                // 'chapters' => [self::DATA => $object->chapters->toArrayObjects()],
-                'photos' => [self::DATA => $object->photos->toArrayObjects()],
-                // 'stores' => [self::DATA => $obj->stores->toArrayObjects()],
+                'photos' => [self::DATA => $object->photos],
             ];
         } else {
             return [];
         }
     }
+     */
 }

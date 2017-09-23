@@ -13,8 +13,8 @@
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fafafa;
-                color: #636b6f;
+                background-color: #eee;
+                color: #544;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 800;
                 height: 100vh;
@@ -47,17 +47,6 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
-                </div>
-            @endif
-
             <div class="content">
                 <div class="title m-b-md">
                     Json-Api playground
@@ -76,6 +65,14 @@
                     <li><span>GET</span> <a href="/v2/authors/1/books">/v2/authors/1/books</a></li>
                     <li><span>GET</span> <a href="/v2/authors/?page[number]=1&page[size]=3&filter[name]=S&include=books,photos">/v2/authors/?page[number]=1&page[size]=3&filter[name]=S&include=books,photos</a></li>
                 </ul>
+                <p>More resources?
+                    <a href="/v2/books">books</a>
+                    <a href="/v2/series">series</a>
+                    <a href="/v2/books">books</a>
+                    <a href="/v2/chapters">chapters</a>
+                    <a href="/v2/photos">photos</a>
+                    <a href="/v2/stores">stores</a>
+                </p>
             </div>
         </div>
     </body>

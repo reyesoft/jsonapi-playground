@@ -2,11 +2,26 @@
 
 namespace App\JsonApi\Schemas;
 
-use App\JsonApi\SchemaProvider;
+use App\JsonApi\Core\SchemaProvider;
+use App\JsonApi\Core\SchemaRelationsTrait;
 
 class SerieSchema extends SchemaProvider
 {
+    use SchemaRelationsTrait;
+
     protected $resourceType = 'series';
+    public static $model = Serie::class;
+
+    public $relationshipsSchema = [
+        'photos' => [
+            'schema' => PhotoSchema::class,
+            'hasMany' => true,
+        ],
+        'books' => [
+            'schema' => BookSchema::class,
+            'hasMany' => true,
+        ],
+    ];
 
     public function getId($obj)
     {
@@ -18,17 +33,5 @@ class SerieSchema extends SchemaProvider
         return [
             'title' => $obj->title,
         ];
-    }
-
-    public function getRelationships($obj, $isPrimary, array $includeList)
-    {
-        if ($isPrimary) {
-            return [
-                'books' => [self::DATA => $obj->books->toArrayObjects()],
-                'photos' => [self::DATA => $obj->photos->toArrayObjects()],
-            ];
-        } else {
-            return [];
-        }
     }
 }

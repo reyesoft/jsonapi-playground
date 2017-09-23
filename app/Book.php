@@ -2,9 +2,9 @@
 
 namespace App;
 
-use App\JsonApi\Eloquent\BaseModel;
+use Illuminate\Database\Eloquent\Model;
 
-class Book extends BaseModel
+class Book extends Model
 {
     protected $fillable = [
         'author_id',

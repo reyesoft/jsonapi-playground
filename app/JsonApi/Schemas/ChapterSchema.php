@@ -2,11 +2,28 @@
 
 namespace App\JsonApi\Schemas;
 
-use App\JsonApi\SchemaProvider;
+use App\Chapter;
+use App\JsonApi\Core\SchemaProvider;
+use App\JsonApi\Core\SchemaRelationsTrait;
 
 class ChapterSchema extends SchemaProvider
 {
+    use SchemaRelationsTrait;
+
     protected $resourceType = 'chapters';
+    public static $model = Chapter::class;
+
+    public $relationshipsSchema = [
+        'photos' => [
+            'schema' => PhotoSchema::class,
+            'hasMany' => true,
+        ],
+        'books' => [
+            'type' => 'books',
+            'schema' => BookSchema::class,
+            'hasMany' => false,
+        ],
+    ];
 
     public function getId($obj)
     {
@@ -19,17 +36,5 @@ class ChapterSchema extends SchemaProvider
             'title' => $obj->title,
             'ordering' => $obj->ordering,
         ];
-    }
-
-    public function getRelationships($obj, $isPrimary, array $includeList)
-    {
-        if ($isPrimary) {
-            return [
-                'books' => [self::DATA => $obj->books->toArrayObjects()],
-                'photos' => [self::DATA => $obj->photos->toArrayObjects()],
-            ];
-        } else {
-            return [];
-        }
     }
 }
