@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http;
+namespace App\JsonApi\Http;
 
 use Neomerx\JsonApi\Encoder\EncoderOptions as NeomerxEncoderOptions;
 

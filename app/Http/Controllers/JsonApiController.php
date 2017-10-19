@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\JsonApi\Core\JsonApiController as BaseJsonApiController;
-use App\JsonApi\Schemas\AuthorSchema;
-use App\JsonApi\Schemas\BookSchema;
-use App\JsonApi\Schemas\ChapterSchema;
-use App\JsonApi\Schemas\PhotoSchema;
-use App\JsonApi\Schemas\SerieSchema;
-use App\JsonApi\Schemas\StoreSchema;
+use App\AuthorSchema;
+use App\BookSchema;
+use App\ChapterSchema;
+use App\JsonApi\Http\Controllers\JsonApiGlobalController;
+use App\PhotoSchema;
+use App\SerieSchema;
+use App\StoreSchema;
 use Illuminate\Http\Request;
 
-class JsonApiController extends BaseJsonApiController
+class JsonApiController extends JsonApiGlobalController
 {
     const AVAIBLE_RESOURCES = [
         'authors' => AuthorSchema::class,
@@ -41,20 +41,6 @@ class JsonApiController extends BaseJsonApiController
         $object->delete();
 
         return response(json_encode(['status' => 'success']), 200);
-    }
-
-    public function update(Request $request, string $resource, int $resource_id)
-    {
-        $resourceArray = $request->all();
-        $class = $this->resource2class($resource);
-        $object = new $class();
-        $object = $object->findOrFail($resource_id);
-        $object->fill($resourceArray);
-        $object->save();
-
-        $result = $this->jsonApiTransform->transform($class, $object, '');
-
-        return $result;
     }
 
     /**

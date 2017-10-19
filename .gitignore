@@ -24,7 +24,6 @@ storage/*.key
 .env.*.php
 .env.php
 .env
-.env.reyesoft
 Homestead.yaml
 Homestead.json
 

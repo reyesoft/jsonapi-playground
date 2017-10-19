@@ -1,17 +1,22 @@
 <?php
 
-namespace App\JsonApi\Schemas;
+namespace App;
 
 use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Core\SchemaRelationsTrait;
-use App\Store;
 
-class StoreSchema extends SchemaProvider
+class AuthorSchema extends SchemaProvider
 {
     use SchemaRelationsTrait;
 
-    protected $resourceType = 'stores';
-    public static $model = Store::class;
+    protected $resourceType = 'authors';
+    public static $model = Author::class;
+
+    protected $filterBySchema = [
+        'name' => [
+            'type' => 'like',
+        ],
+    ];
 
     public $relationshipsSchema = [
         'photos' => [
@@ -33,6 +38,8 @@ class StoreSchema extends SchemaProvider
     {
         return [
             'name' => $obj->name,
+            'date_of_birth' => $obj->date_of_birth,
+            'date_of_death' => $obj->date_of_death,
         ];
     }
 }

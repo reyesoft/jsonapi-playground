@@ -1,8 +1,7 @@
 <?php
 
-namespace App\JsonApi\Schemas;
+namespace App;
 
-use App\Book;
 use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Core\SchemaRelationsTrait;
 

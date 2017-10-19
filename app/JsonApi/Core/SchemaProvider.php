@@ -66,7 +66,7 @@ abstract class SchemaProvider extends NeomerxSchemaProvider
         return $ret;
     }
 
-    public function getModelName() {
+    public function getModelName(): string {
         return static::$model;
     }
 
@@ -87,24 +87,5 @@ abstract class SchemaProvider extends NeomerxSchemaProvider
     public function getFilterBySchemaArray(): array
     {
         return array_keys($this->filterBySchema);
-    }
-
-    protected function buildRelationship($object, array $includeList, $modelClass, $singularType)
-    {
-        if (isset($includeList[$singularType])) {
-            $relation = $object->$singularType;
-        } else {
-            $modelFieldId = $singularType . '_id';
-            if ($object->$modelFieldId != 0)  {
-                $relation = new $modelClass();
-                $relation->id = $object->$modelFieldId;
-            } else {
-                // no element on this hasOne relationship
-                // http://jsonapi.org/format/#fetching-resources-responses
-                $relation = null;
-            }
-        }
-
-        return [self::DATA => $relation];
     }
 }

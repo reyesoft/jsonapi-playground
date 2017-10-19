@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http;
+namespace App\JsonApi\Http;
 
 use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Helpers\ParametersChecker;
@@ -8,8 +8,11 @@ use Neomerx\JsonApi\Encoder\Parameters\EncodingParameters;
 use Neomerx\JsonApi\Factories\Factory;
 use Psr\Http\Message\ServerRequestInterface;
 
-class JsonApiRequest
+class JsonApiRequestHelper
 {
+    protected $type = '';
+    protected $related_alias = '';
+
     /**
      * @var SchemaProvider
      */
@@ -35,17 +38,40 @@ class JsonApiRequest
      */
     protected $factory = null;
 
-    public function __construct(array $avaiable_resources, string $resource_type, ServerRequestInterface $request, int $id = 0) {
-        $this->schema = $this->resource2SchemaInstance($resource_type, $avaiable_resources);
-        $this->buildEncoder();
+    protected $appresponses = null;
+
+    public function __construct($request, string $schema, int $id = 0, string $related_alias = '') {
         $this->request = $request;
-        $this->id = $id;
+        $isACollection = (!$id || $related_alias);
+        $this->setSchemaAndEval($schema, $isACollection);
+    }
 
-        // check parameters
+    private function setSchema(SchemaProvider $schema) {
+        $this->schema = $schema;
+    }
+
+    private function setSchemaAndEval(string $schema_class_name, bool $isACollection) {
+        $this->setSchema(new $schema_class_name());
+        $this->buildEncoder();
         $parameters = $this->getRequestParameters();
-        ParametersChecker::checkOrFail($this->schema, $parameters, $id ? false : true);
-
+        ParametersChecker::checkOrFail($this->schema, $parameters, $isACollection);
         $this->parsedparameters = new JsonApiParameters($parameters);
+    }
+
+    public function getType() {
+        return $this->type;
+    }
+
+    protected function setType($type) {
+        $this->type = $type;
+    }
+
+    public function getRelatedAlias() {
+        return $this->related_alias;
+    }
+
+    protected function setRelatedAlias($related_alias) {
+        $this->related_alias = $related_alias;
     }
 
     private function buildEncoder() {
@@ -53,6 +79,7 @@ class JsonApiRequest
         $this->encoder = [
             $this->schema->getModelName() => get_class($this->schema),
         ];
+
         // add related schemas to encoder
         foreach ($this->schema->relationshipsSchema as $relation_alias => $relation_schema) {
             $schema_class = $relation_schema['schema'];
@@ -61,7 +88,13 @@ class JsonApiRequest
         }
     }
 
-    public function getResponses(): AppResponses {
+    public function getResponse($object_or_objects): JsonApiResponse {
+        return $this
+                ->getAppResponses()
+                ->getContentResponse($object_or_objects);
+    }
+
+    public function getAppResponses(): AppResponses {
         return AppResponses::instance($this->request, $this->encoder);
     }
 
@@ -93,13 +126,5 @@ class JsonApiRequest
         $factory = new Factory();
 
         return $factory->createQueryParametersParser()->parse($this->request);
-    }
-
-    private function resource2SchemaInstance($resource_name, array $avaiable_resources): SchemaProvider {
-        if (!isset($avaiable_resources[$resource_name]))
-            throw new \Exception('No se encontró el recurso `' . $resource_name . '`.');
-        $ret = new $avaiable_resources[$resource_name]();
-
-        return $ret;
     }
 }

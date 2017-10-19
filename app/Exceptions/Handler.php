@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\JsonApi\Core\JsonApiExceptionHandler;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -35,7 +34,6 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
-        // jsonapi catch error
         parent::report($e);
     }
 
@@ -49,11 +47,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        // jsonapi catch error
-        try {
-            return JsonApiExceptionHandler::render($e);
-        } catch (Exception $e) {
-            return parent::render($request, $e);
-        }
+        return parent::render($request, $e);
     }
 }
