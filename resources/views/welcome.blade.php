@@ -73,6 +73,7 @@
                     <a href="/v2/photos">photos</a>
                     <a href="/v2/stores">stores</a>
                 </p>
+                <p><small>NOTE: Information is reset every day.</small></p>
             </div>
         </div>
     </body>
