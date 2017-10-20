@@ -2,11 +2,11 @@
 
 namespace App\JsonApi\Http\Controllers;
 
+use App\JsonApi\Exceptions\ResourceTypeNotFoundException;
 use App\JsonApi\Helpers\ObjectsBuilder;
 use App\JsonApi\Http\JsonApiRequestHelper;
 use Laravel\Lumen\Routing\Controller;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 abstract class JsonApiGlobalController extends Controller
 {
@@ -115,7 +115,7 @@ abstract class JsonApiGlobalController extends Controller
     protected function getSchema(string $resource_type): string
     {
         if (!isset(static::AVAIBLE_RESOURCES[$resource_type]))
-            throw new NotFoundHttpException($resource_type . ' resource not found.');
+            throw new ResourceTypeNotFoundException($resource_type);
         return static::AVAIBLE_RESOURCES[$resource_type];
     }
 }
