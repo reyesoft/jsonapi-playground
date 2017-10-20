@@ -24,5 +24,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // * * * * * php /var/www/domain.com/public_html/artisan schedule:run 1>> /dev/null 2>&1
+        
+        // RESET ALL DATA ON DATABASE
+        $schedule->command('migrate:reset')
+            ->dailyAt('05:00')
+            ->after(function () {
+                // Task is complete...
+                \Illuminate\Support\Facades\Artisan::call('migrate', ['--seed' => true]);
+            });
     }
 }
