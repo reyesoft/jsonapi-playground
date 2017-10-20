@@ -19,13 +19,11 @@ class Kernel extends ConsoleKernel
      * Define the application's command schedule.
      *
      * @param \Illuminate\Console\Scheduling\Schedule $schedule
-     *
-     * @return void
      */
     protected function schedule(Schedule $schedule)
     {
         // * * * * * php /var/www/domain.com/public_html/artisan schedule:run 1>> /dev/null 2>&1
-        
+
         // RESET ALL DATA ON DATABASE
         $schedule->command('migrate:reset')
             ->dailyAt('05:00')
