@@ -16,7 +16,7 @@
         "fzaninotto/faker": "^1.7",
         "phpunit/phpunit": "~6.0",
         "mockery/mockery": "~0.9",
-        "friendsofphp/php-cs-fixer": "dev-master"
+        "friendsofphp/php-cs-fixer": "2.7.1"
     },
     "autoload": {
         "psr-4": {
