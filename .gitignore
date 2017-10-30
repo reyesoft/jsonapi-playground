@@ -1,4 +1,3 @@
-/storage/Afip/
 /storage/testing/
 /app/Http/Routes/
 /storage/downloads/
@@ -6,7 +5,19 @@
 .php_cs.cache
 
 
-# Created by https://www.gitignore.io/api/phpstorm,netbeans,visualstudiocode,laravel,phpcodesniffer
+# Created by https://www.gitignore.io/api/linux,laravel,netbeans,kdevelop4,phpstorm+all,phpcodesniffer,visualstudiocode,composer
+
+### Composer ###
+composer.phar
+/vendor/
+
+# Commit your application's lock file http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file
+# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
+# composer.lock
+
+### KDevelop4 ###
+*.kdev4
+.kdev4/
 
 ### Laravel ###
 vendor/
@@ -30,6 +41,21 @@ Homestead.json
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
 
+### Linux ###
+*~
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+
 ### NetBeans ###
 nbproject/private/
 build/
@@ -44,7 +70,7 @@ nbdist/
 /vendor/*
 /wpcs/*
 
-### PhpStorm ###
+### PhpStorm+all ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
@@ -95,16 +121,11 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-### PhpStorm Patch ###
-# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
+### PhpStorm+all Patch ###
+# Ignores the whole idea folder
+# See https://github.com/joeblau/gitignore.io/issues/186 and https://github.com/joeblau/gitignore.io/issues/360
 
-# *.iml
-# modules.xml
-# .idea/misc.xml
-# *.ipr
-
-# Sonarlint plugin
-.idea/sonarlint
+.idea/
 
 ### VisualStudioCode ###
 .vscode/*
@@ -114,4 +135,4 @@ fabric.properties
 !.vscode/extensions.json
 .history
 
-# End of https://www.gitignore.io/api/phpstorm,netbeans,visualstudiocode,laravel,phpcodesniffer
+# End of https://www.gitignore.io/api/linux,laravel,netbeans,kdevelop4,phpstorm+all,phpcodesniffer,visualstudiocode,composer

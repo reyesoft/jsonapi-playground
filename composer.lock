@@ -1339,16 +1339,16 @@
         },
         {
             "name": "neomerx/json-api",
-            "version": "v1.0.6",
+            "version": "v1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neomerx/json-api.git",
-                "reference": "b397822bafe41a9b4570e87a768f0d3e04937df2"
+                "reference": "2216645b3a5a6851907d85686506342397447f78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neomerx/json-api/zipball/b397822bafe41a9b4570e87a768f0d3e04937df2",
-                "reference": "b397822bafe41a9b4570e87a768f0d3e04937df2",
+                "url": "https://api.github.com/repos/neomerx/json-api/zipball/2216645b3a5a6851907d85686506342397447f78",
+                "reference": "2216645b3a5a6851907d85686506342397447f78",
                 "shasum": ""
             },
             "require": {
@@ -1390,7 +1390,7 @@
                 "jsonapi.org",
                 "neomerx"
             ],
-            "time": "2017-10-08T15:11:02+00:00"
+            "time": "2017-10-27T07:09:38+00:00"
         },
         {
             "name": "nesbot/carbon",
