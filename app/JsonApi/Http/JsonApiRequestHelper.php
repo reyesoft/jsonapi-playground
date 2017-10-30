@@ -4,6 +4,8 @@ namespace App\JsonApi\Http;
 
 use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Helpers\ParametersChecker;
+use App\JsonApi\Services\EloquentObjectService;
+use App\JsonApi\Services\ObjectService;
 use Neomerx\JsonApi\Encoder\Parameters\EncodingParameters;
 use Neomerx\JsonApi\Factories\Factory;
 use Psr\Http\Message\ServerRequestInterface;
@@ -43,6 +45,7 @@ class JsonApiRequestHelper
     public function __construct($request, string $schema, int $id = 0, string $related_alias = '') {
         $this->request = $request;
         $isACollection = (!$id || $related_alias);
+        $this->id = $id;
         $this->setSchemaAndEval($schema, $isACollection);
     }
 
@@ -126,5 +129,14 @@ class JsonApiRequestHelper
         $factory = new Factory();
 
         return $factory->createQueryParametersParser()->parse($this->request);
+    }
+
+    public function getObjectService(): ObjectService {
+        $service = $this->getSchema()->getObjectService();
+        if ($service) {
+            return new $service($this);
+        }  else {
+            return new EloquentObjectService($this);
+        }
     }
 }

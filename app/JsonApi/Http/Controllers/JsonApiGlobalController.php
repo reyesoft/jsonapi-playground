@@ -21,12 +21,21 @@ abstract class JsonApiGlobalController extends Controller
      */
     const AVAIBLE_RESOURCES = [];
 
+    /*
+    public function __construct()
+    {
+        $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'delete']]);
+        // Alternativly
+        // $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
+     */
+
     public function getCollection(ServerRequestInterface $request, string $resource_type)
     {
         $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type));
 
-        $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($jsonapirequesthelper);
-        $objects = $objectbuilder->getObjects();
+        $service = $jsonapirequesthelper->getObjectService();
+        $objects = $service->all();
 
         return $jsonapirequesthelper->getResponse($objects);
     }
@@ -45,7 +54,7 @@ abstract class JsonApiGlobalController extends Controller
         // set child model
         $parent_model_class = $parent_schema->getModelName();
         $parent_model = $parent_model_class::findOrFail($parent_id);
-        $builder = $parent_model->$resource_type();
+        $builder = $parent_model->$resource_alias();
 
         $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type), $parent_id, $resource_alias);
         $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($jsonapirequesthelper);
@@ -59,8 +68,8 @@ abstract class JsonApiGlobalController extends Controller
     {
         $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type), $resource_id);
 
-        $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($jsonapirequesthelper);
-        $object = $objectbuilder->getObject($resource_id);
+        $service = $jsonapirequesthelper->getObjectService();
+        $object = $service->get();
 
         return $jsonapirequesthelper->getResponse($object);
     }

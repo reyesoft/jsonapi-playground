@@ -2,6 +2,7 @@
 
 namespace App\JsonApi\Core;
 
+use App\JsonApi\Services\ObjectService;
 use Neomerx\JsonApi\Contracts\Schema\SchemaFactoryInterface;
 use Neomerx\JsonApi\Factories\Factory;
 use Neomerx\JsonApi\Schema\SchemaProvider as NeomerxSchemaProvider;
@@ -28,6 +29,13 @@ abstract class SchemaProvider extends NeomerxSchemaProvider
      * @var string
      */
     protected $selfSubUrl;
+
+    /**
+     * Like `App\MyObjectService`.
+     *
+     * @var ObjectService
+     */
+    protected $objectservice = '';
 
     // used by factory (get includes, for example)
     protected $isPaginable = true;
@@ -87,5 +95,10 @@ abstract class SchemaProvider extends NeomerxSchemaProvider
     public function getFilterBySchemaArray(): array
     {
         return array_keys($this->filterBySchema);
+    }
+
+    public function getObjectService(): string
+    {
+        return $this->objectservice;
     }
 }
