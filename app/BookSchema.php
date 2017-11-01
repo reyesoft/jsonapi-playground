@@ -51,6 +51,7 @@ class BookSchema extends SchemaProvider
         return [
             'date_published' => $obj->date_published,
             'title' => $obj->title,
+            'isbn' => $obj->isbn,
         ];
     }
 

@@ -43,6 +43,7 @@ $factory->define(App\Book::class, function (Faker\Generator $faker) {
         'serie_id' => $faker->randomElement(Serie::all()->pluck('id')->toArray()),
         'date_published' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'title' => $faker->company,
+        'isbn' => $faker->isbn10,
     ];
 });
 
