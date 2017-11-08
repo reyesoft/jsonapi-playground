@@ -49,7 +49,7 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
-                    Json-Api playground
+                    {{env('APP_NAME')}}
                 </div>
 
                 <h2>More info</h2>
