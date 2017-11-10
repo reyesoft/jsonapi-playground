@@ -39,14 +39,14 @@ abstract class SchemaProvider extends NeomerxSchemaProvider
 
     // used by factory (get includes, for example)
     protected $isPaginable = true;
-    protected $filterBySchema = [];
-    protected $relationshipsSchema = [];
+    protected static $attributes = [];
+    protected static $relationships = [];
 
     public function __construct(SchemaFactoryInterface $factory = null) {
         $this->selfSubUrl = '/' . $this->resourceType;
 
         // include params permited
-        foreach ($this->relationshipsSchema as $type => $relationshipSchema) {
+        foreach (static::$relationships as $type => $relationshipSchema) {
             $this->includePaths[] = $type;
         }
 
@@ -59,7 +59,7 @@ abstract class SchemaProvider extends NeomerxSchemaProvider
 
     public function getWithForEloquent(array $include_request = []): array {
         $ret = [];
-        foreach ($this->relationshipsSchema as $type => $relationshipSchema) {
+        foreach (static::$relationships as $type => $relationshipSchema) {
             if ($relationshipSchema['hasMany']) {
                 // hasMany
                 $ret[] = $type;
@@ -89,16 +89,54 @@ abstract class SchemaProvider extends NeomerxSchemaProvider
     }
 
     public function getFilterType(string $field): string {
-        return $this->filterBySchema[$field]['type'];
+        return static::attributes[$field]['type'];
     }
 
-    public function getFilterBySchemaArray(): array
+    public function getFiltersArray(): array
     {
-        return array_keys($this->filterBySchema);
+        $ret = array_filter(static::$attributes, function ($value) {
+            return isset($value['filter']);
+        });
+
+        return array_keys($ret);
+    }
+
+    public function getSortArray(): array
+    {
+        $ret = array_filter(static::$attributes, function ($value) {
+            return isset($value['sort']);
+        });
+
+        return array_keys($ret);
     }
 
     public function getObjectService(): string
     {
         return $this->objectservice;
+    }
+
+    public function getAttributesSchema()
+    {
+        return static::$attributes;
+    }
+
+    public static function getRelationshipsSchema(): array
+    {
+        return static::$relationships;
+    }
+
+    public function getId($object)
+    {
+        return $object->id;
+    }
+
+    public function getAttributes($object)
+    {
+        $ret = [];
+        foreach (static::$attributes as $key => $value) {
+            $ret[$key] = $object->{$key};
+        }
+
+        return $ret;
     }
 }

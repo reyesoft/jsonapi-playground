@@ -12,7 +12,7 @@ class ChapterSchema extends SchemaProvider
     protected $resourceType = 'chapters';
     public static $model = Chapter::class;
 
-    public $relationshipsSchema = [
+    protected static $relationships = [
         'photos' => [
             'schema' => PhotoSchema::class,
             'hasMany' => true,
@@ -24,16 +24,11 @@ class ChapterSchema extends SchemaProvider
         ],
     ];
 
-    public function getId($obj)
-    {
-        return $obj->id;
-    }
-
-    public function getAttributes($obj)
+    public function getAttributes($object)
     {
         return [
-            'title' => $obj->title,
-            'ordering' => $obj->ordering,
+            'title' => $object->title,
+            'ordering' => $object->ordering,
         ];
     }
 }

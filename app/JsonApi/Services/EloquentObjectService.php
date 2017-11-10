@@ -13,9 +13,16 @@ class EloquentObjectService extends ObjectService
         return $objectbuilder->getObjects();
     }
 
-    public function get(): ArrayAccess {
+    public function allRelated($builder): array {
+        $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($this->jsonapirequesthelper);
+        $objectbuilder->buildEloquentBuilder($builder);
+
+        return $objectbuilder->getObjects();
+    }
+
+    public function get($id): ArrayAccess {
         $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($this->jsonapirequesthelper);
 
-        return $objectbuilder->getObject($this->jsonapirequesthelper->getId());
+        return $objectbuilder->getObject($id);
     }
 }

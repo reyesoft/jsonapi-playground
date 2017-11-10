@@ -45,7 +45,7 @@ abstract class JsonApiGlobalController extends Controller
         // find parent resource
         $parent_schema_class = static::AVAIBLE_RESOURCES[$parent_type];
         $parent_schema = new $parent_schema_class();
-        $relation = $parent_schema->relationshipsSchema[$resource_alias];
+        $relation = $parent_schema::getRelationshipsSchema()[$resource_alias];
 
         // set related child schema via reation alias
         $schema = new $relation['schema']();
@@ -57,9 +57,9 @@ abstract class JsonApiGlobalController extends Controller
         $builder = $parent_model->$resource_alias();
 
         $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type), $parent_id, $resource_alias);
-        $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($jsonapirequesthelper);
-        $objectbuilder->buildEloquentBuilder($builder);
-        $objects = $objectbuilder->getObjects();
+
+        $service = $jsonapirequesthelper->getObjectService();
+        $objects = $service->allRelated($builder);
 
         return $jsonapirequesthelper->getResponse($objects);
     }
@@ -69,7 +69,7 @@ abstract class JsonApiGlobalController extends Controller
         $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type), $resource_id);
 
         $service = $jsonapirequesthelper->getObjectService();
-        $object = $service->get();
+        $object = $service->get($resource_id);
 
         return $jsonapirequesthelper->getResponse($object);
     }

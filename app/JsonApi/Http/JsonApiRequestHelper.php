@@ -84,7 +84,7 @@ class JsonApiRequestHelper
         ];
 
         // add related schemas to encoder
-        foreach ($this->schema->relationshipsSchema as $relation_alias => $relation_schema) {
+        foreach ($this->schema::getRelationshipsSchema() as $relation_alias => $relation_schema) {
             $schema_class = $relation_schema['schema'];
             $model_class = $schema_class::$model;
             $this->encoder[$model_class] = $schema_class;

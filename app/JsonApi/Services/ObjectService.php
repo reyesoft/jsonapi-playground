@@ -20,7 +20,7 @@ abstract class ObjectService
         return null;
     }
 
-    public function get(): ArrayAccess {
+    public function get($id): ArrayAccess {
         return null;
     }
 }

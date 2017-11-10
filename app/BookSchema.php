@@ -12,16 +12,17 @@ class BookSchema extends SchemaProvider
     protected $resourceType = 'books';
     public static $model = Book::class;
 
-    protected $filterBySchema = [
+    protected static $attributes = [
         'title' => [
             'type' => 'like',
         ],
         'date_published' => [
             'type' => 'date',
         ],
+        'isbn' => [],
     ];
 
-    public $relationshipsSchema = [
+    protected static $relationships = [
         'photos' => [
             'schema' => PhotoSchema::class,
             'hasMany' => true,
@@ -40,32 +41,4 @@ class BookSchema extends SchemaProvider
             'hasMany' => true,
         ],
     ];
-
-    public function getId($obj)
-    {
-        return $obj->id;
-    }
-
-    public function getAttributes($obj)
-    {
-        return [
-            'date_published' => $obj->date_published,
-            'title' => $obj->title,
-            'isbn' => $obj->isbn,
-        ];
-    }
-
-    /*
-    public function getRelationships($object, $isPrimary, array $includeList)
-    {
-        if ($isPrimary) {
-            return [
-                'author' => $this->buildRelationship($object, $includeList, '\App\Author', 'author'),
-                'photos' => [self::DATA => $object->photos],
-            ];
-        } else {
-            return [];
-        }
-    }
-     */
 }

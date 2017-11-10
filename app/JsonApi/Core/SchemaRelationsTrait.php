@@ -13,7 +13,7 @@ trait SchemaRelationsTrait
         // elements like
         // $rel[$relation_alias] = $this->buildRelationship($object, $includeList, '\App\Author', 'author');
         $ret = [];
-        foreach($this->relationshipsSchema as $relation_alias => $relation) {
+        foreach(static::$relationships as $relation_alias => $relation) {
             if ($relation['hasMany']) {
                 $ret[$relation_alias] = [self::DATA => $object->$relation_alias];
             } else {

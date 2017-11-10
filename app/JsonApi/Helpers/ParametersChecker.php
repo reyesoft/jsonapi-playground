@@ -15,13 +15,8 @@ class ParametersChecker
         $fieldSetTypes = $schema->fieldSetTypes ?? [];
         $pagingParameters = $schema->isPaginable() && $isACollection ? ['number', 'size'] : [];
 
-        if ($isACollection) {
-            $sortParameters = $schema->sortParameters ?? [];
-            $filteringParameters = $schema->getFilterBySchemaArray() ?? [];
-        } else {
-            $sortParameters = [];
-            $filteringParameters = [];
-        }
+        $filteringParameters = $isACollection ? $schema->getFiltersArray() : [];
+        $sortParameters = $isACollection ? $schema->getSortArray() : [];
 
         $factory = new Factory();
         $checker = $factory->createQueryChecker(

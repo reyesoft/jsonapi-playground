@@ -12,7 +12,7 @@ class StoreSchema extends SchemaProvider
     protected $resourceType = 'stores';
     public static $model = Store::class;
 
-    public $relationshipsSchema = [
+    protected static $relationships = [
         'photos' => [
             'schema' => PhotoSchema::class,
             'hasMany' => true,
@@ -23,15 +23,10 @@ class StoreSchema extends SchemaProvider
         ],
     ];
 
-    public function getId($obj)
-    {
-        return $obj->id;
-    }
-
-    public function getAttributes($obj)
+    public function getAttributes($object)
     {
         return [
-            'name' => $obj->name,
+            'name' => $object->name,
         ];
     }
 }
