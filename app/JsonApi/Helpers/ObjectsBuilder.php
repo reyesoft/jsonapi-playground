@@ -50,7 +50,7 @@ class ObjectsBuilder
         // paginate (check we use `simplePaginate` over `paginate` preventing extra a SQL request)
         $columns = ['*'];
 
-        return  $builder
+        return $builder
                     ->simplePaginate($this->params->getPageSize(), $columns, null, $this->params->getPageNumber())
                     ->items();
     }

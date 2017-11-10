@@ -17,8 +17,7 @@ class ChapterSchema extends SchemaProvider
             'schema' => PhotoSchema::class,
             'hasMany' => true,
         ],
-        'books' => [
-            'type' => 'books',
+        'book' => [
             'schema' => BookSchema::class,
             'hasMany' => false,
         ],

@@ -62,15 +62,4 @@ abstract class TestCase extends LumenTestCase
     {
         return require __DIR__ . '/../bootstrap/app.php';
     }
-
-    protected function findAlias(string $alias): string
-    {
-        foreach ($this->alias as $item => $value) {
-            if ($alias === $item) {
-                return $value;
-            } else {
-                return $alias;
-            }
-        }
-    }
 }

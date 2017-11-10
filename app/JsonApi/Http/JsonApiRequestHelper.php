@@ -135,7 +135,7 @@ class JsonApiRequestHelper
         $service = $this->getSchema()->getObjectService();
         if ($service) {
             return new $service($this);
-        }  else {
+        } else {
             return new EloquentObjectService($this);
         }
     }

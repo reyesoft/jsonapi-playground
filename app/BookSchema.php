@@ -29,11 +29,14 @@ class BookSchema extends SchemaProvider
         ],
         'author' => [
             'schema' => AuthorSchema::class,
-            'type' => 'authors',
             'hasMany' => false,
         ],
         'stores' => [
             'schema' => StoreSchema::class,
+            'hasMany' => true,
+        ],
+        'serie' => [
+            'schema' => SerieSchema::class,
             'hasMany' => true,
         ],
         'chapters' => [

@@ -29,18 +29,12 @@ class DinamicResourceTest extends TestCase
             $object = $model::first();
             foreach ($value as $item) {
                 $url = 'v2/' . $resource . '/' . $object->id . '/' . $item;
-                if (!in_array($item, ['author', 'serie', 'book'])) {
-                    if (!$object->{$item}->isEmpty()) {
-                        $this->call('GET', $url);
-                        $item = $this->findAlias($item);
-                        $this->seeJsonContains(['type' => $item]);
-                    }
+                $this->call('GET', $url);
+                $result = $object->$item;
+                if (($result instanceof \Illuminate\Database\Eloquent\Collection && $result->isEmpty()) || !$result) {
+                    $this->seeJsonContains(['data' => []]);
                 } else {
-                    if (!$object->{$item}) {
-                        $this->call('GET', $url);
-                        $item = $this->findAlias($item);
-                        $this->seeJsonContains(['type' => $item]);
-                    }
+                    $this->seeJsonContains(['type' => ($this->alias[$item] ?? $item)]);
                 }
             }
         }

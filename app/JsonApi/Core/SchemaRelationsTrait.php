@@ -30,7 +30,7 @@ trait SchemaRelationsTrait
             $relation = $object->$singularType;
         } else {
             $modelFieldId = $singularType . '_id';
-            if ($object->$modelFieldId != 0)  {
+            if ($object->$modelFieldId != 0) {
                 $relation = new $modelClass();
                 $relation->id = $object->$modelFieldId;
             } else {
