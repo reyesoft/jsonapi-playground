@@ -10,25 +10,42 @@ class CorsMiddleware
      * Handle an incoming request.
      *
      * @param  $request
-     * @param  \Closure  $next
+     * @param \Closure $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-		//Intercepts OPTIONS requests
-		if($request->isMethod('OPTIONS')) {
-			$response = response('', 200);
-		} else {
-			// Pass the request to the next middleware
-			$response = $next($request);
-		}
+        //Intercepts OPTIONS requests
+        if($request->isMethod('OPTIONS')) {
+            $response = response('', 200);
+        } else {
+            $response = $next($request);
+        }
 
-		// Adds headers to the response
-		$response->headers->set('Access-Control-Allow-Methods', 'HEAD, GET, POST, PUT, PATCH, DELETE');
-		$response->headers->set('Access-Control-Allow-Headers', $request->header('Access-Control-Request-Headers'));
-		$response->headers->set('Access-Control-Allow-Origin', '*');
+        $this->addCorsHeaders($request, $response);
 
-		// Sends it
-		return $response;
-	}
+        return $response;
+    }
+
+    private function addCorsHeaders($request, &$response) {
+        $headers = [
+            'Access-Control-Allow-Methods' => 'OPTIONS, GET, POST, PUT, PATCH, DELETE',
+            'Access-Control-Allow-Headers' => $request->header('Access-Control-Request-Headers') === null ?
+                    'Content-Type, X-Auth-Token, Origin, Authorization' :
+                    $request->header('Access-Control-Request-Headers'),
+            'Access-Control-Allow-Origin' => '*',
+        ];
+
+        if ($response instanceof \App\JsonApi\Http\JsonApiResponse)
+        {
+            foreach ($headers as $key => $value) {
+                $response->withHeader($key, $value);
+            }
+        } else {
+            foreach ($headers as $key => $value) {
+                $response->headers->set($key, $value);
+            }
+        }
+    }
 }

@@ -1,8 +1,10 @@
 # JsonApi Playground
 
+Online version: <http://jsonapiplayground.reyesoft.com/> 😁
+
 ## Installation
 
-### Laradock
+### With Laradock
 
 Agregar a `laradock/nginx/sites/laravel-jsonapi.conf`
 
@@ -25,7 +27,7 @@ sudo docker-compose up nginx mysql -d
 
 and go to <http://laravel-jsonapi.dev/>
 
-### Apache + MySQL
+### With Artisan
 
 ```
 composer install
@@ -35,13 +37,14 @@ php artisan serve
 
 ## Resources
 
-## Resources
-
 - authors
 - books
+- series
+- chapters
+- stores
 - photos
 
-## Entry points
+### Entry points
 
 ```
 [GET] localhost/v2/{resource}
@@ -55,8 +58,16 @@ php artisan serve
 [DELETE] localhost/v1/{resource}/{resource_id}
 ```
 
+## Development
+
+### Tests
+
+```
+phpunit
+```
+
 ## PhpCsFixer autofix
 
 ```
-./vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --path-mode=intersection ./app ./bootstrap/ ./config/ ./database/ ./resources/ ./tests/
+sh autofix.sh
 ```

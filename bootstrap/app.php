@@ -1,8 +1,5 @@
 <?php
 
-// defined for AppServiceProvider
-define('LARAVEL_START', microtime(true));
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
@@ -64,7 +61,7 @@ $app->singleton(
 */
 
 $app->middleware([
-    App\Http\Middleware\CorsMiddleware::class
+    App\Http\Middleware\CorsMiddleware::class,
 ]);
 
 // $app->routeMiddleware([
@@ -83,6 +80,7 @@ $app->middleware([
 */
 
 $app->register(App\Providers\AppServiceProvider::class);
+//$app->register(Appzcoder\LumenRoutesList\RoutesCommandServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
@@ -105,9 +103,13 @@ $app->router->group([
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
+    'middleware' => [
+        // App\Http\Middleware\CorsMiddleware::class,   // here don't find the routes
+        App\JsonApi\Http\Middleware\JsonApiMiddleware::class,
+    ],
     'prefix' => 'v2',
 ], function ($router) {
-    require __DIR__ . '/../routes/apiv2.php';
+    require __DIR__ . '/../routes/api-v2.php';
 });
 
 return $app;

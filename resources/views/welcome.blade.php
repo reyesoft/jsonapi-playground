@@ -49,14 +49,8 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
-                    Json-Api playground
+                    {{env('APP_NAME')}}
                 </div>
-
-                <h2>More info</h2>
-                <ul>
-                    <li><a href="http://jsonapi.org">JSON API Specification</a></li>
-                    <li><a href="https://github.com/reyesoft/ts-angular-jsonapi">Client library for AngularJS in Typescript</a></li>
-                </ul>
 
                 <h2>Data</h2>
                 <ul class="uris">
@@ -73,6 +67,14 @@
                     <a href="/v2/photos">photos</a>
                     <a href="/v2/stores">stores</a>
                 </p>
+
+                <h2>More info</h2>
+                <ul>
+                    <li><a href="http://ngx-jsonapi.reyesoft.com/">Online JSON API client example</a></li>
+                    <li><a href="http://jsonapi.org">JSON API Specification</a></li>
+                </ul>
+                
+                <p><small>NOTE: Information is reset every day.</small></p>
             </div>
         </div>
     </body>

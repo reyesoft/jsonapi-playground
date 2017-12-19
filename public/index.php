@@ -1,5 +1,8 @@
 <?php
 
+// defined for AppServiceProvider
+define('LARAVEL_START', microtime(true));
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application

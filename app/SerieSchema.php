@@ -1,10 +1,9 @@
 <?php
 
-namespace App\JsonApi\Schemas;
+namespace App;
 
 use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Core\SchemaRelationsTrait;
-use App\Serie;
 
 class SerieSchema extends SchemaProvider
 {
@@ -13,7 +12,7 @@ class SerieSchema extends SchemaProvider
     protected $resourceType = 'series';
     public static $model = Serie::class;
 
-    public $relationshipsSchema = [
+    protected static $relationships = [
         'photos' => [
             'schema' => PhotoSchema::class,
             'hasMany' => true,
@@ -24,15 +23,10 @@ class SerieSchema extends SchemaProvider
         ],
     ];
 
-    public function getId($obj)
-    {
-        return $obj->id;
-    }
-
-    public function getAttributes($obj)
+    public function getAttributes($object)
     {
         return [
-            'title' => $obj->title,
+            'title' => $object->title,
         ];
     }
 }

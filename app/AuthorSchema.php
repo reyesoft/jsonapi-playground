@@ -1,8 +1,7 @@
 <?php
 
-namespace App\JsonApi\Schemas;
+namespace App;
 
-use App\Author;
 use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Core\SchemaRelationsTrait;
 
@@ -13,13 +12,15 @@ class AuthorSchema extends SchemaProvider
     protected $resourceType = 'authors';
     public static $model = Author::class;
 
-    protected $filterBySchema = [
+    protected static $attributes = [
         'name' => [
-            'type' => 'like',
+            'filter' => 'like',
         ],
+        'date_of_birth' => [],
+        'date_of_death' => [],
     ];
 
-    public $relationshipsSchema = [
+    protected static $relationships = [
         'photos' => [
             'schema' => PhotoSchema::class,
             'hasMany' => true,
@@ -29,18 +30,4 @@ class AuthorSchema extends SchemaProvider
             'hasMany' => true,
         ],
     ];
-
-    public function getId($obj)
-    {
-        return $obj->id;
-    }
-
-    public function getAttributes($obj)
-    {
-        return [
-            'name' => $obj->name,
-            'date_of_birth' => $obj->date_of_birth,
-            'date_of_death' => $obj->date_of_death,
-        ];
-    }
 }

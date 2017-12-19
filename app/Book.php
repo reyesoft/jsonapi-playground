@@ -2,15 +2,19 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Base\ElegantModel;
 
-class Book extends Model
+class Book extends ElegantModel
 {
     protected $fillable = [
-        'author_id',
-        'serie_id',
-        'date_published',
+        // 'author_id',
+        // 'serie_id',
         'title',
+        'date_published',
+    ];
+
+    protected $rules = [
+        'author_id' => 'required',
     ];
 
     /* BelongTo */

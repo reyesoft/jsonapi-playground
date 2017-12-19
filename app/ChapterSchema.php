@@ -1,8 +1,7 @@
 <?php
 
-namespace App\JsonApi\Schemas;
+namespace App;
 
-use App\Chapter;
 use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Core\SchemaRelationsTrait;
 
@@ -13,28 +12,22 @@ class ChapterSchema extends SchemaProvider
     protected $resourceType = 'chapters';
     public static $model = Chapter::class;
 
-    public $relationshipsSchema = [
+    protected static $relationships = [
         'photos' => [
             'schema' => PhotoSchema::class,
             'hasMany' => true,
         ],
-        'books' => [
-            'type' => 'books',
+        'book' => [
             'schema' => BookSchema::class,
             'hasMany' => false,
         ],
     ];
 
-    public function getId($obj)
-    {
-        return $obj->id;
-    }
-
-    public function getAttributes($obj)
+    public function getAttributes($object)
     {
         return [
-            'title' => $obj->title,
-            'ordering' => $obj->ordering,
+            'title' => $object->title,
+            'ordering' => $object->ordering,
         ];
     }
 }

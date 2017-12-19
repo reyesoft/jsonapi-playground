@@ -1,0 +1,22 @@
+# This is a sample build configuration for Javascript.
+# Check our guides at https://confluence.atlassian.com/x/VYk8Lw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: ivanthecrazy/laravel
+
+pipelines:
+    default:
+        - step:
+            caches:
+                - composer
+            script:
+                - sh resources/bash/bitbucket-test.sh
+    branches:
+        master:
+            - step:
+                image: ivanthecrazy/laravel
+                script:
+                    - sh resources/bash/bitbucket-test.sh
+                    - git remote add production http://reyesoft@jsonapiplayground.reyesoft.com/plesk-git/jsonapiplayground.git
+                    - git push production master:master

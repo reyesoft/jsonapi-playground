@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\JsonApi\Core\JsonApiExceptionHandler;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -30,12 +29,9 @@ class Handler extends ExceptionHandler
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
      * @param \Exception $e
-     *
-     * @return void
      */
     public function report(Exception $e)
     {
-        // jsonapi catch error
         parent::report($e);
     }
 
@@ -49,10 +45,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        // jsonapi catch error
-        try {
-            return JsonApiExceptionHandler::render($e);
-        } catch (Exception $e) {
+        if (env('APP_ENV') === 'testing') {
+            return response(
+                        $e->getMessage() . ' (' . $e->getCode() . ')'
+                        . ' File: ' . $e->getFile() . ':' . $e->getLine()
+                        . $e->getTraceAsString(), 500
+                    );
+        } else {
             return parent::render($request, $e);
         }
     }

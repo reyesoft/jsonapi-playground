@@ -1,10 +1,9 @@
 <?php
 
-namespace App\JsonApi\Schemas;
+namespace App;
 
 use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Core\SchemaRelationsTrait;
-use App\Photo;
 
 class PhotoSchema extends SchemaProvider
 {
@@ -13,19 +12,14 @@ class PhotoSchema extends SchemaProvider
     protected $resourceType = 'photos';
     public static $model = Photo::class;
 
-    public $relationshipsSchema = [
+    protected static $relationships = [
     ];
 
-    public function getId($obj)
-    {
-        return $obj->id;
-    }
-
-    public function getAttributes($obj)
+    public function getAttributes($object)
     {
         return [
-            'title' => $obj->title,
-            'uri' => $obj->uri,
+            'title' => $object->title,
+            'uri' => $object->uri,
         ];
     }
 }
