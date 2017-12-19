@@ -18,5 +18,5 @@ pipelines:
                 image: ivanthecrazy/laravel
                 script:
                     - sh resources/bash/bitbucket-test.sh
-                    - git remote add production http://reyesoft@jsonapiplayground.reyesoft.com/plesk-git/jsonapiplayground.git
+                    - git remote add production git@bitbucket.org:reyesoft/jsonapi-playground.git
                     - git push production master:master
