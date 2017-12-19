@@ -23,24 +23,24 @@ class BookSchema extends SchemaProvider
     ];
 
     protected static $relationships = [
-        'photos' => [
-            'schema' => PhotoSchema::class,
-            'hasMany' => true,
-        ],
         'author' => [
             'schema' => AuthorSchema::class,
             'hasMany' => false,
         ],
-        'stores' => [
-            'schema' => StoreSchema::class,
+        'chapters' => [
+            'schema' => ChapterSchema::class,
+            'hasMany' => true,
+        ],
+        'photos' => [
+            'schema' => PhotoSchema::class,
             'hasMany' => true,
         ],
         'serie' => [
             'schema' => SerieSchema::class,
             'hasMany' => true,
         ],
-        'chapters' => [
-            'schema' => ChapterSchema::class,
+        'stores' => [
+            'schema' => StoreSchema::class,
             'hasMany' => true,
         ],
     ];

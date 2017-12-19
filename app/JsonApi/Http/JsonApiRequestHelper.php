@@ -92,9 +92,15 @@ class JsonApiRequestHelper
     }
 
     public function getResponse($object_or_objects): JsonApiResponse {
-        return $this
-                ->getAppResponses()
-                ->getContentResponse($object_or_objects);
+        $responses = $this->getAppResponses();
+        switch($this->request->getMethod()) {
+            case 'POST':    // create
+                return $responses->getCreatedResponse($object_or_objects);
+            case 'DELETE':
+                return $responses->getCodeResponse(200);
+            default:
+                return $responses->getContentResponse($object_or_objects);
+        }
     }
 
     public function getAppResponses(): AppResponses {

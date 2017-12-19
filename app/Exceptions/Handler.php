@@ -45,6 +45,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        return parent::render($request, $e);
+        if (env('APP_ENV') === 'testing') {
+            return response(
+                        $e->getMessage() . ' (' . $e->getCode() . ')'
+                        . ' File: ' . $e->getFile() . ':' . $e->getLine()
+                        . $e->getTraceAsString(), 500
+                    );
+        } else {
+            return parent::render($request, $e);
+        }
     }
 }

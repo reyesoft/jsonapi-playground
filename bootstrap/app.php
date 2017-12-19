@@ -60,11 +60,9 @@ $app->singleton(
 |
 */
 
-/*
 $app->middleware([
     App\Http\Middleware\CorsMiddleware::class,
 ]);
-*/
 
 // $app->routeMiddleware([
 //     'jsonapi' => App\JsonApi\Core\JsonApiMiddleware::class,
@@ -106,7 +104,7 @@ $app->router->group([
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
     'middleware' => [
-        App\Http\Middleware\CorsMiddleware::class,
+        // App\Http\Middleware\CorsMiddleware::class,   // here don't find the routes
         App\JsonApi\Http\Middleware\JsonApiMiddleware::class,
     ],
     'prefix' => 'v2',

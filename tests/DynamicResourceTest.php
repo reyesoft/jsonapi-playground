@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-class DinamicResourceTest extends TestCase
+class DynamicResourceTest extends TestCase
 {
     public function testDinamicAll()
     {

@@ -58,10 +58,5 @@ class GeneralSeed extends Seeder
         factory(Chapter::class, 50)->create()->each(function ($u) {
             $u->photos()->save(factory(Photo::class)->make());
         });
-
-        // this assign allways a book for the first author, for example welcome page
-        $book = Book::find(random_int(1, 50));
-        $book->author_id = 1;
-        $book->save();
     }
 }

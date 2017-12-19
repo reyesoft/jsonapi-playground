@@ -2,14 +2,20 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Base\ElegantModel;
 
-class Author extends Model
+class Author extends ElegantModel
 {
     protected $fillable = [
         'name',
         'date_of_birth',
         'date_of_death',
+    ];
+
+    protected $rules = [
+        'name' => 'required',
+        'date_of_birth' => '',
+        'date_of_death' => '',
     ];
 
     /* HasMany */

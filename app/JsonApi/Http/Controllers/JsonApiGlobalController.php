@@ -3,7 +3,6 @@
 namespace App\JsonApi\Http\Controllers;
 
 use App\JsonApi\Exceptions\ResourceTypeNotFoundException;
-use App\JsonApi\Helpers\ObjectsBuilder;
 use App\JsonApi\Http\JsonApiRequestHelper;
 use Laravel\Lumen\Routing\Controller;
 use Psr\Http\Message\ServerRequestInterface;
@@ -74,51 +73,34 @@ abstract class JsonApiGlobalController extends Controller
         return $jsonapirequesthelper->getResponse($object);
     }
 
-    public function create(ServerRequestInterface $request, string $resource) {
-        $resourceArray = $request->all();
-        $class = $this->resource2class($resource);
-        $object = new $class();
-        $object->fill($resourceArray);
-        $object->save();
-        $result = $this->jsonApiTransform->transform($class, $object, '');
+    public function create(ServerRequestInterface $request, string $resource_type) {
+        $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type));
 
-        return $result;
+        $service = $jsonapirequesthelper->getObjectService();
+        $object = $service->create($request->getParsedBody());
+
+        return $jsonapirequesthelper->getResponse($object);
     }
 
     public function update(ServerRequestInterface $request, string $resource_type, int $resource_id)
     {
-        dd($request->getParsedBody());
-        $jsonapirequest = new JsonApiRequestHelper($resource_type, $request, $resource_id);
-        $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($jsonapirequest);
-        $responses = $jsonapirequest->getResponses();
+        $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type));
 
-        // save object
-        $object = $objectbuilder->getObject($resource_id);
-        $object->fill($request->getParsedBody()['data']['attributes']);
-        var_dump($object->save());
+        $service = $jsonapirequesthelper->getObjectService();
+        $object = $service->update($resource_id, $request->getParsedBody());
 
-        return $responses->getContentResponse($object);
-
-        $resourceArray = $request->all();
-        $class = $this->resource2class($resource);
-        $object = new $class();
-        $object = $object->findOrFail($resource_id);
-        $object->fill($resourceArray);
-        $object->save();
-
-        $result = $this->jsonApiTransform->transform($class, $object, '');
-
-        return $result;
+        return $jsonapirequesthelper->getResponse($object);
     }
 
-    public function delete(string $resource, int $resource_id)
+    public function delete(ServerRequestInterface $request, string $resource_type, int $resource_id)
     {
-        $class = $this->resource2class($resource);
-        $object = new $class();
-        $object = $object->findOrFail($resource_id);
-        $object->delete();
+        $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type));
 
-        return response(json_encode(['status' => 'success']), 200);
+        $service = $jsonapirequesthelper->getObjectService();
+        $object = $service->delete($resource_id);
+
+        return $jsonapirequesthelper->getResponse('');
+        // return response(json_encode(['status' => 'success']), 200);
     }
 
     protected function getSchema(string $resource_type): string
