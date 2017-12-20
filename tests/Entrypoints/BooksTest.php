@@ -4,6 +4,7 @@ namespace Tests\Entrypoints;
 
 use App\Author;
 use App\Book;
+use App\Store;
 
 class BooksTest extends BaseTestCase
 {
@@ -26,7 +27,7 @@ class BooksTest extends BaseTestCase
     public function testBookIndex()
     {
         $this->callGet('/v2/books');
-        $this->assertResponseOk();
+        $this->assertResponseStatus();
     }
 
     public function testBookCreate()
@@ -67,4 +68,71 @@ class BooksTest extends BaseTestCase
         $this->callPatch('/v2/books/' . $book_id, $resource);
         $this->assertResponseJsonApiError(403);
     }
+
+    /**
+     * @depends testBookCreate
+     */
+    public function testBookUpdateAddTwoRelatedStores($book_id)
+    {
+        $resource = $this->newResource($book_id);
+
+        // adding stores
+        $resource['data']['relationships']['stores']['data'] = null;
+        $stores = Store::take(2)->get();
+        foreach ($stores as $store) {
+            $resource['data']['relationships']['stores']['data'][$store->id] = ['id' => $store->id, 'type' => 'stores'];
+        }
+
+        // saving
+        $this->callPatch('/v2/books/' . $book_id, $resource);
+        $this->assertResponseStatus();
+
+        // cheking saved data
+        $result = json_decode($this->response->getContent(), true);
+        $this->assertEquals(2, count($result['data']['relationships']['stores']['data']));
+        $this->assertContains($result['data']['relationships']['stores']['data'][0]['id'], $stores->pluck('id'));
+    }
+
+    /**
+     * @depends testBookCreate
+     */
+    public function testBookUpdateRemoveOneRelatedStore($book_id)
+    {
+        $resource = $this->newResource($book_id);
+
+        // adding stores
+        $resource['data']['relationships']['stores']['data'] = null;
+        $stores = Store::take(1)->get();
+        foreach ($stores as $store) {
+            $resource['data']['relationships']['stores']['data'][$store->id] = ['id' => $store->id, 'type' => 'stores'];
+        }
+
+        // saving
+        $this->callPatch('/v2/books/' . $book_id, $resource);
+        $this->assertResponseStatus();
+
+        // cheking saved data
+        $result = json_decode($this->response->getContent(), true);
+        $this->assertEquals(1, count($result['data']['relationships']['stores']['data']));
+        $this->assertContains($result['data']['relationships']['stores']['data'][0]['id'], $stores->pluck('id'));
+    }
+
+    /*
+     * @depends testBookCreate
+     */
+    /*public function testBookUpdateRemoveAllRelatedStores($book_id)
+    {
+        $resource = $this->newResource($book_id);
+
+        // adding stores
+        $resource['data']['relationships']['stores']['data'] = null;
+
+        // saving
+        $this->callPatch('/v2/books/' . $book_id, $resource);
+        $this->assertResponseStatus();
+
+        // cheking saved data
+        $result = json_decode($this->response->getContent(), true);
+        $this->assertEquals(0, sizeof($result['data']['relationships']['stores']['data']));
+    }*/
 }

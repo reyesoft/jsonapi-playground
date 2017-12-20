@@ -73,20 +73,51 @@ class EloquentObjectService extends ObjectService
 
     private function fillRelationship(array $relationship_schema, $object, string $alias, array $data) {
         $relation_data = $data['data']['relationships'][$alias]['data'];
-        if ($relationship_schema['hasMany']) {
-            // @todo
-            // $object->{$alias}()->detach();
-        } else {
+        if (!$relationship_schema['hasMany']) {
             if ($relation_data === null) {
                 $object->{$alias}()->dissociate();
+            }
+            elseif ($relation_data === []) {
+                // do nothing :/
+                return;
             }
             elseif ($relation_data['id'])
             {
                 $object->{$alias}()->associate($relation_data['id']);
             } else {
-                throw new Exception('Proccess fillRelationship() with `' . $relation_data . '` for `' . $alias . '` is not possible.');
+                throw new \Exception('Proccess hasOne fillRelationship() with `' .
+                        str_replace('"', '\'', json_encode($relation_data)) . '` for `' . $alias .
+                        '` is not possible (' . $data['data']['type'] . '->' . $alias . ')'
+                    );
             }
+        } else {
+            if (count($relation_data) === 0 && !isset($data['data']['id'])) {
+                return;
+            }
+
+            if (count($relation_data) === 0) {
+                $object->{$alias}()->delete();
+                    //$object->{$alias}()->dissociate();
+            }
+            elseif (count($relation_data) > 0)
+            {
+                $ids = $this->getIdsFromDataCollection($relation_data);
+                $object->{$alias}()->sync($ids);
+            } else {
+                throw new \Exception('Proccess hasMany fillRelationship() with `' .
+                        str_replace('"', '\'', json_encode($relation_data)) . '` for `' . $alias .
+                        '` is not possible (' . $data['data']['type'] . '->' . $alias . ')'
+                    );
+            }
+            // @todo
+            // $object->{$alias}()->detach();
         }
+    }
+
+    private function getIdsFromDataCollection($data_collection) {
+        return array_map(function ($data_resource) {
+                        return $data_resource['id'];
+                    }, $data_collection);
     }
 
     public function delete($id): bool {
