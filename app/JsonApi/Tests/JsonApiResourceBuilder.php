@@ -54,6 +54,7 @@ class JsonApiResourceBuilder
     private function buildResourceFromObject(Model $object): array {
         $resource = new JsonApiResource();
 
+        $resource->setId($object->id ?? '');
         $resource->setType($this->layout['type']);
         $resource->setAttributes($this->buildAttributes($object));
         $resource->setRelationships($this->buildRelationships($object));
@@ -75,17 +76,23 @@ class JsonApiResourceBuilder
 
     private function buildRelationships(Model $modelInstance): array {
         $ret = [];
-        foreach ($this->layout['relationships'] as $key => $value) {
-            $modelMethod = $key ?? $value;
+        foreach ($this->layout['relationships'] as $typealias => $type) {
+            $modelMethod = $typealias ?? $type;
             $modelOrCollection = $modelInstance->{$modelMethod};
             if ($modelOrCollection instanceof Collection) {
-                $ret[$key] = ['data' => $this->colletion2relationshipData($modelOrCollection)];
+                $ret[$typealias] = ['data' => $this->colletion2relationshipData($modelOrCollection)];
             } elseif ($modelOrCollection instanceof Model) {
-                $ret[$key] = ['data' => $this->model2relationshipData($modelOrCollection, $value)];
+                $ret[$typealias] = ['data' => $this->model2relationshipData($modelOrCollection, $type)];
+            } elseif ($modelOrCollection === null) {
+                // @todo, we need to know if is a Collection or a Resource
+                $ret[$typealias] = ['data' => []];
+                // $ret[$typealias] = ['data' => null];
             } else {
-                throw new \Exception('El tipo `' . get_class($modelOrCollection) . '` devuelto por `' . $value
-                        . '()` en ' . get_class($modelInstance) . ' no es reconocible para crear la relationship `'
-                        . $key . '`.');
+                throw new \Exception(
+                        'El tipo `' . get_class($modelOrCollection) . '` retornado por `'
+                        . get_class($modelInstance) . '::' . $modelMethod
+                        . '` no es reconocible para crear la relationship `' . $typealias . '`.'
+                    );
             }
         }
 

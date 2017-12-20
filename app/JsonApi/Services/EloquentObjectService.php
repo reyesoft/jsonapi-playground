@@ -53,10 +53,10 @@ class EloquentObjectService extends ObjectService
 
         // fill relationships
         foreach ($relations_schema as $alias => $relationship_schema) {
-            if (!isset($data['data']['relationships'][$alias]))
+            if (!array_key_exists($alias, $data['data']['relationships']))
                 continue;
 
-            if (!isset($data['data']['relationships'][$alias]['data']))
+            if (!array_key_exists('data', $data['data']['relationships'][$alias]))
                 continue;
 
             $this->fillRelationship($relationship_schema, $object, $alias, $data);
@@ -74,12 +74,17 @@ class EloquentObjectService extends ObjectService
     private function fillRelationship(array $relationship_schema, $object, string $alias, array $data) {
         $relation_data = $data['data']['relationships'][$alias]['data'];
         if ($relationship_schema['hasMany']) {
+            // @todo
+            // $object->{$alias}()->detach();
         } else {
             if ($relation_data === null) {
+                $object->{$alias}()->dissociate();
             }
             elseif ($relation_data['id'])
             {
                 $object->{$alias}()->associate($relation_data['id']);
+            } else {
+                throw new Exception('Proccess fillRelationship() with `' . $relation_data . '` for `' . $alias . '` is not possible.');
             }
         }
     }

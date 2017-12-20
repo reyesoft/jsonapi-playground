@@ -25,7 +25,7 @@ class BooksTest extends BaseTestCase
 
     public function testBookIndex()
     {
-        $this->callGet('/v2/books/');
+        $this->callGet('/v2/books');
         $this->assertResponseOk();
     }
 
@@ -37,11 +37,12 @@ class BooksTest extends BaseTestCase
         $author = Author::first();
         $resource['data']['relationships']['author']['data'] = ['id' => $author->id, 'type' => 'authors'];
         unset($resource['data']['relationships']['serie']);
-        $this->callPost('/v2/books/', $resource);
+        $this->callPost('/v2/books', $resource);
         $this->assertResponseStatus(201);
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertEquals($resource['data']['attributes']['title'], $result['data']['attributes']['title']);
+        $this->assertEquals($resource['data']['relationships']['author']['data']['id'], $author->id);
 
         return $result['data']['id'];
     }
@@ -51,7 +52,19 @@ class BooksTest extends BaseTestCase
         $resource = $this->newResource();
 
         unset($resource['data']['relationships']['author']);
-        $this->callPost('/v2/books/', $resource);
+        $this->callPost('/v2/books', $resource);
+        $this->assertResponseJsonApiError(403);
+    }
+
+    /**
+     * @depends testBookCreate
+     */
+    public function testBookUpdateWithoutRelatedAuthor($book_id)
+    {
+        $resource = $this->newResource($book_id);
+
+        $resource['data']['relationships']['author']['data'] = null;
+        $this->callPatch('/v2/books/' . $book_id, $resource);
         $this->assertResponseJsonApiError(403);
     }
 }
