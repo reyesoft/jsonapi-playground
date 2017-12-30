@@ -23,7 +23,7 @@ class AuthorsTest extends BaseTestCase
     public function testAuthorIndex()
     {
         $this->callGet('/v2/authors/');
-        $this->assertResponseOk();
+        $this->assertResponseStatus();
     }
 
     public function testAuthorCreate()
