@@ -37,7 +37,7 @@ class BookSchema extends SchemaProvider
         ],
         'serie' => [
             'schema' => SerieSchema::class,
-            'hasMany' => true,
+            'hasMany' => false,
         ],
         'stores' => [
             'schema' => StoreSchema::class,
