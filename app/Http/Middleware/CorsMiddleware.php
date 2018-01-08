@@ -30,7 +30,7 @@ class CorsMiddleware
 
     private function addCorsHeaders($request, &$response) {
         $headers = [
-            'Access-Control-Allow-Methods' => 'GET,POST,OPTIONS,DELETE,PUT',
+            'Access-Control-Allow-Methods' => 'GET,POST,OPTIONS,DELETE,PATCH',
             'Access-Control-Allow-Headers' => $request->header('Access-Control-Request-Headers') === null ?
                     'Content-Type, X-Auth-Token, Origin, Authorization' :
                     $request->header('Access-Control-Request-Headers'),

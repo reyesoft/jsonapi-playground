@@ -63,7 +63,7 @@ trait TestCallsTrait
      */
     protected function callPut($url, $content)
     {
-        $this->response = $this->call('PUT', $url, $content, [], [], [], []);
+        $this->response = $this->call('PATCH', $url, $content, [], [], [], []);
 
         return $this->response;
     }

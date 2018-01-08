@@ -53,7 +53,7 @@ php artisan serve
 
 [GET] localhost/v2/{resource}/{resource_id}/related
 
-[PUT/PATCH] localhost/v1/{resource}/{resource_id}
+[PATCH] localhost/v1/{resource}/{resource_id}
 
 [DELETE] localhost/v1/{resource}/{resource_id}
 ```
