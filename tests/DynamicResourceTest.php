@@ -30,7 +30,7 @@ class DynamicResourceTest extends TestCase
             foreach ($value as $item) {
                 $url = 'v2/' . $resource . '/' . $object->id . '/' . $item;
                 $this->call('GET', $url);
-                $result = $object->$item;
+                $result = $object->{$item};
                 if (($result instanceof \Illuminate\Database\Eloquent\Collection && $result->isEmpty()) || !$result) {
                     $this->seeJsonContains(['data' => []]);
                 } else {

@@ -11,7 +11,7 @@ class ResourceTypeNotFoundException extends BaseException
                 null,
                 null,
                 self::HTTP_CODE_TYPE_NOT_FOUND,
-                "`$resource_type` resource don't exist.",
+                "`${resource_type}` resource don't exist.",
                 null,
                 null
             );

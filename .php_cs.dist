@@ -9,6 +9,8 @@ return PhpCsFixer\Config::create()
     ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
+        // '@PSR2' => true, // cool, but add break lines on every fucntion with 1+ params
+        '@PHPUnit60Migration:risky' => true,
         'array_syntax' => ['syntax' => 'short'],
         'combine_consecutive_unsets' => true,
         'general_phpdoc_annotation_remove' => ['expectedException', 'expectedExceptionMessage', 'expectedExceptionMessageRegExp'],
@@ -28,16 +30,22 @@ return PhpCsFixer\Config::create()
         'concat_space' => ['spacing' => 'one'],
         'no_unreachable_default_argument_value' => true,
         'no_multiline_whitespace_before_semicolons' => true,
-        
+
         /* php-cs-fixer 2.7 */
         'yoda_style' => false,
         'combine_consecutive_issets' => true,
         'no_homoglyph_names' => true,
-        
+
+        /* php-cs-fixer 2.8/2.9 */
+        'explicit_string_variable' => true,
+        'method_separation' => true,
+        'explicit_indirect_variable' => true,
+        'phpdoc_align' => true,
+
         /* PHP 7.0 */
         '@PHP70Migration:risky' => true,
         'declare_strict_types' => false,
-        
+
         /* PHP 7.1 */
         // '@PHP71Migration:risky' => true,
     ])

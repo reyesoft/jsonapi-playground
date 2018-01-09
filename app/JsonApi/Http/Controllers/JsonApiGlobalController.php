@@ -53,7 +53,7 @@ abstract class JsonApiGlobalController extends Controller
         // set child model
         $parent_model_class = $parent_schema->getModelName();
         $parent_model = $parent_model_class::findOrFail($parent_id);
-        $builder = $parent_model->$resource_alias();
+        $builder = $parent_model->{$resource_alias}();
 
         $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type), $parent_id, $resource_alias);
 

@@ -117,10 +117,10 @@ class BooksTest extends BaseTestCase
         $this->assertContains($result['data']['relationships']['stores']['data'][0]['id'], $stores->pluck('id'));
     }
 
-    /*
+    /**
      * @depends testBookCreate
      */
-    /*public function testBookUpdateRemoveAllRelatedStores($book_id)
+    public function testBookUpdateRemoveAllRelatedStores($book_id)
     {
         $resource = $this->newResource($book_id);
 
@@ -133,6 +133,6 @@ class BooksTest extends BaseTestCase
 
         // cheking saved data
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals(0, sizeof($result['data']['relationships']['stores']['data']));
-    }*/
+        $this->assertEquals(0, count($result['data']['relationships']['stores']['data']));
+    }
 }
