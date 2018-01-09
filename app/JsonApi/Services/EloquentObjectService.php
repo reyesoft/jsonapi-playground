@@ -5,6 +5,7 @@ namespace App\JsonApi\Services;
 use App\JsonApi\Exceptions\ResourceValidationException;
 use App\JsonApi\Helpers\ObjectsBuilder;
 use ArrayAccess;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Validation\ValidationException;
 
 class EloquentObjectService extends ObjectService
@@ -74,6 +75,7 @@ class EloquentObjectService extends ObjectService
     private function fillRelationship(array $relationship_schema, $object, string $alias, array $data) {
         $relation_data = $data['data']['relationships'][$alias]['data'];
         if (!$relationship_schema['hasMany']) {
+            // hasOne
             if ($relation_data === null) {
                 $object->{$alias}()->dissociate();
             }
@@ -91,26 +93,41 @@ class EloquentObjectService extends ObjectService
                     );
             }
         } else {
+            // hasMany
             if (count($relation_data) === 0 && !isset($data['data']['id'])) {
                 return;
             }
 
             if (count($relation_data) === 0) {
-                $object->{$alias}()->delete();
-                    //$object->{$alias}()->dissociate();
+                $this->removeAllRelated($object->{$alias}());
             }
             elseif (count($relation_data) > 0)
             {
                 $ids = $this->getIdsFromDataCollection($relation_data);
-                $object->{$alias}()->sync($ids);
+                $this->syncAllRelated($object->{$alias}(), $ids);
             } else {
                 throw new \Exception('Proccess hasMany fillRelationship() with `' .
                         str_replace('"', '\'', json_encode($relation_data)) . '` for `' . $alias .
                         '` is not possible (' . $data['data']['type'] . '->' . $alias . ')'
                     );
             }
-            // @todo
-            // $object->{$alias}()->detach();
+        }
+    }
+
+    private function syncAllRelated($model_relation, $ids) {
+        if ($model_relation instanceof \Illuminate\Database\Eloquent\Relations\MorphMany) {
+            // @todo is not saving morphed relationships
+            // $model_relation->saveMany($arrays_of_models);
+        } else {
+            $model_relation->sync($ids);
+        }
+    }
+
+    private function removeAllRelated($model_relation) {
+        if ($model_relation instanceof BelongsToMany) {
+            $model_relation->detach();
+        } else {
+            $model_relation->delete();
         }
     }
 
