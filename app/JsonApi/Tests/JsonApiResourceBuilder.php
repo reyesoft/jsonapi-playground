@@ -1,10 +1,4 @@
 <?php
-/**
- * Copyright (C) 1997-2017 Reyesoft <info@reyesoft.com>.
- *
- * This file is part of Multinexo. Multinexo can not be copied and/or
- * distributed without the express permission of Reyesoft
- */
 
 namespace App\JsonApi\Tests;
 
@@ -16,11 +10,13 @@ class JsonApiResourceBuilder
 {
     private $layout = [];
 
-    public function __construct(array $layout) {
+    public function __construct(array $layout)
+    {
         $this->layout = $layout;
     }
 
-    public function newResource($model_instance = null): array {
+    public function newResource($model_instance = null): array
+    {
         if ($model_instance instanceof Model) {
             return $this->buildResourceFromModel($model_instance);
         } elseif (is_numeric($model_instance) || is_string($model_instance)) {
@@ -32,26 +28,30 @@ class JsonApiResourceBuilder
         throw new \Exception('No se reconoce el tipo $model_instance en TestCompanyCase buildResource.');
     }
 
-    private function buildResourceFromModel(Model $modelInstance): array {
+    private function buildResourceFromModel(Model $modelInstance): array
+    {
         $this->fixCarbonDatesW3c($modelInstance);
 
         return $this->buildResourceFromObject($modelInstance);
     }
 
-    private function buildResourceFromId($model_id): array {
+    private function buildResourceFromId($model_id): array
+    {
         $instance = $this->layout['model'];
         $modelInstance = $instance::find($model_id);
 
         return $this->buildResourceFromObject($modelInstance);
     }
 
-    private function buildResourceFromFactory(): array {
+    private function buildResourceFromFactory(): array
+    {
         $objects = factory($this->layout['model'])->make();
 
         return $this->buildResourceFromObject($objects);
     }
 
-    private function buildResourceFromObject(Model $object): array {
+    private function buildResourceFromObject(Model $object): array
+    {
         $resource = new JsonApiResource();
 
         $resource->setId($object->id ?? '');
@@ -62,7 +62,8 @@ class JsonApiResourceBuilder
         return $resource->getArray();
     }
 
-    private function buildAttributes(Model $modelInstance): array {
+    private function buildAttributes(Model $modelInstance): array
+    {
         $ret = [];
         foreach ($this->layout['attributes'] as $key => $value) {
             if ($modelInstance->{$value} === null) {
@@ -74,7 +75,8 @@ class JsonApiResourceBuilder
         return $ret;
     }
 
-    private function buildRelationships(Model $modelInstance): array {
+    private function buildRelationships(Model $modelInstance): array
+    {
         $ret = [];
         foreach ($this->layout['relationships'] as $typealias => $type) {
             $modelMethod = $typealias ?? $type;
@@ -99,14 +101,16 @@ class JsonApiResourceBuilder
         return $ret;
     }
 
-    private function model2relationshipData(Model $model, string $alias = null): array {
+    private function model2relationshipData(Model $model, string $alias = null): array
+    {
         return [
             'id' => $model->id,
             'type' => $alias ?? $model->type,    // @todo
             ];
     }
 
-    private function colletion2relationshipData(Collection $collection): array {
+    private function colletion2relationshipData(Collection $collection): array
+    {
         $ret = [];
         foreach ($collection as $model) {
             $ret[] = $this->model2relationshipData($model);
@@ -115,7 +119,8 @@ class JsonApiResourceBuilder
         return $ret;
     }
 
-    private function fixCarbonDatesW3c(Model $modelInstance) {
+    private function fixCarbonDatesW3c(Model $modelInstance)
+    {
         /*
             SOLVE PROBLEM WITH
             InvalidArgumentException: Unexpected data found.

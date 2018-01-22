@@ -17,7 +17,7 @@ class CorsMiddleware
     public function handle($request, Closure $next)
     {
         //Intercepts OPTIONS requests
-        if($request->isMethod('OPTIONS')) {
+        if ($request->isMethod('OPTIONS')) {
             $response = response('', 200);
         } else {
             $response = $next($request);
@@ -28,7 +28,8 @@ class CorsMiddleware
         return $response;
     }
 
-    private function addCorsHeaders($request, &$response) {
+    private function addCorsHeaders($request, &$response)
+    {
         $headers = [
             'Access-Control-Allow-Methods' => 'GET,POST,OPTIONS,DELETE,PATCH',
             'Access-Control-Allow-Headers' => $request->header('Access-Control-Request-Headers') === null ?
@@ -37,8 +38,7 @@ class CorsMiddleware
             'Access-Control-Allow-Origin' => '*',
         ];
 
-        if ($response instanceof \App\JsonApi\Http\JsonApiResponse)
-        {
+        if ($response instanceof \App\JsonApi\Http\JsonApiResponse) {
             foreach ($headers as $key => $value) {
                 $response->withHeader($key, $value);
             }

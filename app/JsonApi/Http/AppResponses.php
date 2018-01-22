@@ -78,11 +78,13 @@ class AppResponses extends Responses
         $this->encoder = $matcher->getEncoder();
     }
 
-    public function setSchemesContainer(ContainerInterface $schemes) {
+    public function setSchemesContainer(ContainerInterface $schemes)
+    {
         $this->schemes = $schemes;
     }
 
-    public function getParameters(): EncodingParameters {
+    public function getParameters(): EncodingParameters
+    {
         return $this->parameters;
     }
 
@@ -121,7 +123,8 @@ class AppResponses extends Responses
         return $this->outputMediaType;
     }
 
-    public function getFactory(): Factory {
+    public function getFactory(): Factory
+    {
         return $this->factory;
     }
 
@@ -229,4 +232,4 @@ class AppResponses extends Responses
 
         return $this->requestWrapper;
     }
-    }
+}

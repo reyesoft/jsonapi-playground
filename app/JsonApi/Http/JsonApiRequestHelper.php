@@ -42,18 +42,21 @@ class JsonApiRequestHelper
 
     protected $appresponses = null;
 
-    public function __construct($request, string $schema, int $id = 0, string $related_alias = '') {
+    public function __construct($request, string $schema, int $id = 0, string $related_alias = '')
+    {
         $this->request = $request;
         $isACollection = (!$id || $related_alias);
         $this->id = $id;
         $this->setSchemaAndEval($schema, $isACollection);
     }
 
-    private function setSchema(SchemaProvider $schema) {
+    private function setSchema(SchemaProvider $schema)
+    {
         $this->schema = $schema;
     }
 
-    private function setSchemaAndEval(string $schema_class_name, bool $isACollection) {
+    private function setSchemaAndEval(string $schema_class_name, bool $isACollection)
+    {
         $this->setSchema(new $schema_class_name());
         $this->buildEncoder();
         $parameters = $this->getRequestParameters();
@@ -61,23 +64,28 @@ class JsonApiRequestHelper
         $this->parsedparameters = new JsonApiParameters($parameters);
     }
 
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 
-    protected function setType($type) {
+    protected function setType($type)
+    {
         $this->type = $type;
     }
 
-    public function getRelatedAlias() {
+    public function getRelatedAlias()
+    {
         return $this->related_alias;
     }
 
-    protected function setRelatedAlias($related_alias) {
+    protected function setRelatedAlias($related_alias)
+    {
         $this->related_alias = $related_alias;
     }
 
-    private function buildEncoder() {
+    private function buildEncoder()
+    {
         // add this schema to encoder
         $this->encoder = [
             $this->schema->getModelName() => get_class($this->schema),
@@ -91,9 +99,10 @@ class JsonApiRequestHelper
         }
     }
 
-    public function getResponse($object_or_objects): JsonApiResponse {
+    public function getResponse($object_or_objects): JsonApiResponse
+    {
         $responses = $this->getAppResponses();
-        switch($this->request->getMethod()) {
+        switch ($this->request->getMethod()) {
             case 'POST':    // create
                 return $responses->getCreatedResponse($object_or_objects);
             case 'DELETE':
@@ -103,23 +112,28 @@ class JsonApiRequestHelper
         }
     }
 
-    public function getAppResponses(): AppResponses {
+    public function getAppResponses(): AppResponses
+    {
         return AppResponses::instance($this->request, $this->encoder);
     }
 
-    public function getRequest(): ServerRequestInterface {
+    public function getRequest(): ServerRequestInterface
+    {
         return $this->request;
     }
 
-    public function getId(): int {
+    public function getId(): int
+    {
         return $this->id;
     }
 
-    public function getSchema(): SchemaProvider {
+    public function getSchema(): SchemaProvider
+    {
         return $this->schema;
     }
 
-    public function getFactory(): Factory {
+    public function getFactory(): Factory
+    {
         if ($this->factory === null) {
             $this->factory = new Factory();
         }
@@ -127,17 +141,20 @@ class JsonApiRequestHelper
         return $this->factory;
     }
 
-    public function getParsedParameters(): JsonApiParameters {
+    public function getParsedParameters(): JsonApiParameters
+    {
         return $this->parsedparameters;
     }
 
-    public function getRequestParameters(): EncodingParameters {
+    public function getRequestParameters(): EncodingParameters
+    {
         $factory = new Factory();
 
         return $factory->createQueryParametersParser()->parse($this->request);
     }
 
-    public function getObjectService(): ObjectService {
+    public function getObjectService(): ObjectService
+    {
         $service = $this->getSchema()->getObjectService();
         if ($service) {
             return new $service($this);

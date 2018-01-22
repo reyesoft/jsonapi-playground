@@ -39,8 +39,12 @@ abstract class JsonApiGlobalController extends Controller
         return $jsonapirequesthelper->getResponse($objects);
     }
 
-    public function getRelatedCollection(ServerRequestInterface $request, string $parent_type, int $parent_id, string $resource_alias)
-    {
+    public function getRelatedCollection(
+            ServerRequestInterface $request,
+            string $parent_type,
+            int $parent_id,
+            string $resource_alias
+    ) {
         // find parent resource
         $parent_schema_class = static::AVAIBLE_RESOURCES[$parent_type];
         $parent_schema = new $parent_schema_class();
@@ -55,7 +59,12 @@ abstract class JsonApiGlobalController extends Controller
         $parent_model = $parent_model_class::findOrFail($parent_id);
         $builder = $parent_model->{$resource_alias}();
 
-        $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type), $parent_id, $resource_alias);
+        $jsonapirequesthelper = new JsonApiRequestHelper(
+                $request,
+                $this->getSchema($resource_type),
+                $parent_id,
+                $resource_alias
+            );
 
         $service = $jsonapirequesthelper->getObjectService();
         $objects = $service->allRelated($builder);
@@ -73,7 +82,8 @@ abstract class JsonApiGlobalController extends Controller
         return $jsonapirequesthelper->getResponse($object);
     }
 
-    public function create(ServerRequestInterface $request, string $resource_type) {
+    public function create(ServerRequestInterface $request, string $resource_type)
+    {
         $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type));
 
         $service = $jsonapirequesthelper->getObjectService();
@@ -105,8 +115,10 @@ abstract class JsonApiGlobalController extends Controller
 
     protected function getSchema(string $resource_type): string
     {
-        if (!isset(static::AVAIBLE_RESOURCES[$resource_type]))
+        if (!isset(static::AVAIBLE_RESOURCES[$resource_type])) {
             throw new ResourceTypeNotFoundException($resource_type);
+        }
+
         return static::AVAIBLE_RESOURCES[$resource_type];
     }
 }

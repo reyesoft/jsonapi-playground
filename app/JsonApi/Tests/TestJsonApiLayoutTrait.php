@@ -6,7 +6,7 @@ trait TestJsonApiLayoutTrait
 {
     /* example for test
     protected $layout = [
-        'model' => PhysicalPos::class,
+        'model' => Physicalpos::class,
         'type' => 'physicalpos',
         'attributes' => [
             'number',
@@ -18,7 +18,8 @@ trait TestJsonApiLayoutTrait
     ];
     */
 
-    protected function newResource($model_instance = null): array {
+    protected function newResource($model_instance = null): array
+    {
         $builder = new JsonApiResourceBuilder($this->layout);
 
         return $builder->newResource($model_instance);

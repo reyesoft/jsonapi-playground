@@ -1,7 +1,7 @@
 <?php
 
 $header = <<<'EOF'
-This file is part of PHP CS Fixer.
+PHP CS Fixer for Reyesoft projects
 EOF;
 
 return PhpCsFixer\Config::create()
@@ -17,7 +17,7 @@ return PhpCsFixer\Config::create()
         'no_short_echo_tag' => true,
         'no_unreachable_default_argument_value' => true,
         'no_useless_return' => true,
-        'braces' => false,
+        'braces' => ['allow_single_line_closure' => true],
         'ordered_imports' => true,
         'no_unused_imports' => true,
         'semicolon_after_instruction' => true,
@@ -37,10 +37,16 @@ return PhpCsFixer\Config::create()
         'no_homoglyph_names' => true,
 
         /* php-cs-fixer 2.8/2.9 */
-        'explicit_string_variable' => true,
         'method_separation' => true,
         'explicit_indirect_variable' => true,
         'phpdoc_align' => true,
+        'align_multiline_comment' => true,
+        'compact_nullable_typehint' => true,
+        'hash_to_slash_comment' => true,
+        'linebreak_after_opening_tag' => true,
+        'method_chaining_indentation' => true,
+        'no_unreachable_default_argument_value' => true,
+        'class_definition' => ['singleLine' => true, 'singleItemSingleLine' => true],
 
         /* PHP 7.0 */
         '@PHP70Migration:risky' => true,
@@ -48,6 +54,35 @@ return PhpCsFixer\Config::create()
 
         /* PHP 7.1 */
         // '@PHP71Migration:risky' => true,
+        
+        // on future?
+        // 'explicit_string_variable' => true, //check classes like $user->first_name
+        // 'strict_comparison' => true,
+        // 'no_useless_else' => true,
+        /*
+        'ordered_class_elements' => [
+            'use_trait',
+            'constant_public',
+            'constant_protected',
+            'constant_private',
+            'property_public',
+            'property_protected',
+            'property_private',
+            'construct',
+            'destruct',
+            'magic',
+            'phpunit',
+            'method_public',
+            'method_protected',
+            'method_private'
+        ],
+        */
+        'header_comment' => [
+            'header' => '',
+            'commentType' => 'PHPDoc',
+            'location' => 'after_open',
+            'separate' => 'none'
+        ],
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()

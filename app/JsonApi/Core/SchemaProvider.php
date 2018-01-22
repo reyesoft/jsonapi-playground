@@ -42,7 +42,8 @@ abstract class SchemaProvider extends NeomerxSchemaProvider
     protected static $attributes = [];
     protected static $relationships = [];
 
-    public function __construct(SchemaFactoryInterface $factory = null) {
+    public function __construct(SchemaFactoryInterface $factory = null)
+    {
         $this->selfSubUrl = '/' . $this->resourceType;
 
         // include params permited
@@ -57,14 +58,14 @@ abstract class SchemaProvider extends NeomerxSchemaProvider
         return parent::__construct($factory);
     }
 
-    public function getWithForEloquent(array $include_request = []): array {
+    public function getWithForEloquent(array $include_request = []): array
+    {
         $ret = [];
         foreach (static::$relationships as $type => $relationshipSchema) {
             if ($relationshipSchema['hasMany']) {
                 // hasMany
                 $ret[] = $type;
-            }
-            elseif (in_array($type, $include_request)) {
+            } elseif (in_array($type, $include_request)) {
                 // without s (belongTo relationship)
                 // $ret[] = substr($type, 0, -1);
                 $ret[] = $type;
@@ -74,21 +75,25 @@ abstract class SchemaProvider extends NeomerxSchemaProvider
         return $ret;
     }
 
-    public function getModelName(): string {
+    public function getModelName(): string
+    {
         return static::$model;
     }
 
-    public function getModelInstance() {
+    public function getModelInstance()
+    {
         $model = static::$model;
 
         return new $model();
     }
 
-    public function isPaginable(): bool {
+    public function isPaginable(): bool
+    {
         return $this->isPaginable;
     }
 
-    public function getFilterType(string $field): string {
+    public function getFilterType(string $field): string
+    {
         return static::attributes[$field]['type'];
     }
 

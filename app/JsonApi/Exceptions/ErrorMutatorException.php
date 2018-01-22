@@ -15,16 +15,13 @@ class ErrorMutatorException extends BaseException
      */
     public function __construct($exception, $also_convert = true)
     {
-        if ($exception instanceof ModelNotFoundException)
-        {
+        if ($exception instanceof ModelNotFoundException) {
             return $this->make(
                     null, null, null,
                     self::HTTP_CODE_TYPE_NOT_FOUND,
                     'Resource `' . implode(', ', $exception->getIds()) . '` not found.'
                 );
-        }
-        elseif ($also_convert)
-        {
+        } elseif ($also_convert) {
             return $this->make(
                     null, null, null,
                     self::HTTP_CODE_BAD_REQUEST,

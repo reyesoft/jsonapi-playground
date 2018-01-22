@@ -36,7 +36,8 @@ class JsonApiParameters
      */
     private $unrecognizedParams;
 
-    public function __construct(EncodingParameters $parameters) {
+    public function __construct(EncodingParameters $parameters)
+    {
         $this->sortParameters = $parameters->getSortParameters() ?? [];
         $this->filteringParameters = $parameters->getFilteringParameters() ?? [];
         $this->unrecognizedParams = $parameters->getUnrecognizedParameters() ?? [];
@@ -47,23 +48,28 @@ class JsonApiParameters
         $this->pageSize = $parameters->getPaginationParameters()['size'] ?? 5;
     }
 
-    public function getIncludePaths(): array {
+    public function getIncludePaths(): array
+    {
         return $this->includePaths;
     }
 
-    public function getFilteringParameters() {
+    public function getFilteringParameters()
+    {
         return $this->filteringParameters;
     }
 
-    public function getSortParameters(): array {
+    public function getSortParameters(): array
+    {
         return $this->sortParameters;
     }
 
-    public function getPageSize(): int {
+    public function getPageSize(): int
+    {
         return $this->pageSize;
     }
 
-    public function getPageNumber(): int {
+    public function getPageNumber(): int
+    {
         return $this->pageNumber;
     }
 }

@@ -11,13 +11,17 @@ trait SchemaRelationsTrait
         }
 
         // elements like
-        // $rel[$relation_alias] = $this->buildRelationship($object, $includeList, '\App\Author', 'author');
+        // $rel[$relation_alias] = $this->buildRelationship(
+        //      $object, $includeList, '\App\Author', 'author'
+        //  );
         $ret = [];
-        foreach(static::$relationships as $relation_alias => $relation) {
+        foreach (static::$relationships as $relation_alias => $relation) {
             if ($relation['hasMany']) {
                 $ret[$relation_alias] = [self::DATA => $object->{$relation_alias}];
             } else {
-                $ret[$relation_alias] = $this->buildRelationship($object, $includeList, $relation['schema']::$model, $relation_alias);
+                $ret[$relation_alias] = $this->buildRelationship(
+                        $object, $includeList, $relation['schema']::$model, $relation_alias
+                    );
             }
         }
 

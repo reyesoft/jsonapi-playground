@@ -9,7 +9,7 @@ class ResourceValidationException extends BaseException
     public function __construct(array $errors)
     {
         $jsonapierrors = [];
-        foreach($errors as $attribute => $error) {
+        foreach ($errors as $attribute => $error) {
             $jsonapierrors[] = new Error(
                     null,
                     null,

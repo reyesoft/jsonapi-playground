@@ -10,26 +10,30 @@ use Illuminate\Validation\ValidationException;
 
 class EloquentObjectService extends ObjectService
 {
-    public function all(): array {
+    public function all(): array
+    {
         $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($this->jsonapirequesthelper);
 
         return $objectbuilder->getObjects();
     }
 
-    public function allRelated($builder): array {
+    public function allRelated($builder): array
+    {
         $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($this->jsonapirequesthelper);
         $objectbuilder->buildEloquentBuilder($builder);
 
         return $objectbuilder->getObjects();
     }
 
-    public function get($id): ArrayAccess {
+    public function get($id): ArrayAccess
+    {
         $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($this->jsonapirequesthelper);
 
         return $objectbuilder->getObject($id);
     }
 
-    public function create(array $data): ArrayAccess {
+    public function create(array $data): ArrayAccess
+    {
         $modelname = $this->jsonapirequesthelper->getSchema()->getModelName();
         $object = new $modelname();
         $this->fillAndSaveObject($object, $data);
@@ -37,7 +41,8 @@ class EloquentObjectService extends ObjectService
         return $this->get($object->id);
     }
 
-    public function update($id, array $data): ArrayAccess {
+    public function update($id, array $data): ArrayAccess
+    {
         $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($this->jsonapirequesthelper);
 
         $object = $objectbuilder->getObject($id);
@@ -46,7 +51,8 @@ class EloquentObjectService extends ObjectService
         return $objectbuilder->getObject($id);
     }
 
-    protected function fillAndSaveObject($object, array $data): bool {
+    protected function fillAndSaveObject($object, array $data): bool
+    {
         $object->fill($data['data']['attributes']);
 
         $schema = $this->jsonapirequesthelper->getSchema();
@@ -54,11 +60,13 @@ class EloquentObjectService extends ObjectService
 
         // fill relationships
         foreach ($relations_schema as $alias => $relationship_schema) {
-            if (!array_key_exists($alias, $data['data']['relationships']))
+            if (!array_key_exists($alias, $data['data']['relationships'])) {
                 continue;
+            }
 
-            if (!array_key_exists('data', $data['data']['relationships'][$alias]))
+            if (!array_key_exists('data', $data['data']['relationships'][$alias])) {
                 continue;
+            }
 
             $this->fillRelationship($relationship_schema, $object, $alias, $data);
         }
@@ -72,19 +80,17 @@ class EloquentObjectService extends ObjectService
         }
     }
 
-    private function fillRelationship(array $relationship_schema, $object, string $alias, array $data) {
+    private function fillRelationship(array $relationship_schema, $object, string $alias, array $data)
+    {
         $relation_data = $data['data']['relationships'][$alias]['data'];
         if (!$relationship_schema['hasMany']) {
             // hasOne
             if ($relation_data === null) {
                 $object->{$alias}()->dissociate();
-            }
-            elseif ($relation_data === []) {
+            } elseif ($relation_data === []) {
                 // do nothing :/
                 return;
-            }
-            elseif ($relation_data['id'])
-            {
+            } elseif ($relation_data['id']) {
                 $object->{$alias}()->associate($relation_data['id']);
             } else {
                 throw new \Exception('Proccess hasOne fillRelationship() with `' .
@@ -100,9 +106,7 @@ class EloquentObjectService extends ObjectService
 
             if (count($relation_data) === 0) {
                 $this->removeAllRelated($object->{$alias}());
-            }
-            elseif (count($relation_data) > 0)
-            {
+            } elseif (count($relation_data) > 0) {
                 $ids = $this->getIdsFromDataCollection($relation_data);
                 $this->syncAllRelated($object->{$alias}(), $ids);
             } else {
@@ -114,16 +118,18 @@ class EloquentObjectService extends ObjectService
         }
     }
 
-    private function syncAllRelated($model_relation, $ids) {
-        if ($model_relation instanceof \Illuminate\Database\Eloquent\Relations\MorphMany) {
-            // @todo is not saving morphed relationships
-            // $model_relation->saveMany($arrays_of_models);
-        } else {
-            $model_relation->sync($ids);
-        }
+    private function syncAllRelated($model_relation, $ids)
+    {
+        // if ($model_relation instanceof \Illuminate\Database\Eloquent\Relations\MorphMany) {
+        // @todo is not saving morphed relationships
+        // $model_relation->saveMany($arrays_of_models);
+        // } else {
+        $model_relation->sync($ids);
+        // }
     }
 
-    private function removeAllRelated($model_relation) {
+    private function removeAllRelated($model_relation)
+    {
         if ($model_relation instanceof BelongsToMany) {
             $model_relation->detach();
         } else {
@@ -131,13 +137,15 @@ class EloquentObjectService extends ObjectService
         }
     }
 
-    private function getIdsFromDataCollection($data_collection) {
+    private function getIdsFromDataCollection($data_collection)
+    {
         return array_map(function ($data_resource) {
-                        return $data_resource['id'];
-                    }, $data_collection);
+            return $data_resource['id'];
+        }, $data_collection);
     }
 
-    public function delete($id): bool {
+    public function delete($id): bool
+    {
         $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($this->jsonapirequesthelper);
 
         $object = $objectbuilder->getObject($id);

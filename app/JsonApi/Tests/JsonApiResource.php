@@ -1,10 +1,4 @@
 <?php
-/**
- * Copyright (C) 1997-2017 Reyesoft <info@reyesoft.com>.
- *
- * This file is part of Multinexo. Multinexo can not be copied and/or
- * distributed without the express permission of Reyesoft
- */
 
 namespace App\JsonApi\Tests;
 
@@ -15,7 +9,8 @@ class JsonApiResource
     protected $attributes = [];
     protected $relationships = [];
 
-    public function getArray(): array {
+    public function getArray(): array
+    {
         $array = [
             'data' => [
                 'type' => $this->type,
@@ -30,19 +25,23 @@ class JsonApiResource
         return $array;
     }
 
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function setType(string $type) {
+    public function setType(string $type)
+    {
         $this->type = $type;
     }
 
-    public function setAttributes(array $attributes) {
+    public function setAttributes(array $attributes)
+    {
         $this->attributes = $attributes;
     }
 
-    public function setRelationships(array $relationships) {
+    public function setRelationships(array $relationships)
+    {
         $this->relationships = $relationships;
     }
 }

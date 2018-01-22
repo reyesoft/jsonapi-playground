@@ -17,8 +17,7 @@ class ElegantModel extends Model
     public function validate($data)
     {
         $validator = Validator::make($data, $this->rules);
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             $this->errors = $validator->errors();
 
             throw new ValidationException($validator);
@@ -29,8 +28,9 @@ class ElegantModel extends Model
 
     public function save(array $options = [])
     {
-        if($this->validate($this->attributes))
+        if ($this->validate($this->attributes)) {
             return parent::save($options);
+        }
 
         return false;
     }

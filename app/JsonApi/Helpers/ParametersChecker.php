@@ -8,8 +8,13 @@ use Neomerx\JsonApi\Factories\Factory;
 
 class ParametersChecker
 {
-    public static function checkOrFail(SchemaProvider $schema, EncodingParameters $parameters, bool $isACollection = true) {
-        // more info https://github.com/neomerx/json-api/wiki/Parsing-API-Parameters#validation-for-url-and-header-parameters
+    public static function checkOrFail(
+            SchemaProvider $schema,
+            EncodingParameters $parameters,
+            bool $isACollection = true
+    ) {
+        // more info
+        // https://github.com/neomerx/json-api/wiki/Parsing-API-Parameters#validation-for-url-and-header-parameters
         $allowUnrecognised = false;
         $includePaths = $schema->includePaths ?? [];
         $fieldSetTypes = $schema->fieldSetTypes ?? [];

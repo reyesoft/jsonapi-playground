@@ -12,15 +12,18 @@ abstract class ObjectService
      */
     protected $jsonapirequesthelper;
 
-    public function __construct(JsonApiRequestHelper $jsonapirequesthelper) {
+    public function __construct(JsonApiRequestHelper $jsonapirequesthelper)
+    {
         $this->jsonapirequesthelper = $jsonapirequesthelper;
     }
 
-    public function all(): array {
+    public function all(): array
+    {
         return null;
     }
 
-    public function get($id): ArrayAccess {
+    public function get($id): ArrayAccess
+    {
         return null;
     }
 }
