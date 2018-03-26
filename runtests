@@ -1,0 +1,16 @@
+#!/bin/sh
+
+## Copyright (C) 1997-2017 Reyesoft <info@reyesoft.com>.
+## This file is part of a Reyesoft Project. This can not be copied and/or
+## distributed without the express permission of Reyesoft
+
+php artisan migrate:status --env=testing | grep -E '^\| N|^No migrations'    >> /dev/null
+if [ "$?" -eq 0 ]; then
+    echo 'Migrations required. Lets do it!'
+    # problem with nanobox, we cant separate commands when is production
+    php artisan config:clear
+    php artisan migrate:refresh --seed --env=testing
+else
+    echo 'Migrations are not required.'
+fi;
+phpunit

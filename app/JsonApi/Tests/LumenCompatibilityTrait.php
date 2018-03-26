@@ -57,4 +57,10 @@ trait LumenCompatibilityTrait
 
         return $decodedResponse;
     }
+
+    public function assertJsonFragment(array $expected): void
+    {
+        $data = json_decode($this->response->getContent(), true);
+        $this->assertArraySubset($expected, $data);
+    }
 }

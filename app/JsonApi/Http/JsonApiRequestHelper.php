@@ -8,6 +8,7 @@ use App\JsonApi\Services\EloquentObjectService;
 use App\JsonApi\Services\ObjectService;
 use Neomerx\JsonApi\Encoder\Parameters\EncodingParameters;
 use Neomerx\JsonApi\Factories\Factory;
+use Neomerx\JsonApi\Http\Query\BaseQueryParser;
 use Psr\Http\Message\ServerRequestInterface;
 
 class JsonApiRequestHelper
@@ -50,17 +51,18 @@ class JsonApiRequestHelper
         $this->setSchemaAndEval($schema, $isACollection);
     }
 
-    private function setSchema(SchemaProvider $schema)
+    private function setSchema(SchemaProvider $schema): void
     {
         $this->schema = $schema;
     }
 
-    private function setSchemaAndEval(string $schema_class_name, bool $isACollection)
+    private function setSchemaAndEval(string $schema_class_name, bool $isACollection): void
     {
         $this->setSchema(new $schema_class_name());
         $this->buildEncoder();
         $parameters = $this->getRequestParameters();
-        ParametersChecker::checkOrFail($this->schema, $parameters, $isACollection);
+        /* @todo  revisar parametros en version 2.0.0 */
+        // ParametersChecker::checkOrFail($this->schema, $parameters, $isACollection);
         $this->parsedparameters = new JsonApiParameters($parameters);
     }
 
@@ -69,7 +71,7 @@ class JsonApiRequestHelper
         return $this->type;
     }
 
-    protected function setType($type)
+    protected function setType($type): void
     {
         $this->type = $type;
     }
@@ -79,12 +81,12 @@ class JsonApiRequestHelper
         return $this->related_alias;
     }
 
-    protected function setRelatedAlias($related_alias)
+    protected function setRelatedAlias($related_alias): void
     {
         $this->related_alias = $related_alias;
     }
 
-    private function buildEncoder()
+    private function buildEncoder(): void
     {
         // add this schema to encoder
         $this->encoder = [
@@ -146,11 +148,13 @@ class JsonApiRequestHelper
         return $this->parsedparameters;
     }
 
-    public function getRequestParameters(): EncodingParameters
+    public function getRequestParameters(): BaseQueryParser// EncodingParameters
     {
-        $factory = new Factory();
+        //// neomerx 1.x
+        // $factory = new Factory();
+        // return $factory->createQueryParametersParser()->parse($this->request);
 
-        return $factory->createQueryParametersParser()->parse($this->request);
+        return new BaseQueryParser($this->request->getQueryParams());
     }
 
     public function getObjectService(): ObjectService

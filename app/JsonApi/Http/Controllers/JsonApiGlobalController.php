@@ -4,7 +4,8 @@ namespace App\JsonApi\Http\Controllers;
 
 use App\JsonApi\Exceptions\ResourceTypeNotFoundException;
 use App\JsonApi\Http\JsonApiRequestHelper;
-use Laravel\Lumen\Routing\Controller;
+// use Laravel\Lumen\Routing\Controller;
+use Illuminate\Routing\Controller;
 use Psr\Http\Message\ServerRequestInterface;
 
 abstract class JsonApiGlobalController extends Controller
@@ -18,7 +19,7 @@ abstract class JsonApiGlobalController extends Controller
      *    'photos' => BookSchema::class,
      * ];
      */
-    const AVAIBLE_RESOURCES = [];
+    public const AVAIBLE_RESOURCES = [];
 
     /*
     public function __construct()
@@ -29,8 +30,9 @@ abstract class JsonApiGlobalController extends Controller
     }
      */
 
-    public function getCollection(ServerRequestInterface $request, string $resource_type)
+    public function getCollection(ServerRequestInterface $request, ...$params)
     {
+        $resource_type = end($params);
         $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type));
 
         $service = $jsonapirequesthelper->getObjectService();
@@ -39,12 +41,10 @@ abstract class JsonApiGlobalController extends Controller
         return $jsonapirequesthelper->getResponse($objects);
     }
 
-    public function getRelatedCollection(
-            ServerRequestInterface $request,
-            string $parent_type,
-            int $parent_id,
-            string $resource_alias
-    ) {
+    public function getRelatedCollection(ServerRequestInterface $request, ...$params)
+    {
+        list($parent_type, $parent_id, $resource_alias) = array_slice($params, -3);
+
         // find parent resource
         $parent_schema_class = static::AVAIBLE_RESOURCES[$parent_type];
         $parent_schema = new $parent_schema_class();
@@ -72,8 +72,10 @@ abstract class JsonApiGlobalController extends Controller
         return $jsonapirequesthelper->getResponse($objects);
     }
 
-    public function get(ServerRequestInterface $request, string $resource_type, int $resource_id)
+    public function get(ServerRequestInterface $request, ...$params)
     {
+        list($resource_type, $resource_id) = array_slice($params, -2);
+
         $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type), $resource_id);
 
         $service = $jsonapirequesthelper->getObjectService();
@@ -82,8 +84,9 @@ abstract class JsonApiGlobalController extends Controller
         return $jsonapirequesthelper->getResponse($object);
     }
 
-    public function create(ServerRequestInterface $request, string $resource_type)
+    public function create(ServerRequestInterface $request, ...$route_params)
     {
+        $resource_type = end($route_params);
         $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type));
 
         $service = $jsonapirequesthelper->getObjectService();
@@ -92,8 +95,10 @@ abstract class JsonApiGlobalController extends Controller
         return $jsonapirequesthelper->getResponse($object);
     }
 
-    public function update(ServerRequestInterface $request, string $resource_type, int $resource_id)
+    public function update(ServerRequestInterface $request, ...$params)
     {
+        list($resource_type, $resource_id) = array_slice($params, -2);
+
         $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type));
 
         $service = $jsonapirequesthelper->getObjectService();
@@ -102,8 +107,10 @@ abstract class JsonApiGlobalController extends Controller
         return $jsonapirequesthelper->getResponse($object);
     }
 
-    public function delete(ServerRequestInterface $request, string $resource_type, int $resource_id)
+    public function delete(ServerRequestInterface $request, ...$params)
     {
+        list($resource_type, $resource_id) = array_slice($params, -2);
+
         $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type));
 
         $service = $jsonapirequesthelper->getObjectService();

@@ -39,17 +39,28 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
+            'host' => env('DATA_DB_HOST', env('DB_HOST')),
+            'database' => env('DATA_DB_HOST', false) ? 'gonano' : env('DB_DATABASE'),
+            'port' => env('DB_PORT'),
+            'username' => env('DATA_DB_USER', env('DB_USERNAME')),
+            'password' => env('DATA_DB_PASS', env('DB_PASSWORD')),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
             'prefix' => '',
-            'strict' => true,
-            'engine' => null,
+            'strict' => false,
+        ],
+
+        'mysql_test' => [
+            'driver' => 'mysql',
+            'host' => env('DATA_DB_TEST_HOST', env('DB_HOST')),
+            'database' => env('DATA_DB_TEST_HOST', false) ? 'gonano' : env('DB_DATABASE'),
+            'port' => env('DB_PORT'),
+            'username' => env('DATA_DB_TEST_USER', env('DB_USERNAME')),
+            'password' => env('DATA_DB_TEST_PASS', env('DB_PASSWORD')),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
         ],
 
         'pgsql' => [

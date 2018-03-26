@@ -53,6 +53,9 @@ class ObjectsBuilder
         // paginate (check we use `simplePaginate` over `paginate` preventing extra a SQL request)
         $columns = ['*'];
 
+        // mover a eoquent object service?
+        $this->schema->modelBeforeGet($builder);
+
         return $builder
             ->simplePaginate($this->params->getPageSize(), $columns, null, $this->params->getPageNumber())
             ->items();
@@ -61,6 +64,9 @@ class ObjectsBuilder
     public function getObject(int $resource_id)
     {
         $builder = $this->getEloquentBuilder();
+
+        // mover a eoquent object service?
+        $this->schema->modelBeforeGet($builder);
 
         return $builder->findOrFail($resource_id);
     }

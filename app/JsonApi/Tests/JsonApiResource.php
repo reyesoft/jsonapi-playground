@@ -25,22 +25,22 @@ class JsonApiResource
         return $array;
     }
 
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
-    public function setType(string $type)
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
 
-    public function setAttributes(array $attributes)
+    public function setAttributes(array $attributes): void
     {
         $this->attributes = $attributes;
     }
 
-    public function setRelationships(array $relationships)
+    public function setRelationships(array $relationships): void
     {
         $this->relationships = $relationships;
     }

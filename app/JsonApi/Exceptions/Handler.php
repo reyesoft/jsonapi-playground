@@ -36,7 +36,7 @@ class Handler implements ExceptionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function report(Exception $exception)
+    public function report(Exception $exception): void
     {
         $this->previous === null ?: $this->previous->report($exception);
     }
@@ -66,7 +66,7 @@ class Handler implements ExceptionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function renderForConsole($output, Exception $exception)
+    public function renderForConsole($output, Exception $exception): void
     {
         /* @var OutputInterface $output */
         $this->previous === null ?: $this->previous->renderForConsole($output, $exception);

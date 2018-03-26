@@ -23,7 +23,7 @@ class SerieSchema extends SchemaProvider
         ],
     ];
 
-    public function getAttributes($object)
+    public function getAttributes($object, ?array $fieldKeysFilter = null): ?array
     {
         return [
             'title' => $object->title,

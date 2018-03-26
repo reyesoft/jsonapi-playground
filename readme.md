@@ -4,6 +4,14 @@ Online version: <http://jsonapiplayground.reyesoft.com/> 😁
 
 ## Installation
 
+### With nanobox
+
+```
+nanobox dns add local jsonapiplayground.localhost
+nanobox run php artisan serve --host 0.0.0.0 --port 8000
+# go to ip:8000
+```
+
 ### With Laradock
 
 Agregar a `laradock/nginx/sites/laravel-jsonapi.conf`

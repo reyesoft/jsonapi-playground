@@ -49,7 +49,7 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
-                    {{env('APP_NAME')}}
+                    {{ config('app.name') }}
                 </div>
 
                 <h2>Data</h2>
@@ -57,7 +57,11 @@
                     <li><span>GET</span> <a href="/v2/authors">/v2/authors</a></li>
                     <li><span>GET</span> <a href="/v2/authors/1">/v2/authors/1</a></li>
                     <li><span>GET</span> <a href="/v2/authors/1/books">/v2/authors/1/books</a></li>
-                    <li><span>GET</span> <a href="/v2/authors/?page[number]=1&page[size]=3&filter[name]=S&include=books,photos">/v2/authors/?page[number]=1&page[size]=3&filter[name]=S&include=books,photos</a></li>
+                    <li><span>GET</span>
+                        <a href="/v2/authors/?page[number]=1&page[size]=3&filter[name]=S&include=books,photos">
+                            /v2/authors/?page[number]=1&page[size]=3&filter[name]=S&include=books,photos
+                        </a>
+                    </li>
                 </ul>
                 <p>More resources?
                     <a href="/v2/books">books</a>
@@ -73,7 +77,7 @@
                     <li><a href="http://ngx-jsonapi.reyesoft.com/">Online JSON API client example</a></li>
                     <li><a href="http://jsonapi.org">JSON API Specification</a></li>
                 </ul>
-                
+
                 <p><small>NOTE: Information is reset every day.</small></p>
             </div>
         </div>

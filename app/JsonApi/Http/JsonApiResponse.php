@@ -10,7 +10,7 @@ use Zend\Diactoros\Stream;
 
 class JsonApiResponse extends Response
 {
-    const HTTP_UNPROCESSABLE_ENTITY = 422;
+    public const HTTP_UNPROCESSABLE_ENTITY = 422;
 
     use InjectContentTypeTrait;
 

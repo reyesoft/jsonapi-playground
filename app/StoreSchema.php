@@ -23,7 +23,7 @@ class StoreSchema extends SchemaProvider
         ],
     ];
 
-    public function getAttributes($object)
+    public function getAttributes($object, ?array $fieldKeysFilter = null): ?array
     {
         return [
             'name' => $object->name,

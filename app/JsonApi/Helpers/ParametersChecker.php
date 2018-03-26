@@ -11,12 +11,13 @@ class ParametersChecker
     public static function checkOrFail(
             SchemaProvider $schema,
             EncodingParameters $parameters,
-            bool $isACollection = true
-    ) {
+            bool $isACollection
+    ): void {
         // more info
         // https://github.com/neomerx/json-api/wiki/Parsing-API-Parameters#validation-for-url-and-header-parameters
         $allowUnrecognised = false;
         $includePaths = $schema->includePaths ?? [];
+
         $fieldSetTypes = $schema->fieldSetTypes ?? [];
         $pagingParameters = $schema->isPaginable() && $isACollection ? ['number', 'size'] : [];
 

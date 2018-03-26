@@ -50,13 +50,14 @@ return PhpCsFixer\Config::create()
 
         /* PHP 7.0 */
         '@PHP70Migration:risky' => true,
-        'declare_strict_types' => false,
 
         /* PHP 7.1 */
-        // '@PHP71Migration:risky' => true,
-        
+        '@PHP71Migration' => true,
+        '@PHP71Migration:risky' => true,
+        'declare_strict_types' => false,     // related with API-836
+
         // on future?
-        // 'explicit_string_variable' => true, //check classes like $user->first_name
+        'explicit_string_variable' => true, //check classes like $user->first_name
         // 'strict_comparison' => true,
         // 'no_useless_else' => true,
         /*

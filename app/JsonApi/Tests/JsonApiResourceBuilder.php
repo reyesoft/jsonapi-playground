@@ -87,8 +87,8 @@ class JsonApiResourceBuilder
                 $ret[$typealias] = ['data' => $this->model2relationshipData($modelOrCollection, $type)];
             } elseif ($modelOrCollection === null) {
                 // @todo, we need to know if is a Collection or a Resource
-                $ret[$typealias] = ['data' => []];
                 // $ret[$typealias] = ['data' => null];
+                $ret[$typealias] = ['data' => []];
             } else {
                 throw new \Exception(
                         'El tipo `' . get_class($modelOrCollection) . '` retornado por `'
@@ -119,7 +119,7 @@ class JsonApiResourceBuilder
         return $ret;
     }
 
-    private function fixCarbonDatesW3c(Model $modelInstance)
+    private function fixCarbonDatesW3c(Model $modelInstance): void
     {
         /*
             SOLVE PROBLEM WITH

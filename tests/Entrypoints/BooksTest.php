@@ -24,7 +24,7 @@ class BooksTest extends BaseTestCase
         ],
     ];
 
-    public function testBookIndex()
+    public function testBookIndex(): void
     {
         $this->callGet('/v2/books');
         $this->assertResponseStatus();
@@ -48,31 +48,31 @@ class BooksTest extends BaseTestCase
         return $result['data']['id'];
     }
 
-    public function testBookCreateWithoutRelatedAuthor()
+    public function testBookCreateWithoutRelatedAuthor(): void
     {
         $resource = $this->newResource();
 
         unset($resource['data']['relationships']['author']);
         $this->callPost('/v2/books', $resource);
-        $this->assertResponseJsonApiError(403);
+        $this->assertResponseJsonApiError(null, 403);
     }
 
     /**
      * @depends testBookCreate
      */
-    public function testBookUpdateWithoutRelatedAuthor($book_id)
+    public function testBookUpdateWithoutRelatedAuthor($book_id): void
     {
         $resource = $this->newResource($book_id);
 
         $resource['data']['relationships']['author']['data'] = null;
         $this->callPatch('/v2/books/' . $book_id, $resource);
-        $this->assertResponseJsonApiError(403);
+        $this->assertResponseJsonApiError(null, 403);
     }
 
     /**
      * @depends testBookCreate
      */
-    public function testBookUpdateAddTwoRelatedStores($book_id)
+    public function testBookUpdateAddTwoRelatedStores($book_id): void
     {
         $resource = $this->newResource($book_id);
 
@@ -96,7 +96,7 @@ class BooksTest extends BaseTestCase
     /**
      * @depends testBookCreate
      */
-    public function testBookUpdateRemoveOneRelatedStore($book_id)
+    public function testBookUpdateRemoveOneRelatedStore($book_id): void
     {
         $resource = $this->newResource($book_id);
 
@@ -120,7 +120,7 @@ class BooksTest extends BaseTestCase
     /**
      * @depends testBookCreate
      */
-    public function testBookUpdateRemoveAllRelatedStores($book_id)
+    public function testBookUpdateRemoveAllRelatedStores($book_id): void
     {
         $resource = $this->newResource($book_id);
 

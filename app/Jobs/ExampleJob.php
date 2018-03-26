@@ -14,7 +14,7 @@ class ExampleJob extends Job
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(): void
     {
     }
 }

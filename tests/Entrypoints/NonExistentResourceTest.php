@@ -17,16 +17,16 @@ class NonExistentResourceTest extends BaseTestCase
         ],
     ];
 
-    public function testNonExistentResourceIndex()
+    public function testNonExistentResourceIndex(): void
     {
         $this->callGet('/v2/non-existent-resource/');
-        $this->assertResponseJsonApiError();
+        $this->assertResponseJsonApiError(null, 404);
     }
 
-    public function testNonExistentResourceShow()
+    public function testNonExistentResourceShow(): void
     {
         $this->callGet('/v2/non-existent-resource/1/');
-        $this->assertResponseJsonApiError();
+        $this->assertResponseJsonApiError(null, 404);
     }
 
     /*public function testBadUrlRequest()

@@ -9,7 +9,7 @@ class CorsMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  $request
+     * @param $request
      * @param \Closure $next
      *
      * @return mixed
@@ -28,7 +28,7 @@ class CorsMiddleware
         return $response;
     }
 
-    private function addCorsHeaders($request, &$response)
+    private function addCorsHeaders($request, &$response): void
     {
         $headers = [
             'Access-Control-Allow-Methods' => 'GET,POST,OPTIONS,DELETE,PATCH',

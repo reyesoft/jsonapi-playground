@@ -15,7 +15,7 @@ class GeneralSeed extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run()
+    public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('authors')->truncate();
@@ -28,35 +28,45 @@ class GeneralSeed extends Seeder
 
         $faker = Faker\Factory::create();
 
-        factory(Author::class, 50)->create()->each(function ($u) {
-            for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {
+        factory(Author::class, 50)->create()->each(
+            function ($u): void {
+                for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {
+                    $u->photos()->save(factory(Photo::class)->make());
+                }
+            }
+        );
+
+        factory(Store::class, 50)->create()->each(
+            function ($u): void {
+                for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {
+                    $u->photos()->save(factory(Photo::class)->make());
+                }
+            }
+        );
+
+        factory(Serie::class, 50)->create()->each(
+            function ($u): void {
+                for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {
+                    $u->photos()->save(factory(Photo::class)->make());
+                }
+            }
+        );
+
+        factory(Book::class, 50)->create()->each(
+            function ($u) use ($faker): void {
+                for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {
+                    $u->photos()->save(factory(Photo::class)->make());
+                }
+
+                $store_id = $faker->randomElement(Store::all()->pluck('id')->toArray());
+                $u->stores()->attach($store_id);
+            }
+        );
+
+        factory(Chapter::class, 50)->create()->each(
+            function ($u): void {
                 $u->photos()->save(factory(Photo::class)->make());
             }
-        });
-
-        factory(Store::class, 50)->create()->each(function ($u) {
-            for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {
-                $u->photos()->save(factory(Photo::class)->make());
-            }
-        });
-
-        factory(Serie::class, 50)->create()->each(function ($u) {
-            for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {
-                $u->photos()->save(factory(Photo::class)->make());
-            }
-        });
-
-        factory(Book::class, 50)->create()->each(function ($u) use ($faker) {
-            for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {
-                $u->photos()->save(factory(Photo::class)->make());
-            }
-
-            $store_id = $faker->randomElement(Store::all()->pluck('id')->toArray());
-            $u->stores()->attach($store_id);
-        });
-
-        factory(Chapter::class, 50)->create()->each(function ($u) {
-            $u->photos()->save(factory(Photo::class)->make());
-        });
+        );
     }
 }

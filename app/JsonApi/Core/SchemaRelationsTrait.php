@@ -4,7 +4,7 @@ namespace App\JsonApi\Core;
 
 trait SchemaRelationsTrait
 {
-    public function getRelationships($object, $isPrimary, array $includeList)
+    public function getRelationships($resource, bool $isPrimary, array $includeRelationships): ?array
     {
         if (!$isPrimary) {
             return [];
@@ -17,10 +17,10 @@ trait SchemaRelationsTrait
         $ret = [];
         foreach (static::$relationships as $relation_alias => $relation) {
             if ($relation['hasMany']) {
-                $ret[$relation_alias] = [self::DATA => $object->{$relation_alias}];
+                $ret[$relation_alias] = [self::DATA => $resource->{$relation_alias}];
             } else {
                 $ret[$relation_alias] = $this->buildRelationship(
-                        $object, $includeList, $relation['schema']::$model, $relation_alias
+                    $resource, $includeRelationships, $relation['schema']::$model, $relation_alias
                     );
             }
         }

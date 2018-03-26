@@ -4,11 +4,9 @@ namespace tests;
 
 class HomeTest extends TestCase
 {
-    public function testHomeShowApplicationName()
+    public function testHomeShowApplicationName(): void
     {
-        $this->get('/');
-        $this->assertContains(
-            env('APP_NAME'), $this->response->getContent()
-        );
+        $response = $this->get('/');
+        $this->assertContains(config('app.name'), $response->getContent());
     }
 }

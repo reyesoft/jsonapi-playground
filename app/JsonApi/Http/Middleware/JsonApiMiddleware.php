@@ -51,14 +51,14 @@ class JsonApiMiddleware
         return $response;
     }
 
-    private function registerJsonApiResponses()
+    private function registerJsonApiResponses(): void
     {
         /* app()->singleton(ResponsesInterface, function () use ($previousHandler) {
             return new JsonApiExceptionHandler(app(), $previousHandler);
         });*/
     }
 
-    private function registerJsonApiExceptionHandler()
+    private function registerJsonApiExceptionHandler(): void
     {
         $previousHandler = null;
         if (app()->bound(ExceptionHandler::class) === true) {

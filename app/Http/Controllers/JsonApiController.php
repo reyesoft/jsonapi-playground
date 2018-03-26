@@ -12,7 +12,7 @@ use App\StoreSchema;
 
 class JsonApiController extends JsonApiGlobalController
 {
-    const AVAIBLE_RESOURCES = [
+    public const AVAIBLE_RESOURCES = [
         'authors' => AuthorSchema::class,
         'photos' => PhotoSchema::class,
         'books' => BookSchema::class,

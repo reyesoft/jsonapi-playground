@@ -5,9 +5,9 @@ namespace App\JsonApi\Core;
 use App\JsonApi\Services\ObjectService;
 use Neomerx\JsonApi\Contracts\Schema\SchemaFactoryInterface;
 use Neomerx\JsonApi\Factories\Factory;
-use Neomerx\JsonApi\Schema\SchemaProvider as NeomerxSchemaProvider;
+use Neomerx\JsonApi\Schema\BaseSchema;
 
-abstract class SchemaProvider extends NeomerxSchemaProvider
+abstract class SchemaProvider extends BaseSchema
 {
     /**
      * Like books.
@@ -130,12 +130,12 @@ abstract class SchemaProvider extends NeomerxSchemaProvider
         return static::$relationships;
     }
 
-    public function getId($object)
+    public function getId($object): ?string
     {
         return $object->id;
     }
 
-    public function getAttributes($object)
+    public function getAttributes($object, ?array $fieldKeysFilter = null): ?array
     {
         $ret = [];
         foreach (static::$attributes as $key => $value) {
@@ -143,5 +143,15 @@ abstract class SchemaProvider extends NeomerxSchemaProvider
         }
 
         return $ret;
+    }
+
+    public function modelBeforeSave($builder)
+    {
+        return $builder;
+    }
+
+    public function modelBeforeGet($builder)
+    {
+        return $builder;
     }
 }

@@ -34,8 +34,11 @@ class EloquentObjectService extends ObjectService
 
     public function create(array $data): ArrayAccess
     {
-        $modelname = $this->jsonapirequesthelper->getSchema()->getModelName();
+        $schema = $this->jsonapirequesthelper->getSchema();
+        $modelname = $schema->getModelName();
+
         $object = new $modelname();
+        $schema->modelBeforeSave($object);
         $this->fillAndSaveObject($object, $data);
 
         return $this->get($object->id);
@@ -76,11 +79,11 @@ class EloquentObjectService extends ObjectService
         } catch (ValidationException $e) {
             throw new ResourceValidationException($e->errors());
         } catch (\Exception $e) {
-            throw new ResourceValidationException('NO SAVED create(): ' . $e->getMessage() . '. ' . get_class($e));
+            throw new ResourceValidationException(['NO SAVED resource: ' . $e->getMessage() . '. ' . get_class($e)]);
         }
     }
 
-    private function fillRelationship(array $relationship_schema, $object, string $alias, array $data)
+    private function fillRelationship(array $relationship_schema, $object, string $alias, array $data): void
     {
         $relation_data = $data['data']['relationships'][$alias]['data'];
         if (!$relationship_schema['hasMany']) {
@@ -94,9 +97,9 @@ class EloquentObjectService extends ObjectService
                 $object->{$alias}()->associate($relation_data['id']);
             } else {
                 throw new \Exception('Proccess hasOne fillRelationship() with `' .
-                        str_replace('"', '\'', json_encode($relation_data)) . '` for `' . $alias .
-                        '` is not possible (' . $data['data']['type'] . '->' . $alias . ')'
-                    );
+                    str_replace('"', '\'', json_encode($relation_data)) . '` for `' . $alias .
+                    '` is not possible (' . $data['data']['type'] . '->' . $alias . ')'
+                );
             }
         } else {
             // hasMany
@@ -111,14 +114,14 @@ class EloquentObjectService extends ObjectService
                 $this->syncAllRelated($object->{$alias}(), $ids);
             } else {
                 throw new \Exception('Proccess hasMany fillRelationship() with `' .
-                        str_replace('"', '\'', json_encode($relation_data)) . '` for `' . $alias .
-                        '` is not possible (' . $data['data']['type'] . '->' . $alias . ')'
-                    );
+                    str_replace('"', '\'', json_encode($relation_data)) . '` for `' . $alias .
+                    '` is not possible (' . $data['data']['type'] . '->' . $alias . ')'
+                );
             }
         }
     }
 
-    private function syncAllRelated($model_relation, $ids)
+    private function syncAllRelated($model_relation, $ids): void
     {
         // if ($model_relation instanceof \Illuminate\Database\Eloquent\Relations\MorphMany) {
         // @todo is not saving morphed relationships
@@ -128,7 +131,7 @@ class EloquentObjectService extends ObjectService
         // }
     }
 
-    private function removeAllRelated($model_relation)
+    private function removeAllRelated($model_relation): void
     {
         if ($model_relation instanceof BelongsToMany) {
             $model_relation->detach();
