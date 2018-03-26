@@ -1,4 +1,12 @@
 <?php
+/**
+ * Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.
+ *
+ * This file is part of JsonApiPlayground. JsonApiPlayground can not be copied and/or
+ * distributed without the express permission of Reyesoft
+ */
+
+declare(strict_types=1);
 
 namespace App\Providers;
 
@@ -8,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * This namespace is applied to your controller routes.
+     * This declare(strict_types=1); namespace is applied to your controller routes.
      *
      * In addition, it is set as the URL generator's root namespace.
      *

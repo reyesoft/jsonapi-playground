@@ -54,7 +54,7 @@ return PhpCsFixer\Config::create()
         /* PHP 7.1 */
         '@PHP71Migration' => true,
         '@PHP71Migration:risky' => true,
-        'declare_strict_types' => false,     // related with API-836
+        'declare_strict_types' => true,
 
         // on future?
         'explicit_string_variable' => true, //check classes like $user->first_name
@@ -79,10 +79,14 @@ return PhpCsFixer\Config::create()
         ],
         */
         'header_comment' => [
-            'header' => '',
+            'header' =>
+                "Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.\n".
+                "\n".
+                "This file is part of JsonApiPlayground. JsonApiPlayground can not be copied and/or\n".
+                "distributed without the express permission of Reyesoft",
             'commentType' => 'PHPDoc',
             'location' => 'after_open',
-            'separate' => 'none'
+            'separate' => 'bottom'
         ],
     ])
     ->setFinder(

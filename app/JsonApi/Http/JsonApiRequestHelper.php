@@ -1,4 +1,12 @@
 <?php
+/**
+ * Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.
+ *
+ * This file is part of JsonApiPlayground. JsonApiPlayground can not be copied and/or
+ * distributed without the express permission of Reyesoft
+ */
+
+declare(strict_types=1);
 
 namespace App\JsonApi\Http;
 
@@ -43,7 +51,7 @@ class JsonApiRequestHelper
 
     protected $appresponses = null;
 
-    public function __construct($request, string $schema, int $id = 0, string $related_alias = '')
+    public function __construct($request, string $schema, string $id = '0', string $related_alias = '')
     {
         $this->request = $request;
         $isACollection = (!$id || $related_alias);
@@ -66,7 +74,7 @@ class JsonApiRequestHelper
         $this->parsedparameters = new JsonApiParameters($parameters);
     }
 
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -76,7 +84,7 @@ class JsonApiRequestHelper
         $this->type = $type;
     }
 
-    public function getRelatedAlias()
+    public function getRelatedAlias(): string
     {
         return $this->related_alias;
     }

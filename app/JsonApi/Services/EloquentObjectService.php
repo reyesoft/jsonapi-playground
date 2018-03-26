@@ -1,4 +1,12 @@
 <?php
+/**
+ * Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.
+ *
+ * This file is part of JsonApiPlayground. JsonApiPlayground can not be copied and/or
+ * distributed without the express permission of Reyesoft
+ */
+
+declare(strict_types=1);
 
 namespace App\JsonApi\Services;
 
@@ -25,7 +33,7 @@ class EloquentObjectService extends ObjectService
         return $objectbuilder->getObjects();
     }
 
-    public function get($id): ArrayAccess
+    public function get(string $id): ArrayAccess
     {
         $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($this->jsonapirequesthelper);
 
@@ -41,7 +49,7 @@ class EloquentObjectService extends ObjectService
         $schema->modelBeforeSave($object);
         $this->fillAndSaveObject($object, $data);
 
-        return $this->get($object->id);
+        return $this->get((string) $object->id);
     }
 
     public function update($id, array $data): ArrayAccess
