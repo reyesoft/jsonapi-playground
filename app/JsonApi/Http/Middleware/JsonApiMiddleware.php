@@ -12,7 +12,6 @@ namespace App\JsonApi\Http\Middleware;
 
 use App\JsonApi\Exceptions\Handler as JsonApiExceptionHandler;
 use App\JsonApi\Http\AppResponses;
-use App\JsonApi\Http\JsonApiRequest;
 use Closure;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Neomerx\JsonApi\Contracts\Http\ResponsesInterface;
@@ -23,10 +22,6 @@ class JsonApiMiddleware
 {
     public function __construct(ServerRequestInterface $request)
     {
-        app()->singleton(JsonApiRequest::class, function () use ($request) {
-            return new JsonApiRequest($request);
-        });
-
         app()->singleton(AppResponses::class, function () use ($request) {
             return AppResponses::instance($request, []);
         });
@@ -34,11 +29,6 @@ class JsonApiMiddleware
         app()->singleton(Factory::class, function () {
             return new Factory();
         });
-
-        // create an instance of JsonApiRequest
-        app()[JsonApiRequest::class];
-        // app()[AppResponses::class];
-        //app()[AppResponses::class];
     }
 
     /**

@@ -19,7 +19,7 @@ class ErrorMutatorException extends BaseException
         if ($exception instanceof ModelNotFoundException) {
             return $this->make(
                     null, null, null,
-                    self::HTTP_CODE_TYPE_NOT_FOUND,
+                    (string) self::HTTP_CODE_TYPE_NOT_FOUND,
                     'Resource `' . implode(', ', $exception->getIds()) . '` not found.'
                 );
         } elseif ($convert_all_to_jsonapi) {

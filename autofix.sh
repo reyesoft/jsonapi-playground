@@ -8,6 +8,9 @@ echo "phpcbf..." &&
 echo "phpcs..." &&
 ./vendor/bin/phpcs $SEARCH_PATHS
 
+echo "double spaces..." &&
+sh resources/bash/find_double_spaces_php.sh
+
 echo "php-cs-fixer..." &&
 vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --path-mode=intersection $SEARCH_PATHS
 

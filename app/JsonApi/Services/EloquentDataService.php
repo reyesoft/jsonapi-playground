@@ -16,57 +16,95 @@ use ArrayAccess;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Validation\ValidationException;
 
-class EloquentObjectService extends ObjectService
+class EloquentDataService extends DataService
 {
     public function all(): array
     {
-        $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($this->jsonapirequesthelper);
+        $builder = new ObjectsBuilder(
+            $this->jsonapirequest->getSchema(),
+            $this->jsonapirequest->getSchema()->getModelInstance(),
+            $this->jsonapirequest->getParameters()
+        );
 
-        return $objectbuilder->getObjects();
+        return $builder->getObjects();
     }
 
-    public function allRelated($builder): array
+    public function related(): array
     {
-        $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($this->jsonapirequesthelper);
-        $objectbuilder->buildEloquentBuilder($builder);
+        // find parent resource
+        $parent_schema_class = $this->jsonapirequest->getParentSchemaClass();
+        $parent_schema = new $parent_schema_class();
 
-        return $objectbuilder->getObjects();
+        // set child model
+        $parent_model_class = $parent_schema->getModelName();
+        $parent_model = $parent_model_class::findOrFail($this->jsonapirequest->getParentId());
+        $eloquent_builder = $parent_model->{$this->jsonapirequest->getResourceAlias()}();
+
+        $builder = new ObjectsBuilder(
+            $this->jsonapirequest->getSchema(),
+            $this->jsonapirequest->getSchema()->getModelInstance(),
+            $this->jsonapirequest->getParameters()
+        );
+        $builder->buildEloquentBuilder($eloquent_builder);
+
+        return $builder->getObjects();
     }
 
-    public function get(string $id): ArrayAccess
+    public function get(string $id = null): ArrayAccess
     {
-        $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($this->jsonapirequesthelper);
+        $builder = new ObjectsBuilder(
+            $this->jsonapirequest->getSchema(),
+            $this->jsonapirequest->getSchema()->getModelInstance(),
+            $this->jsonapirequest->getParameters()
+        );
 
-        return $objectbuilder->getObject($id);
+        return $builder->getObject($id ?? $this->jsonapirequest->getId());
     }
 
-    public function create(array $data): ArrayAccess
+    public function create(): ArrayAccess
     {
-        $schema = $this->jsonapirequesthelper->getSchema();
-        $modelname = $schema->getModelName();
-
-        $object = new $modelname();
+        $schema = $this->jsonapirequest->getSchema();
+        $object = $this->jsonapirequest->getSchema()->getModelInstance();
         $schema->modelBeforeSave($object);
-        $this->fillAndSaveObject($object, $data);
+        $this->fillAndSaveObject($object, $this->jsonapirequest->getData());
 
         return $this->get((string) $object->id);
     }
 
-    public function update($id, array $data): ArrayAccess
+    public function update(string $id = null): ArrayAccess
     {
-        $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($this->jsonapirequesthelper);
+        $schema = $this->jsonapirequest->getSchema();
+        $builder = new ObjectsBuilder(
+            $this->jsonapirequest->getSchema(),
+            $this->jsonapirequest->getSchema()->getModelInstance(),
+            $this->jsonapirequest->getParameters()
+        );
+        $object = $builder->getObject($id ?? $this->jsonapirequest->getId());
+        $schema->modelBeforeSave($object);
+        $this->fillAndSaveObject($object, $this->jsonapirequest->getData());
 
-        $object = $objectbuilder->getObject($id);
-        $this->fillAndSaveObject($object, $data);
-
-        return $objectbuilder->getObject($id);
+        return $this->get($id ?? $this->jsonapirequest->getId());
     }
 
-    protected function fillAndSaveObject($object, array $data): bool
+    public function delete(string $id = null): bool
+    {
+        $schema = $this->jsonapirequest->getSchema();
+        $builder = new ObjectsBuilder(
+            $this->jsonapirequest->getSchema(),
+            $this->jsonapirequest->getSchema()->getModelInstance(),
+            $this->jsonapirequest->getParameters()
+        );
+        $object = $builder->getObject($id ?? $this->jsonapirequest->getId());
+        $schema->modelBeforeSave($object);
+
+        return $object->delete();
+    }
+
+    private function fillAndSaveObject($object, array $data): bool
     {
         $object->fill($data['data']['attributes']);
 
-        $schema = $this->jsonapirequesthelper->getSchema();
+        $schema = $this->jsonapirequest->getSchema();
         $relations_schema = $schema->getRelationshipsSchema();
 
         // fill relationships
@@ -148,20 +186,10 @@ class EloquentObjectService extends ObjectService
         }
     }
 
-    private function getIdsFromDataCollection($data_collection)
+    private function getIdsFromDataCollection($data_collection): array
     {
         return array_map(function ($data_resource) {
             return $data_resource['id'];
         }, $data_collection);
-    }
-
-    public function delete($id): bool
-    {
-        $objectbuilder = ObjectsBuilder::createViaJsonApiRequest($this->jsonapirequesthelper);
-
-        $object = $objectbuilder->getObject($id);
-        $object->delete();
-
-        return true;
     }
 }

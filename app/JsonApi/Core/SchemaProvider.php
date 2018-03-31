@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace App\JsonApi\Core;
 
-use App\JsonApi\Services\ObjectService;
+use App\JsonApi\Services\DataService;
 use Neomerx\JsonApi\Contracts\Schema\SchemaFactoryInterface;
 use Neomerx\JsonApi\Factories\Factory;
 use Neomerx\JsonApi\Schema\BaseSchema;
@@ -41,7 +41,7 @@ abstract class SchemaProvider extends BaseSchema
     /**
      * Like `App\MyObjectService`.
      *
-     * @var ObjectService
+     * @var DataService
      */
     protected $objectservice = '';
 

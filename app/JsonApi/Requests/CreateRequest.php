@@ -8,16 +8,8 @@
 
 declare(strict_types=1);
 
-namespace App\JsonApi\Http;
+namespace App\JsonApi\Requests;
 
-use Psr\Http\Message\ServerRequestInterface;
-
-class JsonApiRequest
+class CreateRequest extends NoResourceRequest
 {
-    // public $request;
-
-    public function __construct(ServerRequestInterface $request)
-    {
-        // $this->request = $request;
-    }
 }
