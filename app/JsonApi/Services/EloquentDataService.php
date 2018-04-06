@@ -11,22 +11,20 @@ declare(strict_types=1);
 namespace App\JsonApi\Services;
 
 use App\JsonApi\Exceptions\ResourceValidationException;
-use App\JsonApi\Helpers\ObjectsBuilder;
 use ArrayAccess;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class EloquentDataService extends DataService
 {
+    public static $transactionOpened = false;
+
     public function all(): array
     {
-        $builder = new ObjectsBuilder(
-            $this->jsonapirequest->getSchema(),
-            $this->jsonapirequest->getSchema()->getModelInstance(),
-            $this->jsonapirequest->getParameters()
-        );
-
-        return $builder->getObjects();
+        return $this->getObjectBuilder()->getObjects();
     }
 
     public function related(): array
@@ -40,11 +38,7 @@ class EloquentDataService extends DataService
         $parent_model = $parent_model_class::findOrFail($this->jsonapirequest->getParentId());
         $eloquent_builder = $parent_model->{$this->jsonapirequest->getResourceAlias()}();
 
-        $builder = new ObjectsBuilder(
-            $this->jsonapirequest->getSchema(),
-            $this->jsonapirequest->getSchema()->getModelInstance(),
-            $this->jsonapirequest->getParameters()
-        );
+        $builder = $this->getObjectBuilder();
         $builder->buildEloquentBuilder($eloquent_builder);
 
         return $builder->getObjects();
@@ -52,63 +46,73 @@ class EloquentDataService extends DataService
 
     public function get(string $id = null): ArrayAccess
     {
-        $builder = new ObjectsBuilder(
-            $this->jsonapirequest->getSchema(),
-            $this->jsonapirequest->getSchema()->getModelInstance(),
-            $this->jsonapirequest->getParameters()
-        );
+        $builder = $this->getObjectBuilder();
 
-        return $builder->getObject($id ?? $this->jsonapirequest->getId());
+        return $builder->getObject($id ?? $this->action->getId());
     }
 
     public function create(): ArrayAccess
     {
-        $schema = $this->jsonapirequest->getSchema();
-        $object = $this->jsonapirequest->getSchema()->getModelInstance();
+        $schema = $this->action->getSchema();
+        $object = $this->action->getSchema()->getModelInstance();
+
         $schema->modelBeforeSave($object);
-        $this->fillAndSaveObject($object, $this->jsonapirequest->getData());
+        $this->fillAndSaveObject($object, $this->action->getData());
 
         return $this->get((string) $object->id);
     }
 
     public function update(string $id = null): ArrayAccess
     {
-        $schema = $this->jsonapirequest->getSchema();
-        $builder = new ObjectsBuilder(
-            $this->jsonapirequest->getSchema(),
-            $this->jsonapirequest->getSchema()->getModelInstance(),
-            $this->jsonapirequest->getParameters()
-        );
-        $object = $builder->getObject($id ?? $this->jsonapirequest->getId());
+        $schema = $this->action->getSchema();
+        $builder = $this->getObjectBuilder();
+        $object = $builder->getObject($id ?? $this->action->getId());
         $schema->modelBeforeSave($object);
-        $this->fillAndSaveObject($object, $this->jsonapirequest->getData());
+        $this->fillAndSaveObject($object, $this->action->getData());
 
-        return $this->get($id ?? $this->jsonapirequest->getId());
+        return $this->get($id ?? $this->action->getId());
+    }
+
+    protected function processInclude(): void
+    {
     }
 
     public function delete(string $id = null): bool
     {
-        $schema = $this->jsonapirequest->getSchema();
-        $builder = new ObjectsBuilder(
-            $this->jsonapirequest->getSchema(),
-            $this->jsonapirequest->getSchema()->getModelInstance(),
-            $this->jsonapirequest->getParameters()
-        );
-        $object = $builder->getObject($id ?? $this->jsonapirequest->getId());
+        $schema = $this->action->getSchema();
+        $builder = $this->getObjectBuilder();
+        $object = $builder->getObject($id ?? $this->action->getId());
         $schema->modelBeforeSave($object);
 
         return $object->delete();
+    }
+
+    private function beginTransaction(): void
+    {
+        if (!self::$transactionOpened) {
+            DB::beginTransaction();
+            self::$transactionOpened = true;
+        }
     }
 
     private function fillAndSaveObject($object, array $data): bool
     {
         $object->fill($data['data']['attributes']);
 
-        $schema = $this->jsonapirequest->getSchema();
-        $relations_schema = $schema->getRelationshipsSchema();
+        $schema = $this->action->getSchema();
+        $relations_schema = $schema->getRelationshipsSchema() ?? [];
+
+        // this is required?
+        if ($this->action->isSaving()) {
+            $this->sortRelationsBySchemaHasMany($relations_schema);
+        }
 
         // fill relationships
         foreach ($relations_schema as $alias => $relationship_schema) {
+            if (!array_key_exists('relationships', $data['data'])) {
+                break;
+            }
+
             if (!array_key_exists($alias, $data['data']['relationships'])) {
                 continue;
             }
@@ -117,16 +121,53 @@ class EloquentDataService extends DataService
                 continue;
             }
 
+            $this->beginTransaction();
+            if (!$object->id && $relationship_schema['hasMany']) {
+                // save children requires a parent with id
+                if (!$this->saveObject($object)) {
+                    return false;
+                }
+            }
+
             $this->fillRelationship($relationship_schema, $object, $alias, $data);
         }
 
-        try {
-            return $object->save();
-        } catch (ValidationException $e) {
-            throw new ResourceValidationException($e->errors());
-        } catch (\Exception $e) {
-            throw new ResourceValidationException(['NO SAVED resource: ' . $e->getMessage() . '. ' . get_class($e)]);
+        if ($this->saveObject($object)) {
+            DB::commit();
+
+            return true;
         }
+        DB::rollback();
+
+        return false;
+    }
+
+    /**
+     * This is required because we need save hasOne relations first.
+     * Next, object; and finally hasMany relations.
+     *
+     * @return array
+     */
+    private function sortRelationsBySchemaHasMany(array &$relations_schema): void
+    {
+        uasort($relations_schema, function ($a, $relationship_schema) {
+            return $relationship_schema['hasMany'] ? -1 : 1;
+        });
+    }
+
+    private function saveObject($object): bool
+    {
+        try {
+            $object->save();
+            DB::commit();
+
+            return true;
+        } catch (ValidationException $e) {
+            DB::rollback();
+            throw new ResourceValidationException($e->errors());
+        }
+
+        return false;
     }
 
     private function fillRelationship(array $relationship_schema, $object, string $alias, array $data): void
@@ -167,14 +208,17 @@ class EloquentDataService extends DataService
         }
     }
 
-    private function syncAllRelated($model_relation, $ids): void
+    private function syncAllRelated($model_relation, array $ids): void
     {
-        // if ($model_relation instanceof \Illuminate\Database\Eloquent\Relations\MorphMany) {
-        // @todo is not saving morphed relationships
-        // $model_relation->saveMany($arrays_of_models);
-        // } else {
-        $model_relation->sync($ids);
-        // }
+        if ($model_relation instanceof HasMany
+            || $model_relation instanceof MorphMany
+        ) {
+            foreach ($ids as $id) {
+                $model_relation->save($model_relation->getModel()::find($id));
+            }
+        } else {
+            $model_relation->sync($ids);
+        }
     }
 
     private function removeAllRelated($model_relation): void
@@ -191,5 +235,13 @@ class EloquentDataService extends DataService
         return array_map(function ($data_resource) {
             return $data_resource['id'];
         }, $data_collection);
+    }
+
+    public function openTransaction(): void
+    {
+    }
+
+    public function closeTransaction(): void
+    {
     }
 }

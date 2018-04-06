@@ -36,7 +36,7 @@ trait SchemaRelationsTrait
         return $ret;
     }
 
-    protected function buildRelationship($object, array $includeList, $modelClass, $singularType)
+    protected function buildRelationship($object, array $includeList, $modelClass, $singularType): array
     {
         if (isset($includeList[$singularType])) {
             $relation = $object->{$singularType};

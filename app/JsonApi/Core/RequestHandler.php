@@ -10,6 +10,9 @@ declare(strict_types=1);
 
 namespace App\JsonApi;
 
+use App\JsonApi\Core\Action;
+use App\JsonApi\Exceptions\ResourcePolicyException;
+use App\JsonApi\Exceptions\WrongDataException;
 use App\JsonApi\Http\AppResponses;
 use App\JsonApi\Requests\JsonApiRequest;
 use App\JsonApi\Services\DataService;
@@ -18,6 +21,9 @@ use Zend\Diactoros\Response;
 
 class RequestHandler
 {
+    /**
+     * @var JsonApiRequest
+     */
     private $jsonapirequest;
     private $data;
 
@@ -26,28 +32,74 @@ class RequestHandler
         $this->jsonapirequest = $jsonapirequest;
     }
 
-    public function handle(): self
+    public function handle($action = null): self
     {
-        //$this->handlePolicy();
+        $action = $action ?? $this->jsonapirequest->getAction();
 
-        /*
-        switch($method) {
-            case 'create':
-                $this->data = $service->create();
-                break;
-            default:
-                $this->data =$service->{$method}();
+        // filter attributes of received data
+        if ($action->isSaving()) {
+            $action->filterReceivedAttributesWithSchema();
+
+            if ($this->jsonapirequest->hasIncludedData()) {
+                $this->getService($action)->openTransaction();
+                $this->handleSaveIncluded();
+                $action->setData($this->jsonapirequest->getData());
+            }
         }
-        */
-        $this->data = $this->getService()
-            ->{$this->jsonapirequest->getAction()}();
 
-        //$this->handlePolicy();
-        //$service = $schema->service ?? new EloquentDataService();
+        // check policy
+        $policy = $action->getSchema()->getPolicy();
+        if (!$policy->{'before' . ucfirst($action->getActionName()) }()) {
+            throw new ResourcePolicyException($action->getActionName());
+        }
 
-        //$this->handlePolicy();
+        // send data to service
+        $this->data = $this->getService($action)
+            ->{ $action->getActionName() }();
+
+        if ($action->isSaving() && $this->jsonapirequest->hasIncludedData()) {
+            $this->getService($action)->closeTransaction();
+        }
 
         return $this;
+    }
+
+    private function handleSaveIncluded(): void
+    {
+        $included = $this->jsonapirequest->getDataIncluded();
+        // $new_ids = [type][old_value] = new_value
+        $new_ids = [];
+
+        foreach ($included as $resource) {
+            $schema = $this->jsonapirequest->getAvailableSchemas()[$resource['type']];
+            if (!$resource['id']) {
+                throw new WrongDataException(
+                    'Included resource type ' . $resource['type'] . ' with id `' . $resource['id'] . '`'
+                );
+            }
+            $action_name = preg_match('/^new_.+$/', $resource['id']) ? 'create' : 'update';
+            $action = new Action(
+                    $action_name,
+                    new $schema(),
+                    $resource['id'],
+                    ['data' => $resource],
+                    $this->jsonapirequest->getParameters() // is not necessary here
+                );
+
+            // @todo check policy
+            //            $policy = $action->getSchema()->getPolicy();
+            //            if (!$policy->{'before' . ucfirst($action->getActionName()) }()) {
+            //                throw new ResourcePolicyException($action->getActionName());
+            //            }
+
+            // send data to service
+            $data = $this->getService($action)
+                ->{ $action->getActionName() }();
+            //            dd($resource['id'], $data->id);
+
+            $new_ids[$action->getSchema()->getResourceType()][$resource['id']] = $data->id;
+        }
+        $this->jsonapirequest->replaceIdOnRelationships($new_ids);
     }
 
     /**
@@ -58,16 +110,19 @@ class RequestHandler
         return $this->data;
     }
 
-    protected function getService(): DataService
+    protected function getService(Action $action): DataService
     {
-        return new EloquentDataService($this->jsonapirequest);
+        return new EloquentDataService($action, $this->jsonapirequest);
     }
 
     public function getResponse(): Response
     {
-        $responses = AppResponses::instance($this->jsonapirequest->getRequest(), $this->jsonapirequest->getEncoder());
+        $responses = AppResponses::instance(
+            $this->jsonapirequest->getRequest(),
+            $this->jsonapirequest->getEncoder()
+        );
         switch ($this->jsonapirequest->getRequest()->getMethod()) {
-            case 'POST':    // create
+            case 'POST': // create
                 return $responses->getCreatedResponse($this->data);
             case 'DELETE':
                 return $responses->getCodeResponse(200);

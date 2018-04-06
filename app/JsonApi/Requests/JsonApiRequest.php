@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace App\JsonApi\Requests;
 
+use App\JsonApi\Core\Action;
 use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Exceptions\ResourceTypeNotFoundException;
 use App\JsonApi\Http\JsonApiParameters;
@@ -19,6 +20,7 @@ use Psr\Http\Message\ServerRequestInterface;
 abstract class JsonApiRequest
 {
     private $encoder;
+    protected $data;
     protected $action = '';
     protected $schema;
     protected $schema_class = '';
@@ -52,23 +54,34 @@ abstract class JsonApiRequest
         $this->schema = new $available_s[$this->resource_type]();
     }
 
-    public function getAction(): string
+    public function getAvailableSchemas(): array
+    {
+        return $this->available_schemas;
+    }
+
+    /**
+     * @return string create, update, all, related, get
+     *
+     * @throws \Exception
+     */
+    public function getAction(): Action
     {
         if (!preg_match('/([A-Z][a-z]+)Request$/', static::class, $matches)) {
             throw new \Exception('Action cant be determined on ' . static::class . '.');
         }
 
-        return strtolower($matches[1]);
+        return new Action(
+            $matches[1],
+            $this->getSchema(),
+            '',
+            $this->getData(),
+            $this->getParameters()
+        );
     }
 
     protected function readParams(array $params): void
     {
         throw new \Exception('readParams not defined.');
-    }
-
-    public function getSchemaClass(): string
-    {
-        return $this->schema_class;
     }
 
     public function getSchema(): SchemaProvider
@@ -120,6 +133,50 @@ abstract class JsonApiRequest
 
     public function getData()
     {
-        return $this->request->getParsedBody();
+        if ($this->data === null) {
+            $this->data = $this->request->getParsedBody();
+        }
+
+        return $this->data;
+    }
+
+    public function getDataIncluded(): array
+    {
+        return $this->getData()['included'];
+    }
+
+    public function hasIncludedData(): bool
+    {
+        return isset($this->data['included']);
+    }
+
+    public function replaceIdOnRelationships(array $new_ids): void
+    {
+        foreach ($this->data['data']['relationships'] as &$relation) {
+            if (!$relation['data'] || count($relation['data']) === 0) {
+                continue;
+            }
+
+            if (isset($relation['data']['type'])) {
+                // hasOne
+                $this->replaceIdOnRelation($relation['data'], $new_ids);
+                continue;
+            }
+
+            foreach ($relation['data'] as &$relation2) {
+                $this->replaceIdOnRelation($relation2, $new_ids);
+            }
+        }
+    }
+
+    private function replaceIdOnRelation(array &$relation, array $new_ids): void
+    {
+        if (!isset($relation['type'])) {
+            return;
+        }
+
+        if (isset($new_ids[$relation['type']][$relation['id']])) {
+            $relation['id'] = $new_ids[$relation['type']][$relation['id']];
+        }
     }
 }

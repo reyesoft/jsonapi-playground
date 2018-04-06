@@ -12,15 +12,15 @@ namespace App\JsonApi\Exceptions;
 
 use Neomerx\JsonApi\Document\Error;
 
-class ResourceTypeNotFoundException extends BaseException
+class ResourcePolicyException extends BaseException
 {
-    public function __construct(string $resource_type)
+    public function __construct(string $action)
     {
         // parent::__construct(new \Exception("`${resource_type}` resource don't exist."),
         // self::HTTP_CODE_TYPE_NOT_FOUND);
         parent::__construct(
-                $this->createQueryError($resource_type, "`${resource_type}` resource don't exist."),
-                self::HTTP_CODE_TYPE_NOT_FOUND
+            $this->createQueryError('Policy Exception', 'Action: ' . $action),
+            self::HTTP_CODE_TYPE_FORBIDDEN
         );
         /*
         return $this->make(

@@ -28,7 +28,12 @@ trait TestJsonApiLayoutTrait
 
     protected function newResource($model_instance = null): array
     {
-        $builder = new JsonApiResourceBuilder($this->layout);
+        return $this->newResourceFromLayout($this->layout, $model_instance);
+    }
+
+    protected function newResourceFromLayout($layout, $model_instance = null): array
+    {
+        $builder = new JsonApiResourceBuilder($layout);
 
         return $builder->newResource($model_instance);
     }

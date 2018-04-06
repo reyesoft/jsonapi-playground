@@ -16,6 +16,9 @@ class Store extends Model
 {
     protected $fillable = [
         'name',
+        'address',
+        'private_data',
+        'created_by',
     ];
 
     /* MorphBy */

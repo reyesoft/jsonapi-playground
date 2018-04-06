@@ -17,17 +17,27 @@ class Policy
         return true;
     }
 
-    public function afterAll(): bool
-    {
-        return true;
-    }
-
     public function beforeGet(): bool
     {
         return true;
     }
 
-    public function afterGet(): bool
+    public function beforeRelated(): bool
+    {
+        return true;
+    }
+
+    public function beforeCreate(): bool
+    {
+        return true;
+    }
+
+    public function beforeUpdate(): bool
+    {
+        return true;
+    }
+
+    public function beforeDelete(): bool
     {
         return true;
     }

@@ -14,7 +14,17 @@ use App\JsonApi\Policy;
 
 class ChapterPolicy extends Policy
 {
-    public function afterGet(): bool
+    public function beforeCreate(): bool
+    {
+        return false;
+    }
+
+    public function beforeUpdate(): bool
+    {
+        return false;
+    }
+
+    public function beforeDelete(): bool
     {
         return false;
     }

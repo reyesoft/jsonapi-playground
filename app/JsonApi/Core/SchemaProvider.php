@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace App\JsonApi\Core;
 
+use App\JsonApi\Policy;
 use App\JsonApi\Services\DataService;
 use Neomerx\JsonApi\Contracts\Schema\SchemaFactoryInterface;
 use Neomerx\JsonApi\Factories\Factory;
@@ -32,6 +33,11 @@ abstract class SchemaProvider extends BaseSchema
     public static $model = 'undefined';
 
     /**
+     * @var string
+     */
+    public static $policy = Policy::class;
+
+    /**
      * Like `/authors`.
      *
      * @var string
@@ -43,7 +49,7 @@ abstract class SchemaProvider extends BaseSchema
      *
      * @var DataService
      */
-    protected $objectservice = '';
+    protected $object_service;
 
     // used by factory (get includes, for example)
     protected $isPaginable = true;
@@ -75,7 +81,6 @@ abstract class SchemaProvider extends BaseSchema
                 $ret[] = $type;
             } elseif (in_array($type, $include_request)) {
                 // without s (belongTo relationship)
-                // $ret[] = substr($type, 0, -1);
                 $ret[] = $type;
             }
         }
@@ -123,9 +128,9 @@ abstract class SchemaProvider extends BaseSchema
         return array_keys($ret);
     }
 
-    public function getObjectService(): string
+    public function getObjectService(): DataService
     {
-        return $this->objectservice;
+        return $this->object_service;
     }
 
     public function getAttributesSchema()
@@ -151,6 +156,38 @@ abstract class SchemaProvider extends BaseSchema
         }
 
         return $ret;
+    }
+
+    public function getPolicy(): Policy
+    {
+        $policy_class = static::$policy;
+
+        return new $policy_class();
+    }
+
+    public static function filterAttributesWithCru(array $data, string $cru): array
+    {
+        $ret = [];
+        $data_attributes = $data['data']['attributes'];
+        foreach ($data_attributes as $key => $value) {
+            // is on attributes array?
+            if (!isset(static::$attributes[$key])) {
+                // don't have permission to $cru
+                continue;
+            }
+
+            // its on attributes array but, has correct crud?
+            if (isset(static::$attributes[$key]['cru']) && strpos(static::$attributes[$key]['cru'], $cru) === false) {
+                // don't have permission to $cru
+                continue;
+            }
+
+            $ret[$key] = $value;
+        }
+
+        $data['data']['attributes'] = $ret;
+
+        return $data;
     }
 
     public function modelBeforeSave($builder)

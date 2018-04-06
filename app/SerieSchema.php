@@ -20,6 +20,12 @@ class SerieSchema extends SchemaProvider
     protected $resourceType = 'series';
     public static $model = Serie::class;
 
+    protected static $attributes = [
+        'title' => [
+            'type' => 'like',
+        ],
+    ];
+
     protected static $relationships = [
         'photos' => [
             'schema' => PhotoSchema::class,
@@ -30,11 +36,4 @@ class SerieSchema extends SchemaProvider
             'hasMany' => true,
         ],
     ];
-
-    public function getAttributes($object, ?array $fieldKeysFilter = null): ?array
-    {
-        return [
-            'title' => $object->title,
-        ];
-    }
 }

@@ -36,6 +36,8 @@ class GeneralSeed extends Seeder
 
         $faker = Faker\Factory::create();
 
+        factory(App\User::class, 3)->create();
+
         factory(Author::class, 50)->create()->each(
             function ($u): void {
                 for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {

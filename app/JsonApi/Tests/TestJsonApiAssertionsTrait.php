@@ -39,7 +39,15 @@ trait TestJsonApiAssertionsTrait
         $this->assertResponseStatus(200);
     }
 
+    /**
+     * @deprecated
+     */
     public function assertReponseJsonApiCollection(): void
+    {
+        $this->assertResponseJsonApiCollection();
+    }
+
+    public function assertResponseJsonApiCollection(): void
     {
         $this->assertResponseStatus(200);
         $this->response->assertJsonStructure([

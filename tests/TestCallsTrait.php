@@ -63,19 +63,6 @@ trait TestCallsTrait
         return $this->response;
     }
 
-    /**
-     * @param string $url
-     * @param string $content
-     *
-     * @return Response
-     */
-    protected function callPut($url, $content)
-    {
-        $this->response = $this->call('PATCH', $url, $content, [], [], [], []);
-
-        return $this->response;
-    }
-
     public function assertResponseStatus($code = 200)
     {
         $actual = $this->response->getStatusCode();

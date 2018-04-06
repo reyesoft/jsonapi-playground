@@ -26,27 +26,51 @@ class ChaptersTest extends BaseTestCase
         ],
     ];
 
-    public function testChapterIndex(): void
+    public function testChapterIndex(): string
     {
         $this->callGet('/v2/chapters');
         $this->assertResponseStatus();
-    }
-
-    public function testChapterCreate()
-    {
-        $resource = $this->newResource();
-        $this->callPost('/v2/chapters/', $resource);
-        $this->assertResponseStatus(201);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($resource['data']['attributes']['title'], $result['data']['attributes']['title']);
 
-        return $result['data']['id'];
+        return $result['data'][0]['id'];
     }
 
-    public function testChapterGet(): void
+    /**
+     * @depends testChapterIndex
+     */
+    public function testChapterGet(string $chapter_id): void
     {
-        // get fails, policy applied
-        $this->assertTrue(true);
+        $this->callGet('/v2/chapters/' . $chapter_id);
+        $this->assertResponseStatus();
+    }
+
+    public function testChapterCantBeCreated(): void
+    {
+        $resource = $this->newResource();
+        $this->callPost('/v2/chapters', $resource);
+        $this->assertResponseJsonApiError('Policy Exception', 403);
+    }
+
+    /**
+     * @depends testChapterIndex
+     */
+    public function testChapterCantBeUpdated(string $chapter_id): void
+    {
+        $resource = $this->newResource($chapter_id);
+        $this->callPatch('/v2/chapters/' . $chapter_id, $resource);
+        $this->assertResponseJsonApiError('Policy Exception', 403);
+    }
+
+    /**
+     * @depends testChapterIndex
+     */
+    public function testChapterCantBeDeleted(string $chapter_id): void
+    {
+        $this->callDelete('/v2/chapters/' . $chapter_id);
+        $this->assertResponseJsonApiError('Policy Exception', 403);
+
+        $chapter = Chapter::find($chapter_id);
+        $this->assertEquals($chapter->id, $chapter_id);
     }
 }

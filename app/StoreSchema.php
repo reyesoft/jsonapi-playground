@@ -20,6 +20,18 @@ class StoreSchema extends SchemaProvider
     protected $resourceType = 'stores';
     public static $model = Store::class;
 
+    protected static $attributes = [
+        'name' => [
+            'type' => 'like',
+        ],
+        'address' => [
+            'cru' => 'cr',
+        ],
+        'created_by' => [
+            'cru' => 'r',
+        ],
+    ];
+
     protected static $relationships = [
         'photos' => [
             'schema' => PhotoSchema::class,
@@ -31,10 +43,10 @@ class StoreSchema extends SchemaProvider
         ],
     ];
 
-    public function getAttributes($object, ?array $fieldKeysFilter = null): ?array
+    public function modelBeforeSave($builder)
     {
-        return [
-            'name' => $object->name,
-        ];
+        $builder->created_by = 2;
+
+        return $builder;
     }
 }

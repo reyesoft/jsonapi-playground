@@ -12,7 +12,6 @@ namespace App\JsonApi\Helpers;
 
 use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Http\JsonApiParameters;
-use App\JsonApi\Http\JsonApiRequestHelper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -45,23 +44,14 @@ class ObjectsBuilder
         $this->params = $params;
     }
 
-    public static function createViaJsonApiRequest(JsonApiRequestHelper $jsonapirequest)
-    {
-        return new static (
-            $jsonapirequest->getSchema(),
-            $jsonapirequest->getSchema()->getModelInstance(),
-            $jsonapirequest->getParsedParameters()
-        );
-    }
-
-    public function getObjects()
+    public function getObjects(): array
     {
         $builder = $this->getEloquentBuilder();
 
         // paginate (check we use `simplePaginate` over `paginate` preventing extra a SQL request)
         $columns = ['*'];
 
-        // mover a eoquent object service?
+        // mover a eloquent object service?
         $this->schema->modelBeforeGet($builder);
 
         return $builder
@@ -69,11 +59,11 @@ class ObjectsBuilder
             ->items();
     }
 
-    public function getObject(string $resource_id)
+    public function getObject(string $resource_id): Model
     {
         $builder = $this->getEloquentBuilder();
 
-        // mover a eoquent object service?
+        // mover a eloquent object service?
         $this->schema->modelBeforeGet($builder);
 
         return $builder->findOrFail($resource_id);

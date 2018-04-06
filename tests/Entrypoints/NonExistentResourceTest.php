@@ -28,18 +28,23 @@ class NonExistentResourceTest extends BaseTestCase
     public function testNonExistentResourceIndex(): void
     {
         $this->callGet('/v2/non-existent-resource/');
-        $this->assertResponseJsonApiError(null, 404);
+        $this->assertResponseJsonApiError('resource don\'t exist.', 404);
     }
 
     public function testNonExistentResourceShow(): void
     {
         $this->callGet('/v2/non-existent-resource/1/');
-        $this->assertResponseJsonApiError(null, 404);
+        $this->assertResponseJsonApiError('resource don\'t exist.', 404);
     }
 
-    /*public function testBadUrlRequest()
+    /*
+     * @todo
+     */
+    /*
+    public function testBadUrlRequest()
     {
         $this->callGet('/v2/non-existent-resource/xxx/yyy/ooo/');
-        $this->assertResponseJsonApiError();
-    }*/
+        $this->assertResponseJsonApiError('eddd');
+    }
+    */
 }

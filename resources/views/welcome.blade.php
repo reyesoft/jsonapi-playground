@@ -77,6 +77,14 @@
                     <li><a href="http://ngx-jsonapi.reyesoft.com/">Online JSON API client example</a></li>
                     <li><a href="http://jsonapi.org">JSON API Specification</a></li>
                 </ul>
+                <p><small>NOTE: Information is reset every day.</small></p>
+
+                <h3>Business rules</h3>
+                <ul>
+                    <li>chapters resource can't be created, updated or deleted.</li>
+                    <li>stores.address can be only set on create, can't be updated.</li>
+                    <li>stores.created_by can be only read.</li>
+                </ul>
 
                 <p><small>NOTE: Information is reset every day.</small></p>
             </div>

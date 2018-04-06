@@ -19,6 +19,16 @@ class ChapterSchema extends SchemaProvider
 
     protected $resourceType = 'chapters';
     public static $model = Chapter::class;
+    public static $policy = ChapterPolicy::class;
+
+    protected static $attributes = [
+        'title' => [
+            'type' => 'like',
+        ],
+        'ordering' => [
+            'type' => 'number',
+        ],
+    ];
 
     protected static $relationships = [
         'photos' => [
@@ -30,12 +40,4 @@ class ChapterSchema extends SchemaProvider
             'hasMany' => false,
         ],
     ];
-
-    public function getAttributes($object, ?array $fieldKeysFilter = null): ?array
-    {
-        return [
-            'title' => $object->title,
-            'ordering' => $object->ordering,
-        ];
-    }
 }

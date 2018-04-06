@@ -14,16 +14,17 @@ use App\Chapter;
 use App\Photo;
 use App\Serie;
 use App\Store;
+use App\User;
 
 $factory->define(
     App\User::class, function (Faker\Generator $faker) {
         static $password;
 
         return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+            'name' => $faker->name,
+            'email' => $faker->unique()->safeEmail,
+            'password' => $password ?: $password = bcrypt('secret'),
+            'remember_token' => str_random(10),
         ];
     }
 );
@@ -31,9 +32,9 @@ $factory->define(
 $factory->define(
     App\Author::class, function (Faker\Generator $faker) {
         return [
-        'name' => $faker->name,
-        'date_of_birth' => $faker->date($format = 'Y-m-d', $max = 'now'),
-        'date_of_death' => $faker->date($format = 'Y-m-d', $max = 'now'),
+            'name' => $faker->name,
+            'date_of_birth' => $faker->date($format = 'Y-m-d', $max = 'now'),
+            'date_of_death' => $faker->date($format = 'Y-m-d', $max = 'now'),
         ];
     }
 );
@@ -41,11 +42,11 @@ $factory->define(
 $factory->define(
     App\Book::class, function (Faker\Generator $faker) {
         return [
-        'author_id' => $faker->randomElement(Author::all()->pluck('id')->toArray()),
-        'serie_id' => $faker->randomElement(Serie::all()->pluck('id')->toArray()),
-        'date_published' => $faker->date($format = 'Y-m-d', $max = 'now'),
-        'title' => $faker->company,
-        'isbn' => $faker->isbn10,
+            'author_id' => $faker->randomElement(Author::all()->pluck('id')->toArray()),
+            'serie_id' => $faker->randomElement(Serie::all()->pluck('id')->toArray()),
+            'date_published' => $faker->date($format = 'Y-m-d', $max = 'now'),
+            'title' => $faker->company,
+            'isbn' => $faker->isbn10,
         ];
     }
 );
@@ -53,9 +54,9 @@ $factory->define(
 $factory->define(
     App\Chapter::class, function (Faker\Generator $faker) {
         return [
-        'book_id' => $faker->randomElement(Book::all()->pluck('id')->toArray()),
-        'title' => $faker->numerify('Chapter ###'),
-        'ordering' => $faker->numerify('#######'),
+            'book_id' => $faker->randomElement(Book::all()->pluck('id')->toArray()),
+            'title' => $faker->numerify('Chapter ###'),
+            'ordering' => $faker->numerify('#######'),
         ];
     }
 );
@@ -63,7 +64,10 @@ $factory->define(
 $factory->define(
     App\Store::class, function (Faker\Generator $faker) {
         return [
-        'name' => $faker->numerify('Store ###'),
+            'name' => $faker->numerify('Store ###'),
+            'address' => $faker->streetAddress(),
+            'private_data' => $faker->company(),
+            'created_by' => $faker->randomElement(User::all()->pluck('id')->toArray()),
         ];
     }
 );
@@ -71,7 +75,7 @@ $factory->define(
 $factory->define(
     App\Serie::class, function (Faker\Generator $faker) {
         return [
-        'title' => $faker->numerify('Serie #######'),
+            'title' => $faker->numerify('Serie #######'),
         ];
     }
 );
@@ -79,8 +83,8 @@ $factory->define(
 $factory->define(
     App\Photo::class, function (Faker\Generator $faker) {
         return [
-        'title' => $faker->numerify('Photo ###'),
-        'uri' => $faker->imageUrl(400, 300, 'abstract', true, 'Faker'),
+            'title' => $faker->numerify('Photo ###'),
+            'uri' => $faker->imageUrl(400, 300, 'abstract', true, 'Faker'),
         ];
     }
 );

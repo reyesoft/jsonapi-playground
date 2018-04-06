@@ -15,11 +15,12 @@ use Neomerx\JsonApi\Exceptions\JsonApiException;
 
 class BaseException extends JsonApiException
 {
+    public const HTTP_CODE_TYPE_FORBIDDEN = 403;
     public const HTTP_CODE_TYPE_NOT_FOUND = 404;
     public const HTTP_CODE_RESOURCE_NOT_FOUND = 404;
     public const HTTP_CODE_UNAUTHORIZED = 404;
 
-    public function __construct($errors, $defaultHttpCode = self::DEFAULT_HTTP_CODE, Exception $previous = null)
+    public function __construct($errors, int $defaultHttpCode = self::DEFAULT_HTTP_CODE, Exception $previous = null)
     {
         // $jsonapierrors = $this->mutateErrors($errors);
         // parent::__construct($jsonapierrors, $jsonapierrors->getHttpStatus($defaultHttpCode), $previous);

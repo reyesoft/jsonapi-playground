@@ -114,7 +114,7 @@ class JsonApiResourceBuilder
         return [
             'id' => $model->id,
             'type' => $alias ?? $model->type,    // @todo
-            ];
+        ];
     }
 
     private function colletion2relationshipData(Collection $collection): array

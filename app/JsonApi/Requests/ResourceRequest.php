@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace App\JsonApi\Requests;
 
+use App\JsonApi\Core\Action;
+
 abstract class ResourceRequest extends JsonApiRequest
 {
     protected $resource_id = '';
@@ -22,5 +24,25 @@ abstract class ResourceRequest extends JsonApiRequest
     public function getId(): string
     {
         return $this->resource_id;
+    }
+
+    /**
+     * @return string create, update, all, related, get
+     *
+     * @throws \Exception
+     */
+    public function getAction(): Action
+    {
+        if (!preg_match('/([A-Z][a-z]+)Request$/', static::class, $matches)) {
+            throw new \Exception('Action cant be determined on ' . static::class . '.');
+        }
+
+        return new Action(
+            $matches[1],
+            $this->getSchema(),
+            $this->getId() ?? '',
+            $this->getData(),
+            $this->getParameters()
+        );
     }
 }

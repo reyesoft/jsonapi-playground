@@ -12,27 +12,16 @@ namespace App\JsonApi\Exceptions;
 
 use Neomerx\JsonApi\Document\Error;
 
-class ResourceTypeNotFoundException extends BaseException
+class WrongDataException extends BaseException
 {
-    public function __construct(string $resource_type)
+    public function __construct(string $reference)
     {
         // parent::__construct(new \Exception("`${resource_type}` resource don't exist."),
         // self::HTTP_CODE_TYPE_NOT_FOUND);
         parent::__construct(
-                $this->createQueryError($resource_type, "`${resource_type}` resource don't exist."),
-                self::HTTP_CODE_TYPE_NOT_FOUND
+            $this->createQueryError('Wrong data received.', $reference),
+            self::HTTP_CODE_BAD_REQUEST
         );
-        /*
-        return $this->make(
-                null,
-                null,
-                null,
-                self::HTTP_CODE_TYPE_NOT_FOUND,
-                "`${resource_type}` resource don't exist.",
-                null,
-                null
-            );
-         */
     }
 
     private function createQueryError(string $name, string $title): Error

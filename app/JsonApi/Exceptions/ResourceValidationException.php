@@ -26,8 +26,8 @@ class ResourceValidationException extends BaseException
                     null,   // title
                     $error[0],
                     [
-                       'pointer' => '/data/attributes/' . $attribute,
-                       'attribute' => $attribute,
+                        'pointer' => '/data/attributes/' . $attribute,
+                        'attribute' => $attribute,
                     ]
                 );
         }
