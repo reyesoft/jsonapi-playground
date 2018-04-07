@@ -8,9 +8,8 @@
 
 declare(strict_types=1);
 
-namespace App\JsonApi;
+namespace App\JsonApi\Core;
 
-use App\JsonApi\Core\Action;
 use App\JsonApi\Exceptions\ResourcePolicyException;
 use App\JsonApi\Exceptions\WrongDataException;
 use App\JsonApi\Http\AppResponses;

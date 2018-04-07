@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace App\JsonApi\Http\Controllers;
 
-use App\JsonApi\RequestHandler;
+use App\JsonApi\Core\RequestHandler;
 use App\JsonApi\Requests\AllRequest;
 use App\JsonApi\Requests\CreateRequest;
 use App\JsonApi\Requests\DeleteRequest;
