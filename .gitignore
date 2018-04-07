@@ -1,7 +1,10 @@
+# this project
 /storage/testing/
-/app/Http/Routes/
 /storage/downloads/
 /storage/framework/cache/
+
+
+# reyesoft projects
 .php_cs.cache
 
 

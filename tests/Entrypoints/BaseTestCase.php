@@ -1,9 +1,17 @@
 <?php
+/**
+ * Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.
+ *
+ * This file is part of JsonApiPlayground. JsonApiPlayground can not be copied and/or
+ * distributed without the express permission of Reyesoft
+ */
+
+declare(strict_types=1);
 
 namespace Tests\Entrypoints;
 
+use App\JsonApi\Tests\TestJsonApiAssertionsTrait;
 use App\JsonApi\Tests\TestJsonApiLayoutTrait;
-use App\JsonApi\Tests\TestJsonApiTrait;
 use Tests\TestCallsTrait;
 use Tests\TestCase;
 
@@ -11,5 +19,5 @@ abstract class BaseTestCase extends TestCase
 {
     use TestCallsTrait;
     use TestJsonApiLayoutTrait;
-    use TestJsonApiTrait;
+    use TestJsonApiAssertionsTrait;
 }

@@ -1,41 +1,54 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "name": "reyesoft/jsonapi-playground",
+    "description": "JsonApi playground server",
+    "keywords": ["JsonApi", "php", "server"],
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.6.4",
-        "laravel/lumen-framework": "5.5.*",
-        "vlucas/phpdotenv": "~2.2",
-        "symfony/psr-http-message-bridge": "^1.0",
-        "zendframework/zend-diactoros": "^1.6",
-        "neomerx/json-api": "1.0.7",
-        "smsc/smsc-api-php": "dev-master"
+        "php": "^7.1.3",
+        "fideloper/proxy": "^4.0",
+        "laravel/framework": "5.6.*",
+        "laravel/tinker": "^1.0",
+        "barryvdh/laravel-cors": "0.11.0",
+        "neomerx/json-api": "2.0.3",
+        "symfony/psr-http-message-bridge": "1.0.2",
+        "zendframework/zend-diactoros": "1.7.0"
     },
     "require-dev": {
-        "fzaninotto/faker": "^1.7",
-        "phpunit/phpunit": "6.4.4",
-        "mockery/mockery": "~0.9",
-        "friendsofphp/php-cs-fixer": "2.8.1"
+        "friendsofphp/php-cs-fixer": "2.11.1",
+        "squizlabs/php_codesniffer": "3.2.2",
+        "fzaninotto/faker": "1.7.1",
+        "mockery/mockery": "1.0.0",
+        "phpunit/phpunit": "6.5.6",
+        "codedungeon/phpunit-result-printer": "0.9.3",
+        "barryvdh/laravel-ide-helper": "^2.4",
+        "doctrine/dbal": "^2.7",
+        "filp/whoops": "2.0.0"
     },
     "autoload": {
+        "classmap": [
+            "database/seeds",
+            "database/factories"
+        ],
         "psr-4": {
             "App\\": "app/"
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/",
-            "database/"
-        ]
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "scripts": {
-        "post-root-package-install": [
-            "php -r \"copy('.env.example', '.env');\""
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
         ]
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "optimize-autoloader": true
+    "config": {
+        "preferred-install": "dist",
+        "discard-changes": "stash",
+        "optimize-autoloader": true
+    },
+    "prefer-stable": true
 }

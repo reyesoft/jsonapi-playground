@@ -1,14 +1,20 @@
 <?php
+/**
+ * Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.
+ *
+ * This file is part of JsonApiPlayground. JsonApiPlayground can not be copied and/or
+ * distributed without the express permission of Reyesoft
+ */
+
+declare(strict_types=1);
 
 namespace tests;
 
 class HomeTest extends TestCase
 {
-    public function testHomeShowApplicationName()
+    public function testHomeShowApplicationName(): void
     {
-        $this->get('/');
-        $this->assertContains(
-            env('APP_NAME'), $this->response->getContent()
-        );
+        $response = $this->get('/');
+        $this->assertContains(config('app.name'), $response->getContent());
     }
 }

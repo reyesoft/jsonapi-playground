@@ -1,4 +1,12 @@
 <?php
+/**
+ * Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.
+ *
+ * This file is part of JsonApiPlayground. JsonApiPlayground can not be copied and/or
+ * distributed without the express permission of Reyesoft
+ */
+
+declare(strict_types=1);
 
 namespace App\Base;
 
@@ -17,8 +25,7 @@ class ElegantModel extends Model
     public function validate($data)
     {
         $validator = Validator::make($data, $this->rules);
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             $this->errors = $validator->errors();
 
             throw new ValidationException($validator);
@@ -29,8 +36,9 @@ class ElegantModel extends Model
 
     public function save(array $options = [])
     {
-        if($this->validate($this->attributes))
+        if ($this->validate($this->attributes)) {
             return parent::save($options);
+        }
 
         return false;
     }

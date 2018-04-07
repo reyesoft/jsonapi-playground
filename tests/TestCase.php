@@ -1,4 +1,12 @@
 <?php
+/**
+ * Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.
+ *
+ * This file is part of JsonApiPlayground. JsonApiPlayground can not be copied and/or
+ * distributed without the express permission of Reyesoft
+ */
+
+declare(strict_types=1);
 
 namespace Tests;
 
@@ -8,10 +16,12 @@ use App\Chapter;
 use App\Photo;
 use App\Serie;
 use App\Store;
-use Laravel\Lumen\Testing\TestCase as LumenTestCase;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
-abstract class TestCase extends LumenTestCase
+abstract class TestCase extends BaseTestCase
 {
+    use CreatesApplication;
+
     protected $relations = [
         'authors' => [
             'books',
@@ -52,14 +62,4 @@ abstract class TestCase extends LumenTestCase
         'serie' => 'series',
         'author' => 'authors',
     ];
-
-    /**
-     * Creates the application.
-     *
-     * @return \Laravel\Lumen\Application
-     */
-    public function createApplication()
-    {
-        return require __DIR__ . '/../bootstrap/app.php';
-    }
 }

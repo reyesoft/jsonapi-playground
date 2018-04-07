@@ -1,4 +1,12 @@
 <?php
+/**
+ * Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.
+ *
+ * This file is part of JsonApiPlayground. JsonApiPlayground can not be copied and/or
+ * distributed without the express permission of Reyesoft
+ */
+
+declare(strict_types=1);
 
 namespace Tests\Entrypoints;
 
@@ -20,7 +28,7 @@ class AuthorsTest extends BaseTestCase
         ],
     ];
 
-    public function testAuthorIndex()
+    public function testAuthorIndex(): void
     {
         $this->callGet('/v2/authors/');
         $this->assertResponseStatus();
@@ -41,7 +49,7 @@ class AuthorsTest extends BaseTestCase
     /**
      * @depends testAuthorCreate
      */
-    public function testAuthorGet($author_id)
+    public function testAuthorGet($author_id): void
     {
         $this->callGet('/v2/authors/' . $author_id);
         $this->assertResponseStatus(200);
@@ -53,7 +61,7 @@ class AuthorsTest extends BaseTestCase
     /**
      * @depends testAuthorCreate
      */
-    public function testAuthorUpdate($author_id)
+    public function testAuthorUpdate($author_id): void
     {
         $resource = $this->newResource($author_id);
         $this->callPatch('/v2/authors/' . $author_id, $resource);
@@ -66,7 +74,7 @@ class AuthorsTest extends BaseTestCase
     /**
      * @depends testAuthorCreate
      */
-    public function testAuthorDelete($author_id)
+    public function testAuthorDelete($author_id): void
     {
         Author::findOrFail($author_id);
 

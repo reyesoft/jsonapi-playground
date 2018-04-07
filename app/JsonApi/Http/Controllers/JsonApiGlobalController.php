@@ -1,112 +1,83 @@
 <?php
+/**
+ * Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.
+ *
+ * This file is part of JsonApiPlayground. JsonApiPlayground can not be copied and/or
+ * distributed without the express permission of Reyesoft
+ */
+
+declare(strict_types=1);
 
 namespace App\JsonApi\Http\Controllers;
 
-use App\JsonApi\Exceptions\ResourceTypeNotFoundException;
-use App\JsonApi\Http\JsonApiRequestHelper;
-use Laravel\Lumen\Routing\Controller;
+use App\JsonApi\Core\RequestHandler;
+use App\JsonApi\Requests\AllRequest;
+use App\JsonApi\Requests\CreateRequest;
+use App\JsonApi\Requests\DeleteRequest;
+use App\JsonApi\Requests\GetRequest;
+use App\JsonApi\Requests\RelatedRequest;
+use App\JsonApi\Requests\UpdateRequest;
+use Illuminate\Routing\Controller;
 use Psr\Http\Message\ServerRequestInterface;
 
 abstract class JsonApiGlobalController extends Controller
 {
     /*
-     * Avaiable resources on this route controller
+     * Available resources on this route controller
      * related with respective Schema, like:
      *
-     * const AVAIBLE_RESOURCES = [
+     * const AVAILABLE_RESOURCES = [
      *    'books' => BookSchema::class,
      *    'photos' => BookSchema::class,
      * ];
      */
-    const AVAIBLE_RESOURCES = [];
+    public const AVAILABLE_RESOURCES = [];
 
-    /*
-    public function __construct()
+    public function getCollection(ServerRequestInterface $request, ...$params)
     {
-        $this->middleware('auth', ['only' => ['create', 'store', 'edit', 'delete']]);
-        // Alternativly
-        // $this->middleware('auth', ['except' => ['index', 'show']]);
-    }
-     */
+        $jsonapirequest = new AllRequest($request, $params, static::AVAILABLE_RESOURCES);
+        $handler = new RequestHandler($jsonapirequest);
 
-    public function getCollection(ServerRequestInterface $request, string $resource_type)
-    {
-        $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type));
-
-        $service = $jsonapirequesthelper->getObjectService();
-        $objects = $service->all();
-
-        return $jsonapirequesthelper->getResponse($objects);
+        return $handler->handle()->getResponse();
     }
 
-    public function getRelatedCollection(ServerRequestInterface $request, string $parent_type, int $parent_id, string $resource_alias)
+    public function getRelatedCollection(ServerRequestInterface $request, ...$params)
     {
-        // find parent resource
-        $parent_schema_class = static::AVAIBLE_RESOURCES[$parent_type];
-        $parent_schema = new $parent_schema_class();
-        $relation = $parent_schema::getRelationshipsSchema()[$resource_alias];
+        $jsonapirequest = new RelatedRequest($request, $params, static::AVAILABLE_RESOURCES);
+        $handler = new RequestHandler($jsonapirequest);
 
-        // set related child schema via reation alias
-        $schema = new $relation['schema']();
-        $resource_type = $schema->getResourceType();
-
-        // set child model
-        $parent_model_class = $parent_schema->getModelName();
-        $parent_model = $parent_model_class::findOrFail($parent_id);
-        $builder = $parent_model->$resource_alias();
-
-        $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type), $parent_id, $resource_alias);
-
-        $service = $jsonapirequesthelper->getObjectService();
-        $objects = $service->allRelated($builder);
-
-        return $jsonapirequesthelper->getResponse($objects);
+        return $handler->handle()->getResponse();
     }
 
-    public function get(ServerRequestInterface $request, string $resource_type, int $resource_id)
+    public function get(ServerRequestInterface $request, ...$params)
     {
-        $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type), $resource_id);
+        $jsonapirequest = new GetRequest($request, $params, static::AVAILABLE_RESOURCES);
+        $handler = new RequestHandler($jsonapirequest);
 
-        $service = $jsonapirequesthelper->getObjectService();
-        $object = $service->get($resource_id);
-
-        return $jsonapirequesthelper->getResponse($object);
+        return $handler->handle()->getResponse();
     }
 
-    public function create(ServerRequestInterface $request, string $resource_type) {
-        $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type));
+    public function create(ServerRequestInterface $request, ...$params)
+    {
+        $jsonapirequest = new CreateRequest($request, $params, static::AVAILABLE_RESOURCES);
+        $handler = new RequestHandler($jsonapirequest);
 
-        $service = $jsonapirequesthelper->getObjectService();
-        $object = $service->create($request->getParsedBody());
-
-        return $jsonapirequesthelper->getResponse($object);
+        return $handler->handle()->getResponse();
     }
 
-    public function update(ServerRequestInterface $request, string $resource_type, int $resource_id)
+    public function update(ServerRequestInterface $request, ...$params)
     {
-        $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type));
+        $jsonapirequest = new UpdateRequest($request, $params, static::AVAILABLE_RESOURCES);
+        $handler = new RequestHandler($jsonapirequest);
 
-        $service = $jsonapirequesthelper->getObjectService();
-        $object = $service->update($resource_id, $request->getParsedBody());
-
-        return $jsonapirequesthelper->getResponse($object);
+        return $handler->handle()->getResponse();
     }
 
-    public function delete(ServerRequestInterface $request, string $resource_type, int $resource_id)
+    public function delete(ServerRequestInterface $request, ...$params)
     {
-        $jsonapirequesthelper = new JsonApiRequestHelper($request, $this->getSchema($resource_type));
+        $jsonapirequest = new DeleteRequest($request, $params, static::AVAILABLE_RESOURCES);
+        $handler = new RequestHandler($jsonapirequest);
 
-        $service = $jsonapirequesthelper->getObjectService();
-        $object = $service->delete($resource_id);
-
-        return $jsonapirequesthelper->getResponse('');
-        // return response(json_encode(['status' => 'success']), 200);
-    }
-
-    protected function getSchema(string $resource_type): string
-    {
-        if (!isset(static::AVAIBLE_RESOURCES[$resource_type]))
-            throw new ResourceTypeNotFoundException($resource_type);
-        return static::AVAIBLE_RESOURCES[$resource_type];
+        return $handler->handle()->getResponse();
     }
 }

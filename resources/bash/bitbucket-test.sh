@@ -1,45 +1,44 @@
 #!/bin/sh
 
-#### LARAVEL
+## Copyright (C) 1997-2017 Reyesoft <info@reyesoft.com>.
+## This file is part of a Reyesoft Project. This can not be copied and/or
+## distributed without the express permission of Reyesoft
+
 echo '#### MYSQL CONFIGURATION ####'
 service mysql start
-mysql -uroot -e "DROP DATABASE IF EXISTS idpal; CREATE DATABASE IF NOT EXISTS idpal;"
-mysql -e 'create database japlayground_test;' -v
-mysql -e "CREATE USER 'forge'@'localhost' IDENTIFIED BY 'secret';"
-mysql -e 'GRANT ALL PRIVILEGES ON * . * TO 'forge'@'localhost';'
-####
+mysql --password=root -e "DROP DATABASE IF EXISTS idpal; CREATE DATABASE IF NOT EXISTS idpal;"
+mysql --password=root -e 'create database mysql_test;' -v
+mysql --password=root -e "CREATE USER 'forge'@'localhost' IDENTIFIED BY 'secret';"
+mysql --password=root -e 'GRANT ALL PRIVILEGES ON * . * TO 'forge'@'localhost';'
+
 echo '#### ENV LARAVEL CONFIGURATION ####'
-touch .env
-echo "APP_NAME=JsonApiPlayground">> .env
-echo "APP_ENV=develop">> .env
-echo "APP_DEBUG=true" >> .env
-echo "APP_KEY=iXGNAjVbw7731rzhGp1OsTxxGeSyK4zd" >> .env
-echo "APP_URL=YOUR_PREFER_URL" >> .env
-echo "DB_HOST=localhost" >> .env
-echo "DB_CONNECTION=mysql" >> .env
-echo "DB_DATABASE=japlayground_test" >> .env
-echo "DB_USERNAME=forge">> .env
-echo "DB_PASSWORD=secret" >> .env
-echo "CACHE_DRIVER=file" >> .env
-echo "SESSION_DRIVER=file" >> .env
-echo "QUEUE_DRIVER=sync" >> .env
+cat .env.example >> .env.testing
+sed -i -e "
+s/APP_ENV.*$/APP_ENV=testing/g;
+s/DB_HOST.*$/DB_HOST=localhost/g;
+s/DB_DATABASE.*$/DB_DATABASE=mysql_test/g;
+s/DB_USERNAME.*$/DB_USERNAME=forge/g;
+s/DB_PASSWORD.*$/DB_PASSWORD=secret/g;
+s/QUEUE_DRIVER.*$/QUEUE_DRIVER=sync/g;
+" .env.testing
 
-composer install --no-interaction
+echo '#### COMPOSER THINGS ####'
+composer install --no-interaction --no-progress &&
 
-echo '#### BEAUTIFUL CODE <3 ####'
+echo '#### BEAUTIFUL CODE <3 ####' &&
 sh resources/bash/bc.sh || { ERROR=$?; echo 'Beautiful code failed (bc.sh)' ; exit $ERROR; }
 
-echo '#### ARTISAN THINGS ####'
+echo '#### ARTISAN THINGS ####' &&
 # Migrate and seed database using the APP_ENV environment variable of 'testing'
-php artisan migrate --force --seed &&
+php artisan migrate --force --seed --env=testing &&
 
-### PHP UNIT
+### PHPUNIT
+## don't add tests here, please use phpunit.xml
+echo "### PHPUNIT" &&
 ./vendor/bin/phpunit &&
 
 # test if all migrations rollback fine
-php artisan migrate:reset &&
-
-# test if all migrations rollback fine
-php artisan migrate:reset &&
+echo "### artisan migrate:reset" &&
+php artisan migrate:reset --env=testing &&
 
 exit $?

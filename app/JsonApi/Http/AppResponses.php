@@ -1,25 +1,34 @@
 <?php
+/**
+ * Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.
+ *
+ * This file is part of JsonApiPlayground. JsonApiPlayground can not be copied and/or
+ * distributed without the express permission of Reyesoft
+ */
+
+declare(strict_types=1);
 
 namespace App\JsonApi\Http;
 
 use Neomerx\JsonApi\Contracts\Encoder\EncoderInterface;
 use Neomerx\JsonApi\Contracts\Encoder\Parameters\EncodingParametersInterface;
 use Neomerx\JsonApi\Contracts\Http\Headers\MediaTypeInterface;
-use Neomerx\JsonApi\Contracts\Http\Headers\SupportedExtensionsInterface;
+use Neomerx\JsonApi\Contracts\Http\Query\BaseQueryParserInterface as P;
 use Neomerx\JsonApi\Contracts\Schema\ContainerInterface;
-use Neomerx\JsonApi\Decoders\ArrayDecoder;
-use Neomerx\JsonApi\Encoder\Parameters\EncodingParameters;
 use Neomerx\JsonApi\Factories\Factory;
+use Neomerx\JsonApi\Http\BaseResponses;
 use Neomerx\JsonApi\Http\Headers\MediaType;
-use Neomerx\JsonApi\Http\Headers\SupportedExtensions;
-use Neomerx\JsonApi\Http\Responses;
 use Psr\Http\Message\ServerRequestInterface;
 
 // use Neomerx\JsonApi\Http\Request as RequestWrapper;
 
-class AppResponses extends Responses
+class AppResponses extends BaseResponses
 {
-    private $parameters;
+    /**
+     * @var EncodingParametersInterface
+     */
+    private $encoding_parameters;
+
     private $encoder;
     private $outputMediaType;
     private $extensions;
@@ -39,16 +48,27 @@ class AppResponses extends Responses
         $encodeOptions = self::getEncoderOptions();
 
         $factory = new Factory();
-        $parameters = $factory->createQueryParametersParser()->parse($request);
         $schemasContainer = $factory->createContainer($encoderArray);
         $encoder = $factory->createEncoder($schemasContainer, $encodeOptions);
 
+        /**
+         * @todo en la version 2, neomerx dejo de leer el request.
+         * y en vez de devolver un array, trabaja con iterators. a pesar de ello,
+         * createQueryParameters() sigue pidiendo un array
+         */
+        $params = $request->getQueryParams();
+        $includePaths = explode(',', $params[P::PARAM_INCLUDE] ?? '');
+        $fieldSets = explode(',', $params[P::PARAM_FIELDS] ?? '');
+        $parameters = $factory->createParametersAnalyzer(
+            $factory->createQueryParameters($includePaths, $fieldSets), $schemasContainer
+        );
+
         $responses = new static(
             new MediaType(MediaTypeInterface::JSON_API_TYPE, MediaTypeInterface::JSON_API_SUB_TYPE),
-            new SupportedExtensions(),
+            null,
             $encoder,
             $schemasContainer,
-            $parameters,
+            $parameters->getParameters(),
             $urlPrefix,
             $factory
         );
@@ -58,55 +78,50 @@ class AppResponses extends Responses
 
     public function __construct(
         MediaTypeInterface $outputMediaType,
-        SupportedExtensionsInterface $extensions,
+        $extensions,
         EncoderInterface $encoder,
         ContainerInterface $schemes,
-        EncodingParametersInterface $parameters = null,
+        EncodingParametersInterface $encoding_parameters = null,
         string $urlPrefix = null,
         Factory $factory = null
     ) {
-        $this->extensions = $extensions;
+        $this->extensions = null;
         $this->outputMediaType = $outputMediaType;
         $this->urlPrefix = $urlPrefix;
-        $this->parameters = $parameters;
+        $this->encoding_parameters = $encoding_parameters;
         $this->factory = $factory;
+        $this->setSchemesContainer($schemes);
 
+        // $container = $factory->createContainer($schemes);
+        $this->encoder = $factory->createEncoder($schemes);
+    }
+
+    public function setSchemesContainer(ContainerInterface $schemes): void
+    {
         $this->schemes = $schemes;
-        $matcher = $this->getCodecMatcher();
-        $headerParameters = $this->factory->createHeaderParametersParser()->parse($this->getRequest());
-        $matcher->matchEncoder($headerParameters->getAcceptHeader());
-        $this->encoder = $matcher->getEncoder();
     }
 
-    public function setSchemesContainer(ContainerInterface $schemes) {
-        $this->schemes = $schemes;
-    }
-
-    public function getParameters(): EncodingParameters {
-        return $this->parameters;
-    }
-
-    protected function createResponse($content, $statusCode, array $headers)
+    protected function createResponse(?string $content, int $statusCode, array $headers)
     {
         return new JsonApiResponse($content, $statusCode, $headers);
     }
 
-    protected function getEncoder()
+    protected function getEncoder(): EncoderInterface
     {
         return $this->encoder;
     }
 
-    protected function getUrlPrefix()
+    protected function getUrlPrefix(): ?string
     {
         return $this->urlPrefix;
     }
 
-    protected function getEncodingParameters()
+    protected function getEncodingParameters(): ?EncodingParametersInterface
     {
-        return $this->parameters;
+        return $this->encoding_parameters;
     }
 
-    public function getSchemaContainer()
+    public function getSchemaContainer(): ?ContainerInterface
     {
         return $this->schemes;
     }
@@ -116,56 +131,17 @@ class AppResponses extends Responses
         return $this->extensions;
     }
 
-    protected function getMediaType()
+    protected function getMediaType(): MediaTypeInterface
     {
         return $this->outputMediaType;
     }
 
-    public function getFactory(): Factory {
+    public function getFactory(): Factory
+    {
         return $this->factory;
     }
 
-    /**
-     * @return CodecMatcherInterface
-     */
-    protected function getCodecMatcher()
-    {
-        if ($this->codecMatcher === null) {
-            $config = []; // $this->getConfig();
-            $container = $this->getSchemaContainer();
-            $factory = $this->getFactory();
-            $matcher = $factory->createCodecMatcher();
-            $decoderClosure = $this->getDecoderClosure();
-            $encoderClosure = function () use ($factory, $container, $config) {
-                $encoderOptions = $this->getEncoderOptions();
-                $encoder = $factory->createEncoder($container, $encoderOptions);
-                // $encoder->withJsonApiVersion('1.1.1.1');
-
-                return $encoder;
-            };
-            $jsonApiType = $factory->createMediaType(
-                MediaTypeInterface::JSON_API_TYPE,
-                MediaTypeInterface::JSON_API_SUB_TYPE
-            );
-            $jsonApiTypeUtf8 = $factory->createMediaType(
-                MediaTypeInterface::JSON_API_TYPE,
-                MediaTypeInterface::JSON_API_SUB_TYPE,
-                ['charset' => 'UTF-8']
-            );
-            $matcher->registerEncoder($jsonApiType, $encoderClosure);
-            $matcher->registerDecoder($jsonApiType, $decoderClosure);
-            $matcher->registerEncoder($jsonApiTypeUtf8, $encoderClosure);
-            $matcher->registerDecoder($jsonApiTypeUtf8, $decoderClosure);
-            $this->codecMatcher = $matcher;
-        }
-
-        return $this->codecMatcher;
-    }
-
-    /**
-     * @return EncoderOptions
-     */
-    protected static function getEncoderOptions()
+    protected static function getEncoderOptions(): EncoderOptions
     {
         /*
         $config        = $this->getConfig();
@@ -174,21 +150,13 @@ class AppResponses extends Responses
         $depth         = $this->getValue($config, S::JSON, S::JSON_DEPTH, S::JSON_DEPTH_DEFAULT);
         $urlPrefix     = $schemaAndHost . '/' . $this->getValue($config, S::JSON, S::JSON_URL_PREFIX, null);
         $this->encoderOptions = new EncoderOptions($options, $urlPrefix, $depth);
-         */
+        /*
         return new EncoderOptions(
             JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE,
             '/v2'
         );
-    }
-
-    /**
-     * @return Closure
-     */
-    protected function getDecoderClosure()
-    {
-        return function () {
-            return new ArrayDecoder();
-        };
+        */
+        return new EncoderOptions();
     }
 
     /**
@@ -229,4 +197,4 @@ class AppResponses extends Responses
 
         return $this->requestWrapper;
     }
-    }
+}

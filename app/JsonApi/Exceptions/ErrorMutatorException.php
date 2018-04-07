@@ -1,33 +1,31 @@
 <?php
+/**
+ * Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.
+ *
+ * This file is part of JsonApiPlayground. JsonApiPlayground can not be copied and/or
+ * distributed without the express permission of Reyesoft
+ */
+
+declare(strict_types=1);
 
 namespace App\JsonApi\Exceptions;
 
-use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ErrorMutatorException extends BaseException
 {
-    /**
-     * @param Exception|HttpException $exception
-     *
-     * @return type
-     */
-    public function __construct($exception, $also_convert = true)
+    public function __construct($exception, $convert_all_to_jsonapi = true)
     {
-        if ($exception instanceof ModelNotFoundException)
-        {
+        if ($exception instanceof ModelNotFoundException) {
             return $this->make(
                     null, null, null,
-                    self::HTTP_CODE_TYPE_NOT_FOUND,
+                    (string) self::HTTP_CODE_TYPE_NOT_FOUND,
                     'Resource `' . implode(', ', $exception->getIds()) . '` not found.'
                 );
-        }
-        elseif ($also_convert)
-        {
+        } elseif ($convert_all_to_jsonapi) {
             return $this->make(
                     null, null, null,
-                    self::HTTP_CODE_BAD_REQUEST,
+                    (string) self::HTTP_CODE_BAD_REQUEST,
                     $exception->getMessage()
                 );
         }

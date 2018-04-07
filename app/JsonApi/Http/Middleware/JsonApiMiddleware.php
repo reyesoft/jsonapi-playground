@@ -1,10 +1,17 @@
 <?php
+/**
+ * Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.
+ *
+ * This file is part of JsonApiPlayground. JsonApiPlayground can not be copied and/or
+ * distributed without the express permission of Reyesoft
+ */
+
+declare(strict_types=1);
 
 namespace App\JsonApi\Http\Middleware;
 
 use App\JsonApi\Exceptions\Handler as JsonApiExceptionHandler;
 use App\JsonApi\Http\AppResponses;
-use App\JsonApi\Http\JsonApiRequest;
 use Closure;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Neomerx\JsonApi\Contracts\Http\ResponsesInterface;
@@ -15,10 +22,6 @@ class JsonApiMiddleware
 {
     public function __construct(ServerRequestInterface $request)
     {
-        app()->singleton(JsonApiRequest::class, function () use ($request) {
-            return new JsonApiRequest($request);
-        });
-
         app()->singleton(AppResponses::class, function () use ($request) {
             return AppResponses::instance($request, []);
         });
@@ -26,11 +29,6 @@ class JsonApiMiddleware
         app()->singleton(Factory::class, function () {
             return new Factory();
         });
-
-        // create an instance of JsonApiRequest
-        app()[JsonApiRequest::class];
-        // app()[AppResponses::class];
-        //app()[AppResponses::class];
     }
 
     /**
@@ -51,14 +49,14 @@ class JsonApiMiddleware
         return $response;
     }
 
-    private function registerJsonApiResponses()
+    private function registerJsonApiResponses(): void
     {
         /* app()->singleton(ResponsesInterface, function () use ($previousHandler) {
             return new JsonApiExceptionHandler(app(), $previousHandler);
         });*/
     }
 
-    private function registerJsonApiExceptionHandler()
+    private function registerJsonApiExceptionHandler(): void
     {
         $previousHandler = null;
         if (app()->bound(ExceptionHandler::class) === true) {
