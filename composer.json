@@ -21,6 +21,8 @@
         "mockery/mockery": "1.0.0",
         "phpunit/phpunit": "6.5.6",
         "codedungeon/phpunit-result-printer": "0.9.3",
+        "barryvdh/laravel-ide-helper": "^2.4",
+        "doctrine/dbal": "^2.7",
         "filp/whoops": "2.0.0"
     },
     "autoload": {
