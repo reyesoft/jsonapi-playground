@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace App\Http;
 
+use App\Http\Middleware\XssProtection;
+use App\JsonApi\Http\Middleware\JsonApiMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -22,6 +24,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
+        /* Laravel */
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
@@ -36,6 +39,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
+            /* Laravel */
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
@@ -46,11 +50,15 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            /* Laravel */
             // @todo work with throttle
             //'throttle:60,1',
             'bindings',
+
+            /* Reyesoft */
+            // XssProtection::class, don't work on 5.6
             \Barryvdh\Cors\HandleCors::class,
-            \App\JsonApi\Http\Middleware\JsonApiMiddleware::class,
+            JsonApiMiddleware::class,
         ],
     ];
 
