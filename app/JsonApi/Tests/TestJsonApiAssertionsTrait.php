@@ -14,9 +14,15 @@ trait TestJsonApiAssertionsTrait
 {
     use LumenCompatibilityTrait;
 
-    public function assertResponseJsonApiError(string $expected_error_text = null, $http_error_code = 400): void
+    public function assertResponseJsonApiError(string $expected_error_text = null, $http_error_code = null): void
     {
-        $this->assertResponseStatus($http_error_code);
+        if ($http_error_code !== null) {
+            $this->assertResponseStatus($http_error_code);
+        } else {
+            $this->assertGreaterThanOrEqual(400, $this->response->getStatusCode());
+            $this->assertLessThan(500, $this->response->getStatusCode());
+        }
+
         $this->assertJsonStructure([
             'errors' => [
                 0 => [],

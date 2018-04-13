@@ -147,7 +147,7 @@ class JsonApiResourceBuilder
 
         // convert dates to w3c
         foreach ($attributes as $key => $value) {
-            if (preg_match('/[0-9]{4}\-[0-9]{2}\-[0-9]{2}.*[0-9]{2}/', $value)) {
+            if (preg_match('/[0-9]{4}\-[0-9]{2}\-[0-9]{2}.*[0-9]{2}/', (string) $value)) {
                 $modelInstance->{$key} = Carbon::parse($modelInstance->{$key});
             }
         }
