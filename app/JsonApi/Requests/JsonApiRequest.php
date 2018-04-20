@@ -11,10 +11,10 @@ declare(strict_types=1);
 namespace App\JsonApi\Requests;
 
 use App\JsonApi\Core\Action;
+use App\JsonApi\Core\QueryParser;
 use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Exceptions\ResourceTypeNotFoundException;
 use App\JsonApi\Http\JsonApiParameters;
-use Neomerx\JsonApi\Http\Query\BaseQueryParser;
 use Psr\Http\Message\ServerRequestInterface;
 
 abstract class JsonApiRequest
@@ -92,7 +92,8 @@ abstract class JsonApiRequest
     public function getParameters(): JsonApiParameters
     {
         if (!$this->parameters) {
-            $parameters = new BaseQueryParser($this->request->getQueryParams());
+            $parameters = new QueryParser($this->request->getQueryParams());
+            $parameters->checkQuery();
             $this->parameters = new JsonApiParameters($parameters);
         }
 
