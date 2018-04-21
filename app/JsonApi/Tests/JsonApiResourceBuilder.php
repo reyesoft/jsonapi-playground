@@ -75,7 +75,12 @@ class JsonApiResourceBuilder
         $ret = [];
         foreach ($this->layout['attributes'] as $key => $value) {
             if ($modelInstance->{$value} === null) {
-                throw new \Exception('No se encontró `' . $value . '` en el modelo para el attribute `' . $key . '`.');
+                throw new \Exception(
+                    'No se pudo crear el recurso para el layout especificado. '
+                    . 'La propiedad `' . $value . '` no existe en el modelo'
+                    . (is_numeric($key) ? '' : ' para el attribute `' . $key . '`')
+                    . '.'
+                );
             }
             $ret[is_numeric($key) ? $value : $key] = $modelInstance->{$value};
         }
