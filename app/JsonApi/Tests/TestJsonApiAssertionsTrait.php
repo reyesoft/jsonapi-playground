@@ -30,11 +30,7 @@ trait TestJsonApiAssertionsTrait
         ]);
 
         // expected error text
-        if ($expected_error_text !== null) {
-            $this->assertContains($expected_error_text, $this->response->getContent());
-        } else {
-            $this->assertNotContains('RouteCollection.php', $this->response->getContent());
-        }
+        $this->assertContains($expected_error_text, $this->response->getContent());
     }
 
     /**
@@ -43,14 +39,6 @@ trait TestJsonApiAssertionsTrait
     public function assertResponseOk(): void
     {
         $this->assertResponseStatus(200);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function assertReponseJsonApiCollection(): void
-    {
-        $this->assertResponseJsonApiCollection();
     }
 
     public function assertResponseJsonApiCollection(): void

@@ -24,7 +24,7 @@ abstract class JsonApiGlobalController extends Controller
 {
     /*
      * Available resources on this route controller
-     * related with respective Schema, like:
+     * related with respective Schemas, like:
      *
      * const AVAILABLE_RESOURCES = [
      *    'books' => BookSchema::class,
