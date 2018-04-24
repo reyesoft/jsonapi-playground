@@ -36,22 +36,26 @@ class QueryParser extends BaseQueryParser
         }
     }
 
+    public function getFiltering(): array
+    {
+        return $this->getParamArrayOrFail(self::PARAM_FILTER);
+    }
+
     /**
      * @todo usar el mismo array de errores
      */
     private function getSortParameters($errors): void
     {
-        $parameters = $this->getParameters();
         $sortParams = null;
-        $sortParam = $this->getStringParamOrNull($parameters, self::PARAM_SORT);
-        if ($sortParam !== null) {
+        $sortParam = $this->getParamStringOrFail(self::PARAM_SORT);
+        if ($sortParam !== '') {
             foreach (explode(',', $sortParam) as $param) {
                 // @todo compare with schema accepted attributes for sort
                 if (empty($param) === true) {
                     $detail = 'Parameter ' . self::PARAM_SORT . ' should have valid value specified.';
                     throw new BaseException($this->createInvalidQueryErrors($detail));
                 }
-                $isDesc = $isDesc = ($param[0] === '-');
+                $isDesc = ($param[0] === '-');
                 $sortField = ltrim($param, '+-');
                 if (empty($sortField) === true) {
                     $detail = 'Parameter ' . self::PARAM_SORT . ' should have valid name specified.';
@@ -63,21 +67,28 @@ class QueryParser extends BaseQueryParser
         // return $sortParams;
     }
 
-    private function getStringParamOrNull(array $parameters, $name)
+    private function getParamStringOrFail($name): string
     {
-        $value = $this->getParamOrNull($parameters, $name);
-
-        if ($value !== null && is_string($value) === false) {
-            $detail = T::t('Value should be either a string or null.');
-            throw new E($this->createParamErrors($name, $detail), E::HTTP_CODE_BAD_REQUEST);
+        $value = $this->getParameters()[$name] ?? '';
+        if (is_string($value)) {
+            return $value;
         }
 
-        return $value;
+        throw new BaseException(
+            $this->createInvalidQueryErrors($name . ' param: Value should be either an string or null.')
+        );
     }
 
-    private function getParamOrNull(array $parameters, $name)
+    private function getParamArrayOrFail($name): array
     {
-        return isset($parameters[$name]) === true ? $parameters[$name] : null;
+        $value = $this->getParameters()[$name] ?? [];
+        if (is_array($value)) {
+            return $value;
+        }
+
+        throw new BaseException(
+            $this->createInvalidQueryErrors($name . ' param: Value should be either an array or null.')
+        );
     }
 
     protected function createParamErrors($name, $detail)

@@ -99,8 +99,11 @@ class ObjectsBuilder
                         ->where($field, '>=', $value['since'])
                         ->where($field, '<=', $value['until']);
                     break;
+                case 'number':
+                case 'string':
                 default:
-                    $this->builder->where($field, $filtertype, $value);
+                    $this->builder->where($field, $value);
+                    break;
             }
         }
     }

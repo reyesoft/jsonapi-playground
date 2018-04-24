@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace App\JsonApi\Http;
 
-use Neomerx\JsonApi\Http\Query\BaseQueryParser;
+use App\JsonApi\Core\QueryParser;
 
 class JsonApiParameters
 {
@@ -44,12 +44,10 @@ class JsonApiParameters
      */
     private $unrecognizedParams;
 
-    public function __construct(BaseQueryParser $parameters)
+    public function __construct(QueryParser $parameters)
     {
         $this->sortParameters = $parameters->getSorts() ?? [];
-        // @todo
-        // $this->filteringParameters = $parameters->getFiltering() ?? [];
-        $this->filteringParameters = [];
+        $this->filteringParameters = $parameters->getFiltering();
         // @todo
         // $this->unrecognizedParams = $parameters->getUnrecognized() ?? [];
         $this->unrecognizedParams = [];

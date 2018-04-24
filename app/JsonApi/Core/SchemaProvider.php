@@ -107,7 +107,7 @@ abstract class SchemaProvider extends BaseSchema
 
     public function getFilterType(string $field): string
     {
-        return static::attributes[$field]['type'];
+        return static::$attributes[$field]['type'];
     }
 
     public function getFiltersArray(): array

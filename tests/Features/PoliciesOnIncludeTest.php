@@ -8,9 +8,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Entrypoints;
+namespace Tests\Features;
 
-use App\Author;
+use Tests\Entrypoints\BaseTestCase;
 
 class PoliciesOnIncludeTest extends BaseTestCase
 {
@@ -23,11 +23,13 @@ class PoliciesOnIncludeTest extends BaseTestCase
 
     public function testBookUpdateAndCreateNewAuthorIncludedBlockedByPolicy(): void
     {
+        // @todo
         $this->assertTrue(true);
     }
 
     public function testBookUpdateAndEditExistentAuthorIncludedBlockedByPolicy(): void
     {
+        // @todo
         $this->assertTrue(true);
     }
 }

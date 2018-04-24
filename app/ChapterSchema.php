@@ -23,7 +23,7 @@ class ChapterSchema extends SchemaProvider
 
     protected static $attributes = [
         'title' => [
-            'type' => 'like',
+            'type' => 'string',
         ],
         'ordering' => [
             'type' => 'number',

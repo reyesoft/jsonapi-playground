@@ -27,7 +27,9 @@ class BookSchema extends SchemaProvider
         'date_published' => [
             'type' => 'date',
         ],
-        'isbn' => [],
+        'isbn' => [
+            'type' => 'number',
+        ],
     ];
 
     protected static $relationships = [
