@@ -24,9 +24,9 @@ trait LumenCompatibilityTrait
      */
     public function assertJsonStructure(array $structure = null, $responseData = null)
     {
-        if (null === $structure) {
-            return $this->assertJson($this->json());
-        }
+        // if (null === $structure) {
+        //     return $this->assertJson($this->json());
+        // }
         if (null === $responseData) {
             $responseData = $this->decodeResponseJson();
         }

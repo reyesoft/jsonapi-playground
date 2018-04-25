@@ -13,12 +13,12 @@ namespace App;
 use App\JsonApi\Core\SchemaProvider;
 use App\JsonApi\Core\SchemaRelationsTrait;
 
-class SerieSchema extends SchemaProvider
+class SeriesSchema extends SchemaProvider
 {
     use SchemaRelationsTrait;
 
     protected $resourceType = 'series';
-    public static $model = Serie::class;
+    public static $model = Series::class;
 
     protected static $attributes = [
         'title' => [

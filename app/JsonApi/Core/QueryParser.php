@@ -27,7 +27,7 @@ class QueryParser extends BaseQueryParser
         //        $this->checkIncludePaths($errors, $parameters);
         //        $this->checkFieldSets($errors, $parameters);
         //        $this->checkFiltering($errors, $parameters);
-        $this->getSortParameters($errors);
+        $this->getSortParameters();
         //        $this->checkPaging($errors, $parameters);
         $this->checkUnrecognized($errors);
 
@@ -42,9 +42,9 @@ class QueryParser extends BaseQueryParser
     }
 
     /**
-     * @todo usar el mismo array de errores
+     * @todo use the same errors array
      */
-    private function getSortParameters($errors): void
+    private function getSortParameters(): void
     {
         $sortParams = null;
         $sortParam = $this->getParamStringOrFail(self::PARAM_SORT);
@@ -96,13 +96,12 @@ class QueryParser extends BaseQueryParser
         // NOTE: external libraries might expect this method to exist and have certain signature
         // @see https://github.com/neomerx/json-api/issues/185#issuecomment-329135390
 
-        $title = T::t('Invalid query parameter.');
         $source = [
             Error::SOURCE_PARAMETER => $name,
         ];
 
         return [
-            new Error(null, null, null, null, $title, $detail, $source),
+            new Error(null, null, null, null, 'Invalid query parameter.', $detail, $source),
         ];
     }
 

@@ -106,7 +106,7 @@ abstract class JsonApiRequest
     }
 
     /**
-     * @todo esto no es parte de la respuesta? deberiamos tener una clase para ello
+     * @todo this is part of answer? we should have a class for that
      */
     public function getEncoder()
     {

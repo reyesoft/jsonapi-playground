@@ -28,7 +28,7 @@ class BooksTest extends BaseTestCase
             'author' => 'authors',
             'chapters' => 'chapters',
             'photos' => 'photos',
-            'serie' => 'series',
+            'series' => 'series',
             'stores' => 'stores',
         ],
     ];
@@ -46,7 +46,7 @@ class BooksTest extends BaseTestCase
         // with author, ok
         $author = Author::first();
         $resource['data']['relationships']['author']['data'] = ['id' => $author->id, 'type' => 'authors'];
-        unset($resource['data']['relationships']['serie']);
+        unset($resource['data']['relationships']['series']);
         $this->callPost('/v2/books', $resource);
         $this->assertResponseStatus(201);
 
@@ -71,7 +71,7 @@ class BooksTest extends BaseTestCase
             $resource['data']['relationships']['chapters']['data'][] = ['type' => 'chapters', 'id' => $chapter_id];
         }
 
-        unset($resource['data']['relationships']['serie']);
+        unset($resource['data']['relationships']['series']);
 
         $this->callPost('/v2/books', $resource);
         $this->assertResponseStatus(201);

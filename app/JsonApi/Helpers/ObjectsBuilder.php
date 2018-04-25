@@ -70,9 +70,9 @@ class ObjectsBuilder
     }
 
     /**
-     * @return Builder|Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @param Builder|\Illuminate\Database\Eloquent\Relations\BelongsToMany $builder
      */
-    public function buildEloquentBuilder($builder = null)
+    public function buildEloquentBuilder($builder = null): void
     {
         if ($builder === null) {
             $this->builder = $this->schema->getModelInstance()->newQueryWithoutScopes();
@@ -89,10 +89,10 @@ class ObjectsBuilder
                 continue;
             }
 
-            $filtertype = $this->schema->getFilterType($field);
-            switch ($filtertype) {
+            $filter_type = $this->schema->getFilterType($field);
+            switch ($filter_type) {
                 case 'like':
-                    $this->builder->where($field, $filtertype, '%' . $value . '%');
+                    $this->builder->where($field, 'like', '%' . $value . '%');
                     break;
                 case 'date':
                     $this->builder

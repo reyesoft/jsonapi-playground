@@ -12,7 +12,7 @@ use App\Author;
 use App\Book;
 use App\Chapter;
 use App\Photo;
-use App\Serie;
+use App\Series;
 use App\Store;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
@@ -54,7 +54,7 @@ class GeneralSeed extends Seeder
             }
         );
 
-        factory(Serie::class, 50)->create()->each(
+        factory(Series::class, 50)->create()->each(
             function ($u): void {
                 for ($i = 0; $i < (($u->id + 1) % 3); ++$i) {
                     $u->photos()->save(factory(Photo::class)->make());

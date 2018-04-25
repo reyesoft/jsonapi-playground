@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 
 class EloquentDataService extends DataService
 {
@@ -162,12 +161,10 @@ class EloquentDataService extends DataService
             DB::commit();
 
             return true;
-        } catch (ValidationException $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             throw new ResourceValidationException($e->errors());
         }
-
-        return false;
     }
 
     private function fillRelationship(array $relationship_schema, $object, string $alias, array $data): void
@@ -183,7 +180,7 @@ class EloquentDataService extends DataService
             } elseif ($relation_data['id']) {
                 $object->{$alias}()->associate($relation_data['id']);
             } else {
-                throw new \Exception('Proccess hasOne fillRelationship() with `' .
+                throw new \Exception('Process hasOne fillRelationship() with `' .
                     str_replace('"', '\'', json_encode($relation_data)) . '` for `' . $alias .
                     '` is not possible (' . $data['data']['type'] . '->' . $alias . ')'
                 );
@@ -200,7 +197,7 @@ class EloquentDataService extends DataService
                 $ids = $this->getIdsFromDataCollection($relation_data);
                 $this->syncAllRelated($object->{$alias}(), $ids);
             } else {
-                throw new \Exception('Proccess hasMany fillRelationship() with `' .
+                throw new \Exception('Process hasMany fillRelationship() with `' .
                     str_replace('"', '\'', json_encode($relation_data)) . '` for `' . $alias .
                     '` is not possible (' . $data['data']['type'] . '->' . $alias . ')'
                 );

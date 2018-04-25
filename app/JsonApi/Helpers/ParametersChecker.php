@@ -14,6 +14,9 @@ use App\JsonApi\Core\SchemaProvider;
 use Neomerx\JsonApi\Encoder\Parameters\EncodingParameters;
 use Neomerx\JsonApi\Factories\Factory;
 
+/**
+ * @deprecated since tests with params ready
+ */
 class ParametersChecker
 {
     public static function checkOrFail(

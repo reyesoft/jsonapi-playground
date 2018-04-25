@@ -14,7 +14,6 @@ use App\JsonApi\Exceptions\Handler as JsonApiExceptionHandler;
 use App\JsonApi\Http\AppResponses;
 use Closure;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Neomerx\JsonApi\Contracts\Http\ResponsesInterface;
 use Neomerx\JsonApi\Factories\Factory;
 use Psr\Http\Message\ServerRequestInterface;
 

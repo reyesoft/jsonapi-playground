@@ -15,7 +15,7 @@ use App\BookSchema;
 use App\ChapterSchema;
 use App\JsonApi\Http\Controllers\JsonApiGlobalController;
 use App\PhotoSchema;
-use App\SerieSchema;
+use App\SeriesSchema;
 use App\StoreSchema;
 
 class JsonApiController extends JsonApiGlobalController
@@ -25,7 +25,7 @@ class JsonApiController extends JsonApiGlobalController
         'photos' => PhotoSchema::class,
         'books' => BookSchema::class,
         'chapters' => ChapterSchema::class,
-        'series' => SerieSchema::class,
+        'series' => SeriesSchema::class,
         'stores' => StoreSchema::class,
     ];
 }

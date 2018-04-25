@@ -45,8 +45,8 @@ class BookSchema extends SchemaProvider
             'schema' => PhotoSchema::class,
             'hasMany' => true,
         ],
-        'serie' => [
-            'schema' => SerieSchema::class,
+        'series' => [
+            'schema' => SeriesSchema::class,
             'hasMany' => false,
         ],
         'stores' => [

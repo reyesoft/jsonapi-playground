@@ -60,7 +60,7 @@ abstract class SchemaProvider extends BaseSchema
     {
         $this->selfSubUrl = '/' . $this->resourceType;
 
-        // include params permited
+        // include params permitted
         foreach (static::$relationships as $type => $relationshipSchema) {
             $this->includePaths[] = $type;
         }

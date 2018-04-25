@@ -138,15 +138,6 @@ class JsonApiResourceBuilder
             SOLVE PROBLEM WITH
             InvalidArgumentException: Unexpected data found.
             Data missing
-
-            /var/www/apicultor/vendor/nesbot/carbon/src/Carbon/Carbon.php:582
-            /var/www/apicultor/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/HasAttributes.php:715
-            /var/www/apicultor/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/HasAttributes.php:129
-            /var/www/apicultor/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/HasAttributes.php:91
-            /var/www/apicultor/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php:941
-            /var/www/apicultor/tests/TestCompanyCase.php:49
-            /var/www/apicultor/tests/TestCompanyCase.php:35
-            /var/www/apicultor/tests/PhysicalPosTests/PhysicalPosTest.php:126
          */
         $attributes = $modelInstance->getAttributes();
 

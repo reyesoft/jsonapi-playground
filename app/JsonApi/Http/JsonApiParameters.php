@@ -62,7 +62,7 @@ class JsonApiParameters
         $this->pageSize = config('paginate.general', 5);
         $pageSizesAllowed = config('paginate.allowed', null);
         if ($pageSizesAllowed !== null && !isset($pageSizesAllowed[$this->pageSize])) {
-            throw \Exception('pagesize param no valid. Accepted values: ' . implode(pageSizesAllowed, ', ') . '.');
+            throw new \Exception('Page size param no valid. Accepted values: ' . implode(pageSizesAllowed, ', ') . '.');
         }
     }
 
@@ -75,7 +75,7 @@ class JsonApiParameters
     {
         $result = [];
         foreach ($iterable as $key => $value) {
-            $result[$key] = $value instanceof Generator ? $this->iterableToArray($value) : $value;
+            $result[$key] = $value instanceof \Generator ? $this->iterableToArray($value) : $value;
         }
 
         return $result;

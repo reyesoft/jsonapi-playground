@@ -16,9 +16,9 @@ class ResourceValidationException extends BaseException
 {
     public function __construct(array $errors)
     {
-        $jsonapierrors = [];
+        $jsonapi_errors = [];
         foreach ($errors as $attribute => $error) {
-            $jsonapierrors[] = new Error(
+            $jsonapi_errors[] = new Error(
                     null,
                     null,
                     (string) self::HTTP_CODE_FORBIDDEN,
@@ -32,6 +32,6 @@ class ResourceValidationException extends BaseException
                 );
         }
 
-        return parent::__construct($jsonapierrors, self::HTTP_CODE_FORBIDDEN);
+        return parent::__construct($jsonapi_errors, self::HTTP_CODE_FORBIDDEN);
     }
 }

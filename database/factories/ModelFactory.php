@@ -12,7 +12,7 @@ use App\Author;
 use App\Book;
 use App\Chapter;
 use App\Photo;
-use App\Serie;
+use App\Series;
 use App\Store;
 use App\User;
 
@@ -43,7 +43,7 @@ $factory->define(
     App\Book::class, function (Faker\Generator $faker) {
         return [
             'author_id' => $faker->randomElement(Author::all()->pluck('id')->toArray()),
-            'serie_id' => $faker->randomElement(Serie::all()->pluck('id')->toArray()),
+            'series_id' => $faker->randomElement(Series::all()->pluck('id')->toArray()),
             'date_published' => $faker->date($format = 'Y-m-d', $max = 'now'),
             'title' => $faker->company,
             'isbn' => $faker->isbn10,
@@ -73,9 +73,9 @@ $factory->define(
 );
 
 $factory->define(
-    App\Serie::class, function (Faker\Generator $faker) {
+    App\Series::class, function (Faker\Generator $faker) {
         return [
-            'title' => $faker->numerify('Serie #######'),
+            'title' => $faker->numerify('Series #######'),
         ];
     }
 );

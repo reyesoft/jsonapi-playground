@@ -53,13 +53,13 @@ class CreateTables extends Migration
             'books', function (Blueprint $table): void {
                 $table->increments('id');
                 $table->integer('author_id')->unsigned();
-                $table->integer('serie_id')->nullable()->unsigned();
+                $table->integer('series_id')->nullable()->unsigned();
                 $table->date('date_published');
                 $table->string('title')->nullable();
                 $table->timestamps();
 
                 $table->foreign('author_id')->references('id')->on('authors');
-                $table->foreign('serie_id')->references('id')->on('series');
+                $table->foreign('series_id')->references('id')->on('series');
             }
         );
 

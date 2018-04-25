@@ -57,12 +57,12 @@ class Handler implements ExceptionHandlerInterface
         if ($exception instanceof JsonApiException) {
             $response = $this->createResponse($exception);
         } elseif ($exception instanceof BaseException) {
-            $jsonapiexception = new ErrorMutatorException($exception);
-            $response = $this->createResponse($jsonapiexception);
+            $jsonapi_exception = new ErrorMutatorException($exception);
+            $response = $this->createResponse($jsonapi_exception);
         } else {
             try {
-                $jsonapiexception = new ErrorMutatorException($exception);
-                $response = $this->createResponse($jsonapiexception);
+                $jsonapi_exception = new ErrorMutatorException($exception);
+                $response = $this->createResponse($jsonapi_exception);
             } catch (Exception $e) {
                 $response = $this->previous === null ? null : $this->previous->render($request, $exception);
             }

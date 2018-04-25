@@ -23,12 +23,6 @@ class ErrorMutatorException extends BaseException
                     (string) self::HTTP_CODE_TYPE_NOT_FOUND,
                     'Resource `' . implode(', ', $exception->getIds()) . '` not found.'
                 );
-            //        } elseif ($convert_all_to_jsonapi) {
-            //            return $this->make(
-            //                    null, null, null,
-            //                    (string) self::HTTP_CODE_BAD_REQUEST,
-            //                    $exception->getMessage()
-            //                );
         }
 
         throw $exception;

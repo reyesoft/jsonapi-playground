@@ -22,8 +22,8 @@ class BaseException extends JsonApiException
 
     public function __construct($errors, int $defaultHttpCode = self::DEFAULT_HTTP_CODE, Exception $previous = null)
     {
-        // $jsonapierrors = $this->mutateErrors($errors);
-        // parent::__construct($jsonapierrors, $jsonapierrors->getHttpStatus($defaultHttpCode), $previous);
+        // $jsonapi_errors = $this->mutateErrors($errors);
+        // parent::__construct($jsonapi_errors, $jsonapi_errors->getHttpStatus($defaultHttpCode), $previous);
 
         parent::__construct($errors, $defaultHttpCode, $previous);
     }

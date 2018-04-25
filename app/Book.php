@@ -15,8 +15,6 @@ use App\Base\ElegantModel;
 class Book extends ElegantModel
 {
     protected $fillable = [
-        // 'author_id',
-        // 'serie_id',
         'title',
         'date_published',
     ];
@@ -32,9 +30,9 @@ class Book extends ElegantModel
         return $this->belongsTo(Author::class);
     }
 
-    public function serie()
+    public function series()
     {
-        return $this->belongsTo(Serie::class);
+        return $this->belongsTo(Series::class);
     }
 
     /* HasMany */

@@ -20,8 +20,6 @@ use Neomerx\JsonApi\Http\BaseResponses;
 use Neomerx\JsonApi\Http\Headers\MediaType;
 use Psr\Http\Message\ServerRequestInterface;
 
-// use Neomerx\JsonApi\Http\Request as RequestWrapper;
-
 class AppResponses extends BaseResponses
 {
     /**
@@ -36,7 +34,6 @@ class AppResponses extends BaseResponses
     private $urlPrefix;
     private $factory;
 
-    private $codecMatcher = null;
     private $requestWrapper = null;
     private $request = null;
 
@@ -172,9 +169,9 @@ class AppResponses extends BaseResponses
     }
 
     /**
-     * @return RequestWrapper
+     * @deprecated
      */
-    protected function getRequestWrapper()
+    protected function getRequestWrapperXXX()
     {
         if ($this->requestWrapper === null) {
             $getMethod = function () {
