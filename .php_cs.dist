@@ -17,6 +17,10 @@ return PhpCsFixer\Config::create()
         'no_short_echo_tag' => true,
         'no_unreachable_default_argument_value' => true,
         'no_useless_return' => true,
+        'simplified_null_return' => true,
+        'backtick_to_shell_exec' => true,
+        'multiline_comment_opening_closing' => true,
+        'escape_implicit_backslashes' => true,
         'braces' => ['allow_single_line_closure' => true],
         'ordered_imports' => true,
         'no_unused_imports' => true,
@@ -43,7 +47,6 @@ return PhpCsFixer\Config::create()
         'phpdoc_align' => true,
         'align_multiline_comment' => true,
         'compact_nullable_typehint' => true,
-        'hash_to_slash_comment' => true,
         'linebreak_after_opening_tag' => true,
         'method_chaining_indentation' => true,
 
@@ -53,7 +56,7 @@ return PhpCsFixer\Config::create()
         'ordered_imports' => true,
         'php_unit_ordered_covers' => true,
         'php_unit_construct' => true,
-        // 'php_unit_strict' => true,   //  API-941
+        'php_unit_strict' => true,
         'string_line_ending' => true,
         'php_unit_set_up_tear_down_visibility' => true,
         'function_to_constant' => true,

@@ -67,7 +67,7 @@ class FilterAndPaginationTest extends BaseTestCase
         );
         $result2 = json_decode($this->response->getContent(), true);
 
-        $this->assertNotEquals(
+        $this->assertNotSame(
             $result1['data'][0]['id'],
             $result2['data'][0]['id']
         );

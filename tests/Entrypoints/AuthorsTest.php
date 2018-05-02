@@ -41,7 +41,7 @@ class AuthorsTest extends BaseTestCase
         $this->assertResponseStatus(201);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($resource['data']['attributes']['name'], $result['data']['attributes']['name']);
+        $this->assertSame($resource['data']['attributes']['name'], $result['data']['attributes']['name']);
 
         return $result['data']['id'];
     }
@@ -55,7 +55,7 @@ class AuthorsTest extends BaseTestCase
         $this->assertResponseStatus(200);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($result['data']['id'], $author_id);
+        $this->assertSame($result['data']['id'], $author_id);
     }
 
     /**
@@ -68,7 +68,7 @@ class AuthorsTest extends BaseTestCase
         $this->assertResponseStatus(200);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($resource['data']['attributes']['name'], $result['data']['attributes']['name']);
+        $this->assertSame($resource['data']['attributes']['name'], $result['data']['attributes']['name']);
     }
 
     /**

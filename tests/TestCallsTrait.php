@@ -75,6 +75,6 @@ trait TestCallsTrait
             );
         }
 
-        return $this->assertEquals($code, $actual);
+        return $this->assertSame($code, $actual);
     }
 }
