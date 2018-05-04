@@ -28,6 +28,7 @@ class StoreSchema extends SchemaProvider
             'cru' => 'cr',
         ],
         'created_by' => [
+            'type' => 'enum',
             'cru' => 'r',
         ],
     ];

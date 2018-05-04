@@ -99,6 +99,10 @@ class ObjectsBuilder
                         ->where($field, '>=', $value['since'])
                         ->where($field, '<=', $value['until']);
                     break;
+                case 'enum':
+                    $values = explode(',', $value);
+                    $this->builder->whereIn($field, $values);
+                    break;
                 case 'number':
                 case 'string':
                 default:

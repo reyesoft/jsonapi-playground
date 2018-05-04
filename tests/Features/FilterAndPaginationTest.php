@@ -12,6 +12,7 @@ namespace Tests\Features;
 
 use App\Book;
 use App\Chapter;
+use App\Store;
 use Tests\Entrypoints\BaseTestCase;
 
 class FilterAndPaginationTest extends BaseTestCase
@@ -74,6 +75,31 @@ class FilterAndPaginationTest extends BaseTestCase
 
         $this->assertLessThanOrEqual($middle_date, $result1['data'][0]['attributes']['date_published']);
         $this->assertGreaterThanOrEqual($middle_date, $result2['data'][0]['attributes']['date_published']);
+    }
+
+    public function testFilterEnum(): void
+    {
+        $paginate_original_value = config('paginate.general');
+        config(['paginate.general' => 500]);
+
+        $creators_ids = Store::select('created_by')->distinct()->take(3)->get()->pluck('created_by');
+
+        $this->callGet('/v2/stores/?filter[created_by]=' . $creators_ids[1]);
+        $this->assertContains('"created_by":' . $creators_ids[1], $this->response->getContent());
+        $this->assertNotContains('"created_by":' . $creators_ids[0], $this->response->getContent());
+        $this->assertNotContains('"created_by":' . $creators_ids[2], $this->response->getContent());
+
+        $this->callGet('/v2/stores/?page[size]=10000&filter[created_by]=' . $creators_ids[1] . ',' . $creators_ids[2]);
+        $this->assertContains('"created_by":' . $creators_ids[1], $this->response->getContent());
+        $this->assertContains('"created_by":' . $creators_ids[2], $this->response->getContent());
+        $this->assertNotContains('"created_by":' . $creators_ids[0], $this->response->getContent());
+
+        $this->callGet('/v2/stores/?filter[created_by]=' . $creators_ids[0] . ',' . $creators_ids[2]);
+        $this->assertContains('"created_by":' . $creators_ids[0], $this->response->getContent());
+        $this->assertContains('"created_by":' . $creators_ids[2], $this->response->getContent());
+        $this->assertNotContains('"created_by":' . $creators_ids[1], $this->response->getContent());
+
+        config(['paginate.general' => $paginate_original_value]);
     }
 
     public function testFilterWrongAttribute(): void
