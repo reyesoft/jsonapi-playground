@@ -102,9 +102,6 @@ class ObjectsBuilder
                 case 'enum':
                     $values = explode(',', $value);
                     $this->builder->whereIn($field, $values);
-                    //                    foreach ($values as $item) {
-                    //                        $this->builder->where($field, trim($item));
-                    //                    }
                     break;
                 case 'number':
                 case 'string':
