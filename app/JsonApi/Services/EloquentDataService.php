@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class EloquentDataService extends DataService
 {
@@ -161,9 +162,13 @@ class EloquentDataService extends DataService
             DB::commit();
 
             return true;
-        } catch (\Exception $e) {
+        } catch (ValidationException $e) {
             DB::rollback();
             throw new ResourceValidationException($e->errors());
+        } catch (\Exception $e) {
+            // Personalized validation. For example BaseException on Apicultor project.
+            DB::rollback();
+            throw $e;
         }
     }
 
