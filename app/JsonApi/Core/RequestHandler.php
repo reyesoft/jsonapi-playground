@@ -48,7 +48,7 @@ class RequestHandler
 
         // check policy
         $policy = $action->getSchema()->getPolicy();
-        if (!$policy->{'before' . ucfirst($action->getActionName()) }()) {
+        if (!$policy->before() || !$policy->{'before' . ucfirst($action->getActionName()) }()) {
             throw new ResourcePolicyException($action->getActionName());
         }
 

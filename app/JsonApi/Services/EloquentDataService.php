@@ -55,8 +55,8 @@ class EloquentDataService extends DataService
     {
         $schema = $this->action->getSchema();
         $object = $this->action->getSchema()->getModelInstance();
-
         $schema->modelBeforeSave($object);
+        $this->applyModelPolicy($object);
         $this->fillAndSaveObject($object, $this->action->getData());
 
         return $this->get((string) $object->id);
@@ -68,6 +68,7 @@ class EloquentDataService extends DataService
         $builder = $this->getObjectBuilder();
         $object = $builder->getObject($id ?? $this->action->getId());
         $schema->modelBeforeSave($object);
+        $this->applyModelPolicy($object);
         $this->fillAndSaveObject($object, $this->action->getData());
 
         return $this->get($id ?? $this->action->getId());
@@ -83,8 +84,18 @@ class EloquentDataService extends DataService
         $builder = $this->getObjectBuilder();
         $object = $builder->getObject($id ?? $this->action->getId());
         $schema->modelBeforeSave($object);
+        $this->applyModelPolicy($object);
 
         return $object->delete();
+    }
+
+    protected function applyModelPolicy($model): void
+    {
+        $schema = $this->action->getSchema();
+        $policy = $schema->getPolicy();
+        if (!$policy->model($model) || !$policy->{ 'model' . ucfirst($this->action->getActionName()) }($model)) {
+            throw new ResourcePolicyException($this->action->getActionName());
+        }
     }
 
     private function beginTransaction(): void
