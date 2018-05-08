@@ -14,6 +14,9 @@
          beStrictAboutTodoAnnotatedTests="true"
          processIsolation="false"
          stopOnFailure="true">
+    <listeners>
+        <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener" />
+    </listeners>
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory suffix="Test.php">./tests/</directory>
