@@ -47,17 +47,6 @@ class AuthorsTest extends BaseTestCase
         return $result['data']['id'];
     }
 
-    public function testAuthorCreateBirth()
-    {
-        $resource = $this->newResource();
-        $this->callPost('/v2/authors/', $resource);
-        $this->assertResponseStatus(201);
-
-        $result = json_decode($this->response->getContent(), true);
-        $this->assertSame($resource['data']['attributes']['birthplace'], $result['data']['attributes']['birthplace']);
-
-    }
-
     /**
      * @depends testAuthorCreate
      */
