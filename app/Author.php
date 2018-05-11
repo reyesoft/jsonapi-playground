@@ -16,12 +16,14 @@ class Author extends ElegantModel
 {
     protected $fillable = [
         'name',
+        'birthplace',
         'date_of_birth',
         'date_of_death',
     ];
 
     protected $rules = [
         'name' => 'required',
+        'birthplace' => '',
         'date_of_birth' => '',
         'date_of_death' => '',
     ];

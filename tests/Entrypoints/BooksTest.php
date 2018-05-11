@@ -42,11 +42,11 @@ class BooksTest extends BaseTestCase
     public function testBookCreate()
     {
         $resource = $this->newResource();
-
         // with author, ok
         $author = Author::first();
         $resource['data']['relationships']['author']['data'] = ['id' => $author->id, 'type' => 'authors'];
         unset($resource['data']['relationships']['series']);
+
         $this->callPost('/v2/books', $resource);
         $this->assertResponseStatus(201);
 
@@ -60,7 +60,6 @@ class BooksTest extends BaseTestCase
     public function testBookCreateWithRelationshipHasMany()
     {
         $resource = $this->newResource();
-
         // with author, ok
         $author = Author::first();
         $resource['data']['relationships']['author']['data'] = ['id' => $author->id, 'type' => 'authors'];
@@ -70,7 +69,6 @@ class BooksTest extends BaseTestCase
         foreach ($chapters_id as $chapter_id) {
             $resource['data']['relationships']['chapters']['data'][] = ['type' => 'chapters', 'id' => $chapter_id];
         }
-
         unset($resource['data']['relationships']['series']);
 
         $this->callPost('/v2/books', $resource);
@@ -86,8 +84,8 @@ class BooksTest extends BaseTestCase
     public function testBookCreateWithoutRelatedAuthor(): void
     {
         $resource = $this->newResource();
-
         unset($resource['data']['relationships']['author']);
+
         $this->callPost('/v2/books', $resource);
         $this->assertResponseJsonApiError('author id field is required', 403);
     }
@@ -98,8 +96,8 @@ class BooksTest extends BaseTestCase
     public function testBookUpdateWithoutRelatedAuthor($book_id): void
     {
         $resource = $this->newResource($book_id);
-
         $resource['data']['relationships']['author']['data'] = null;
+
         $this->callPatch('/v2/books/' . $book_id, $resource);
         $this->assertResponseJsonApiError('author id field is required', 403);
     }

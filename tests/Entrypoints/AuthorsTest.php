@@ -19,6 +19,7 @@ class AuthorsTest extends BaseTestCase
         'type' => 'authors',
         'attributes' => [
             'name',
+            'birthplace',
             'date_of_birth',
             'date_of_death',
         ],
@@ -44,6 +45,17 @@ class AuthorsTest extends BaseTestCase
         $this->assertSame($resource['data']['attributes']['name'], $result['data']['attributes']['name']);
 
         return $result['data']['id'];
+    }
+
+    public function testAuthorCreateBirth()
+    {
+        $resource = $this->newResource();
+        $this->callPost('/v2/authors/', $resource);
+        $this->assertResponseStatus(201);
+
+        $result = json_decode($this->response->getContent(), true);
+        $this->assertSame($resource['data']['attributes']['birthplace'], $result['data']['attributes']['birthplace']);
+
     }
 
     /**
