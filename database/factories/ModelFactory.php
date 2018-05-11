@@ -33,6 +33,7 @@ $factory->define(
     App\Author::class, function (Faker\Generator $faker) {
         return [
             'name' => $faker->name,
+            'birthplace' => $faker->country,
             'date_of_birth' => $faker->date($format = 'Y-m-d', $max = 'now'),
             'date_of_death' => $faker->date($format = 'Y-m-d', $max = 'now'),
         ];

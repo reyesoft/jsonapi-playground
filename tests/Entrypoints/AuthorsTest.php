@@ -19,6 +19,7 @@ class AuthorsTest extends BaseTestCase
         'type' => 'authors',
         'attributes' => [
             'name',
+            'birthplace',
             'date_of_birth',
             'date_of_death',
         ],
