@@ -10,16 +10,19 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Base\ElegantModel;
+use App\Base\EvaluatesRulesTrait;
+use Illuminate\Database\Eloquent\Model;
 
-class Book extends ElegantModel
+class Book extends Model
 {
+    use EvaluatesRulesTrait;
+
     protected $fillable = [
         'title',
         'date_published',
     ];
 
-    protected $rules = [
+    protected static $rules = [
         'author_id' => 'required',
     ];
 

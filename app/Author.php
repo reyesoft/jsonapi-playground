@@ -10,10 +10,13 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Base\ElegantModel;
+use App\Base\EvaluatesRulesTrait;
+use Illuminate\Database\Eloquent\Model;
 
-class Author extends ElegantModel
+class Author extends Model
 {
+    use EvaluatesRulesTrait;
+
     protected $fillable = [
         'name',
         'birthplace',
@@ -21,7 +24,7 @@ class Author extends ElegantModel
         'date_of_death',
     ];
 
-    protected $rules = [
+    protected static $rules = [
         'name' => 'required',
         'birthplace' => '',
         'date_of_birth' => '',
