@@ -74,10 +74,6 @@ class EloquentDataService extends DataService
         return $this->get($id ?? $this->action->getId());
     }
 
-    protected function processInclude(): void
-    {
-    }
-
     public function delete(string $id = null): bool
     {
         $schema = $this->action->getSchema();
