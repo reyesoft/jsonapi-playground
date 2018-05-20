@@ -12,6 +12,11 @@ namespace App\JsonApi;
 
 class Policy
 {
+    public function before(): bool
+    {
+        return true;
+    }
+
     public function beforeAll(): bool
     {
         return true;
@@ -38,6 +43,41 @@ class Policy
     }
 
     public function beforeDelete(): bool
+    {
+        return true;
+    }
+
+    public function model($builder): bool
+    {
+        return true;
+    }
+
+    public function modelAll($builder): bool
+    {
+        return true;
+    }
+
+    public function modelGet($builder): bool
+    {
+        return true;
+    }
+
+    public function modelRelated($builder): bool
+    {
+        return true;
+    }
+
+    public function modelCreate($builder): bool
+    {
+        return true;
+    }
+
+    public function modelUpdate($builder): bool
+    {
+        return true;
+    }
+
+    public function modelDelete($builder): bool
     {
         return true;
     }

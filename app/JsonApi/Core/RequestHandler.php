@@ -48,7 +48,7 @@ class RequestHandler
 
         // check policy
         $policy = $action->getSchema()->getPolicy();
-        if (!$policy->{'before' . ucfirst($action->getActionName()) }()) {
+        if (!$policy->before() || !$policy->{'before' . ucfirst($action->getActionName()) }()) {
             throw new ResourcePolicyException($action->getActionName());
         }
 
@@ -78,12 +78,12 @@ class RequestHandler
             }
             $action_name = preg_match('/^new_.+$/', $resource['id']) ? 'create' : 'update';
             $action = new Action(
-                    $action_name,
-                    new $schema(),
-                    $resource['id'],
-                    ['data' => $resource],
-                    $this->jsonapirequest->getParameters() // is not necessary here
-                );
+                $action_name,
+                new $schema(),
+                $resource['id'],
+                ['data' => $resource],
+                $this->jsonapirequest->getParameters() // is not necessary here
+            );
 
             // @todo check policy
             //            $policy = $action->getSchema()->getPolicy();
@@ -102,7 +102,7 @@ class RequestHandler
     }
 
     /**
-     * @return array|ArrayAccess
+     * @return array|\ArrayAccess
      */
     public function getData()
     {

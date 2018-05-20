@@ -40,4 +40,12 @@ abstract class DataService
             $this->action->getParameters()
         );
     }
+
+    public function openTransaction(): void
+    {
+    }
+
+    public function closeTransaction(): void
+    {
+    }
 }

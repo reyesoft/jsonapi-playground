@@ -14,6 +14,14 @@
          beStrictAboutTodoAnnotatedTests="true"
          processIsolation="false"
          stopOnFailure="true">
+    <listeners>
+        <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener" />
+    </listeners>
+    <logging>
+        <log type="coverage-html" target="bootstrap/cache/reports/coverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="55" highLowerBound="85" />
+        <log type="coverage-clover" target="bootstrap/cache/clover.xml"/>
+        <log type="testdox-text" target="bootstrap/cache/reports/executed.txt"/>
+    </logging>
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory suffix="Test.php">./tests/</directory>

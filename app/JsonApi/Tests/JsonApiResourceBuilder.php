@@ -104,10 +104,10 @@ class JsonApiResourceBuilder
                 $ret[$typealias] = ['data' => []];
             } else {
                 throw new \Exception(
-                        'El tipo `' . get_class($modelOrCollection) . '` retornado por `'
+                    'El tipo `' . get_class($modelOrCollection) . '` retornado por `'
                         . get_class($modelInstance) . '::' . $modelMethod
                         . '` no es reconocible para crear la relationship `' . $typealias . '`.'
-                    );
+                );
             }
         }
 

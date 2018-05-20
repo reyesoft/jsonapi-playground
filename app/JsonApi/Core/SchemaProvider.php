@@ -60,16 +60,11 @@ abstract class SchemaProvider extends BaseSchema
     {
         $this->selfSubUrl = '/' . $this->resourceType;
 
-        // include params permitted
-        foreach (static::$relationships as $type => $relationshipSchema) {
-            $this->includePaths[] = $type;
-        }
-
-        if ($factory == null) {
+        if ($factory === null) {
             $factory = new Factory();
         }
 
-        return parent::__construct($factory);
+        parent::__construct($factory);
     }
 
     public function getWithForEloquent(array $include_request = []): array
@@ -79,7 +74,7 @@ abstract class SchemaProvider extends BaseSchema
             if ($relationshipSchema['hasMany']) {
                 // hasMany
                 $ret[] = $type;
-            } elseif (in_array($type, $include_request)) {
+            } elseif (in_array($type, $include_request, true)) {
                 // without s (belongTo relationship)
                 $ret[] = $type;
             }
@@ -112,18 +107,22 @@ abstract class SchemaProvider extends BaseSchema
 
     public function getFiltersArray(): array
     {
-        $ret = array_filter(static::$attributes, function ($value) {
-            return isset($value['filter']);
-        });
+        $ret = array_filter(
+            static::$attributes, function ($value) {
+                return isset($value['filter']);
+            }
+        );
 
         return array_keys($ret);
     }
 
     public function getSortArray(): array
     {
-        $ret = array_filter(static::$attributes, function ($value) {
-            return isset($value['sort']);
-        });
+        $ret = array_filter(
+            static::$attributes, function ($value) {
+                return isset($value['sort']);
+            }
+        );
 
         return array_keys($ret);
     }

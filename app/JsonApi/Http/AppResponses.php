@@ -23,10 +23,13 @@ use Psr\Http\Message\ServerRequestInterface;
 class AppResponses extends BaseResponses
 {
     /**
-     * @var EncodingParametersInterface
+     * @var EncodingParametersInterface|null
      */
     private $encoding_parameters;
 
+    /**
+     * @var EncoderInterface
+     */
     private $encoder;
     private $outputMediaType;
     private $extensions;
@@ -34,7 +37,6 @@ class AppResponses extends BaseResponses
     private $urlPrefix;
     private $factory;
 
-    private $requestWrapper = null;
     private $request = null;
 
     public static function instance(
@@ -62,8 +64,6 @@ class AppResponses extends BaseResponses
 
         $responses = new static(
             new MediaType(MediaTypeInterface::JSON_API_TYPE, MediaTypeInterface::JSON_API_SUB_TYPE),
-            null,
-            $encoder,
             $schemasContainer,
             $parameters->getParameters(),
             $urlPrefix,
@@ -75,8 +75,6 @@ class AppResponses extends BaseResponses
 
     public function __construct(
         MediaTypeInterface $outputMediaType,
-        $extensions,
-        EncoderInterface $encoder,
         ContainerInterface $schemes,
         EncodingParametersInterface $encoding_parameters = null,
         string $urlPrefix = null,
@@ -88,8 +86,6 @@ class AppResponses extends BaseResponses
         $this->encoding_parameters = $encoding_parameters;
         $this->factory = $factory;
         $this->setSchemesContainer($schemes);
-
-        // $container = $factory->createContainer($schemes);
         $this->encoder = $factory->createEncoder($schemes);
     }
 
@@ -166,32 +162,5 @@ class AppResponses extends BaseResponses
         }
 
         return $this->request;
-    }
-
-    /**
-     * @deprecated
-     */
-    protected function getRequestWrapperXXX()
-    {
-        if ($this->requestWrapper === null) {
-            $getMethod = function () {
-                $method = $this->getRequest()->getMethod();
-
-                return $method;
-            };
-            $getHeader = function ($name) {
-                $header = $this->getRequest()->headers->get($name, null, false);
-
-                return $header;
-            };
-            $getQueryParams = function () {
-                $queryParams = $this->getRequest()->query->all();
-
-                return $queryParams;
-            };
-            $this->requestWrapper = new RequestWrapper($getMethod, $getHeader, $getQueryParams);
-        }
-
-        return $this->requestWrapper;
     }
 }

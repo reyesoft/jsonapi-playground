@@ -15,7 +15,7 @@ use App\JsonApi\Core\QueryParser;
 class JsonApiParameters
 {
     /**
-     * @var SortParameterInterface[]|null
+     * @var iterable|null
      */
     private $sortParameters;
 
@@ -62,7 +62,9 @@ class JsonApiParameters
         $this->pageSize = config('paginate.general', 5);
         $pageSizesAllowed = config('paginate.allowed', null);
         if ($pageSizesAllowed !== null && !isset($pageSizesAllowed[$this->pageSize])) {
-            throw new \Exception('Page size param no valid. Accepted values: ' . implode(pageSizesAllowed, ', ') . '.');
+            throw new \Exception(
+                'Page size param no valid. Accepted values: ' . implode($pageSizesAllowed, ', ') . '.'
+            );
         }
     }
 
@@ -91,7 +93,7 @@ class JsonApiParameters
         return $this->filteringParameters;
     }
 
-    public function getSortParameters(): array
+    public function getSortParameters(): iterable
     {
         return $this->sortParameters;
     }

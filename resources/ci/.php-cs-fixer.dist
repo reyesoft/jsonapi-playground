@@ -107,9 +107,14 @@ return PhpCsFixer\Config::create()
             'separate' => 'bottom'
         ],
     ])
+    ->setCacheFile('bootstrap/cache/.php_cs.cache')
     ->setFinder(
         PhpCsFixer\Finder::create()
-            ->exclude('tests/Fixtures')
-            ->in(__DIR__)
+            ->in('./app')
+            ->notPath('./bootstrap/*.php')
+            ->in('./config')
+            ->in('./database')
+            ->in('./routes')
+            ->in('./tests')
     )
 ;

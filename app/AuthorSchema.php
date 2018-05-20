@@ -24,6 +24,7 @@ class AuthorSchema extends SchemaProvider
         'name' => [
             'filter' => 'like',
         ],
+        'birthplace' => [],
         'date_of_birth' => [],
         'date_of_death' => [],
     ];

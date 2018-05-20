@@ -48,7 +48,7 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DATA_DB_HOST', env('DB_HOST')),
-            'database' => env('DATA_DB_HOST', false) ? 'gonano' : env('DB_DATABASE'),
+            'database' => env('DATA_DB_HOST', false) !== false ? 'gonano' : env('DB_DATABASE'),
             'port' => env('DB_PORT'),
             'username' => env('DATA_DB_USER', env('DB_USERNAME')),
             'password' => env('DATA_DB_PASS', env('DB_PASSWORD')),
@@ -61,7 +61,7 @@ return [
         'mysql_test' => [
             'driver' => 'mysql',
             'host' => env('DATA_DB_TEST_HOST', env('DB_HOST')),
-            'database' => env('DATA_DB_TEST_HOST', false) ? 'gonano' : env('DB_DATABASE'),
+            'database' => env('DATA_DB_TEST_HOST', false) !== false ? 'gonano' : env('DB_DATABASE'),
             'port' => env('DB_PORT'),
             'username' => env('DATA_DB_TEST_USER', env('DB_USERNAME')),
             'password' => env('DATA_DB_TEST_PASS', env('DB_PASSWORD')),

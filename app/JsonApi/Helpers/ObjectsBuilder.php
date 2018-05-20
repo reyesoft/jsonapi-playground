@@ -33,7 +33,7 @@ class ObjectsBuilder
     protected $params;
 
     /**
-     * @var Builder
+     * @var Builder|\Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     protected $builder = null;
 
@@ -113,7 +113,7 @@ class ObjectsBuilder
     }
 
     /**
-     * @return Builder|Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return Builder|\Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     protected function getEloquentBuilder()
     {

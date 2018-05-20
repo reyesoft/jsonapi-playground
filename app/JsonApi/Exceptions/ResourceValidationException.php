@@ -19,19 +19,19 @@ class ResourceValidationException extends BaseException
         $jsonapi_errors = [];
         foreach ($errors as $attribute => $error) {
             $jsonapi_errors[] = new Error(
-                    null,
-                    null,
-                    (string) self::HTTP_CODE_FORBIDDEN,
-                    null,   // code
-                    null,   // title
-                    $error[0],
-                    [
-                        'pointer' => '/data/attributes/' . $attribute,
-                        'attribute' => $attribute,
-                    ]
-                );
+                null,
+                null,
+                (string) self::HTTP_CODE_FORBIDDEN,
+                null,   // code
+                null,   // title
+                $error[0],
+                [
+                    'pointer' => '/data/attributes/' . $attribute,
+                    'attribute' => $attribute,
+                ]
+            );
         }
 
-        return parent::__construct($jsonapi_errors, self::HTTP_CODE_FORBIDDEN);
+        parent::__construct($jsonapi_errors, self::HTTP_CODE_FORBIDDEN);
     }
 }
