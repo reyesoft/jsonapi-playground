@@ -23,11 +23,13 @@ trait TestJsonApiAssertionsTrait
             $this->assertLessThan(500, $this->response->getStatusCode());
         }
 
-        $this->assertJsonStructure([
-            'errors' => [
-                0 => [],
-            ],
-        ]);
+        $this->assertJsonStructure(
+            [
+                'errors' => [
+                    0 => [],
+                ],
+            ]
+        );
 
         // expected error text
         $this->assertContains($expected_error_text, $this->response->getContent());
@@ -44,15 +46,17 @@ trait TestJsonApiAssertionsTrait
     public function assertResponseJsonApiCollection(): void
     {
         $this->assertResponseStatus(200);
-        $this->response->assertJsonStructure([
-            'data' => [
-                0 => [
-                    'id',
-                    'type',
-                    'attributes',
+        $this->response->assertJsonStructure(
+            [
+                'data' => [
+                    0 => [
+                        'id',
+                        'type',
+                        'attributes',
+                    ],
                 ],
-            ],
-        ]);
+            ]
+        );
     }
 
     public function assertResponseJsonApiResource(): void
@@ -69,13 +73,15 @@ trait TestJsonApiAssertionsTrait
 
     private function assertResponseJsonApiResourceStructure(): void
     {
-        $this->response->assertJsonStructure([
-            'data' => [
-                'id',
-                'type',
-                'attributes',
-            ],
-        ]);
+        $this->response->assertJsonStructure(
+            [
+                'data' => [
+                    'id',
+                    'type',
+                    'attributes',
+                ],
+            ]
+        );
     }
 
     public function assertResponseJsonApiDeleted(): void
@@ -97,8 +103,10 @@ trait TestJsonApiAssertionsTrait
                 */
                 break;
             default:
-                $this->fail('Wrong response for resource deletion (Status code: '
-                        . $this->response->getStatusCode() . ').');
+                $this->fail(
+                    'Wrong response for resource deletion (Status code: '
+                    . $this->response->getStatusCode() . ').'
+                );
         }
     }
 }

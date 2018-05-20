@@ -7,13 +7,19 @@ image: susa4ostec/bitbucket-pipelines-php7.1-mysql
 pipelines:
     default:
         - step:
-            name: Install dependecies and test
+            name: Install dependecies, CI lint and tests
             caches:
                 - composer
             script:
                 - apt-get update -q
                 - apt-get install php7.1-soap php7.1-zip --no-install-recommends -qq --yes
-                - sh resources/bash/bitbucket-test.sh
+                - composer install --no-interaction --no-progress
+                - composer ci
+                - composer ci-php-md
+                - sh resources/ci/migrate.sh
+                # - composer coverage
+                - composer test
+                - sh resources/ci/reset.sh
     branches:
         master:
             - step:

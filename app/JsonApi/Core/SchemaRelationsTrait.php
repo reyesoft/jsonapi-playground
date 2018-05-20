@@ -29,7 +29,7 @@ trait SchemaRelationsTrait
             } else {
                 $ret[$relation_alias] = $this->buildRelationship(
                     $resource, $includeRelationships, $relation['schema']::$model, $relation_alias
-                    );
+                );
             }
         }
 

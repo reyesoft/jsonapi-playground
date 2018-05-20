@@ -49,9 +49,6 @@ class Handler implements ExceptionHandlerInterface
         $this->previous === null ?: $this->previous->report($exception);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function render($request, Exception $exception)
     {
         if ($exception instanceof JsonApiException) {

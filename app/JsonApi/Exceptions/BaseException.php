@@ -10,7 +10,10 @@ declare(strict_types=1);
 
 namespace App\JsonApi\Exceptions;
 
+use Neomerx\JsonApi\Contracts\Document\ErrorInterface;
+use Neomerx\JsonApi\Contracts\Document\LinkInterface;
 use Neomerx\JsonApi\Document\Error;
+use Neomerx\JsonApi\Exceptions\ErrorCollection;
 use Neomerx\JsonApi\Exceptions\JsonApiException;
 
 class BaseException extends JsonApiException
@@ -20,11 +23,8 @@ class BaseException extends JsonApiException
     public const HTTP_CODE_RESOURCE_NOT_FOUND = 404;
     public const HTTP_CODE_UNAUTHORIZED = 404;
 
-    public function __construct($errors, int $defaultHttpCode = self::DEFAULT_HTTP_CODE, Exception $previous = null)
+    public function __construct($errors, int $defaultHttpCode = self::DEFAULT_HTTP_CODE, \Exception $previous = null)
     {
-        // $jsonapi_errors = $this->mutateErrors($errors);
-        // parent::__construct($jsonapi_errors, $jsonapi_errors->getHttpStatus($defaultHttpCode), $previous);
-
         parent::__construct($errors, $defaultHttpCode, $previous);
     }
 
@@ -53,10 +53,10 @@ class BaseException extends JsonApiException
         $title = null,
         $detail = null,
         array $source = null,
-        $meta = null)
-    {
+        $meta = null
+    ) {
         $error = new Error($idx, $aboutLink, $status, $code, $title, $detail, $source, $meta);
 
-        return self::__construct($error);
+        return new parent($error);
     }
 }

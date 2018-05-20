@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace App\JsonApi\Requests;
 
+use App\JsonApi\Exceptions\ResourceTypeNotFoundException;
 use Psr\Http\Message\ServerRequestInterface;
 
 class RelatedRequest extends JsonApiRequest

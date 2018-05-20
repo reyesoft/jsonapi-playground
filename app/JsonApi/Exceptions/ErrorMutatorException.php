@@ -14,15 +14,14 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ErrorMutatorException extends BaseException
 {
-    //    public function __construct($exception, $convert_all_to_jsonapi = true)
     public function __construct($exception)
     {
         if ($exception instanceof ModelNotFoundException) {
-            return $this->make(
-                    null, null, null,
-                    (string) self::HTTP_CODE_TYPE_NOT_FOUND,
-                    'Resource `' . implode(', ', $exception->getIds()) . '` not found.'
-                );
+            $this->make(
+                null, null, null,
+                (string) self::HTTP_CODE_TYPE_NOT_FOUND,
+                'Resource `' . implode(', ', $exception->getIds()) . '` not found.'
+            );
         }
 
         throw $exception;

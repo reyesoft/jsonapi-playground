@@ -21,19 +21,22 @@ class JsonApiMiddleware
 {
     public function __construct(ServerRequestInterface $request)
     {
-        app()->singleton(AppResponses::class, function () use ($request) {
-            return AppResponses::instance($request, []);
-        });
+        app()->singleton(
+            AppResponses::class, function () use ($request) {
+                return AppResponses::instance($request, []);
+            }
+        );
 
-        app()->singleton(Factory::class, function () {
-            return new Factory();
-        });
+        app()->singleton(
+            Factory::class, function () {
+                return new Factory();
+            }
+        );
     }
 
     /**
      * Handle an incoming request.
      *
-     * @param  $request
      * @param \Closure $next
      *
      * @return mixed
@@ -61,8 +64,10 @@ class JsonApiMiddleware
         if (app()->bound(ExceptionHandler::class) === true) {
             $previousHandler = app()->make(ExceptionHandler::class);
         }
-        app()->singleton(ExceptionHandler::class, function () use ($previousHandler) {
-            return new JsonApiExceptionHandler(app(), $previousHandler);
-        });
+        app()->singleton(
+            ExceptionHandler::class, function () use ($previousHandler) {
+                return new JsonApiExceptionHandler(app(), $previousHandler);
+            }
+        );
     }
 }

@@ -27,8 +27,6 @@ abstract class ResourceRequest extends JsonApiRequest
     }
 
     /**
-     * @return string create, update, all, related, get
-     *
      * @throws \Exception
      */
     public function getAction(): Action

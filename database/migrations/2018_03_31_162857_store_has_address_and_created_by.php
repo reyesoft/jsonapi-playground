@@ -18,13 +18,15 @@ class StoreHasAddressAndCreatedBy extends Migration
      */
     public function up(): void
     {
-        Schema::table('stores', function (Blueprint $table): void {
-            $table->string('address')->after('name');
-            $table->string('private_data')->after('address');
-            $table->integer('created_by')->unsigned()->before('name');
+        Schema::table(
+            'stores', function (Blueprint $table): void {
+                $table->string('address')->after('name');
+                $table->string('private_data')->after('address');
+                $table->integer('created_by')->unsigned()->before('name');
 
-            $table->foreign('created_by')->references('id')->on('users');
-        });
+                $table->foreign('created_by')->references('id')->on('users');
+            }
+        );
     }
 
     /**
@@ -32,11 +34,13 @@ class StoreHasAddressAndCreatedBy extends Migration
      */
     public function down(): void
     {
-        Schema::table('stores', function (Blueprint $table): void {
-            $table->dropForeign('stores_created_by_foreign');
-            $table->dropColumn('address');
-            $table->dropColumn('private_data');
-            $table->dropColumn('created_by');
-        });
+        Schema::table(
+            'stores', function (Blueprint $table): void {
+                $table->dropForeign('stores_created_by_foreign');
+                $table->dropColumn('address');
+                $table->dropColumn('private_data');
+                $table->dropColumn('created_by');
+            }
+        );
     }
 }

@@ -124,7 +124,7 @@ class BooksTest extends BaseTestCase
 
         // checking saved data
         $result = json_decode($this->response->getContent(), true);
-        $this->assertSame(2, count($result['data']['relationships']['stores']['data']));
+        $this->assertCount(2, $result['data']['relationships']['stores']['data']);
         $this->assertContains($result['data']['relationships']['stores']['data'][0]['id'], $stores->pluck('id'));
     }
 
@@ -148,7 +148,7 @@ class BooksTest extends BaseTestCase
 
         // cheking saved data
         $result = json_decode($this->response->getContent(), true);
-        $this->assertSame(1, count($result['data']['relationships']['stores']['data']));
+        $this->assertCount(1, $result['data']['relationships']['stores']['data']);
         $this->assertContains($result['data']['relationships']['stores']['data'][0]['id'], $stores->pluck('id'));
     }
 
@@ -189,6 +189,6 @@ class BooksTest extends BaseTestCase
 
         // checking saved data
         $result = json_decode($this->response->getContent(), true);
-        $this->assertSame(0, count($result['data']['relationships']['stores']['data']));
+        $this->assertCount(0, $result['data']['relationships']['stores']['data']);
     }
 }

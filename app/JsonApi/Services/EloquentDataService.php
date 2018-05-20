@@ -10,9 +10,12 @@ declare(strict_types=1);
 
 namespace App\JsonApi\Services;
 
+use App\JsonApi\Exceptions\ResourcePolicyException;
 use App\JsonApi\Exceptions\ResourceValidationException;
 use ArrayAccess;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\Concerns\InteractsWithPivotTable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\DB;
@@ -82,7 +85,7 @@ class EloquentDataService extends DataService
         $schema->modelBeforeSave($object);
         $this->applyModelPolicy($object);
 
-        return $object->delete();
+        return $object->delete() !== false;
     }
 
     protected function applyModelPolicy($model): void
@@ -144,7 +147,7 @@ class EloquentDataService extends DataService
 
             return true;
         }
-        DB::rollback();
+        DB::rollBack();
 
         return false;
     }
@@ -152,14 +155,14 @@ class EloquentDataService extends DataService
     /**
      * This is required because we need save hasOne relations first.
      * Next, object; and finally hasMany relations.
-     *
-     * @return array
      */
     private function sortRelationsBySchemaHasMany(array &$relations_schema): void
     {
-        uasort($relations_schema, function ($a, $relationship_schema) {
-            return $relationship_schema['hasMany'] ? -1 : 1;
-        });
+        uasort(
+            $relations_schema, function ($a, $relationship_schema) {
+                return $relationship_schema['hasMany'] ? -1 : 1;
+            }
+        );
     }
 
     private function saveObject($object): bool
@@ -170,11 +173,11 @@ class EloquentDataService extends DataService
 
             return true;
         } catch (ValidationException $e) {
-            DB::rollback();
+            DB::rollBack();
             throw new ResourceValidationException($e->errors());
         } catch (\Exception $e) {
             // Personalized validation. For example BaseException on Apicultor project.
-            DB::rollback();
+            DB::rollBack();
             throw $e;
         }
     }
@@ -192,7 +195,8 @@ class EloquentDataService extends DataService
             } elseif ($relation_data['id']) {
                 $object->{$alias}()->associate($relation_data['id']);
             } else {
-                throw new \Exception('Process hasOne fillRelationship() with `' .
+                throw new \Exception(
+                    'Process hasOne fillRelationship() with `' .
                     str_replace('"', '\'', json_encode($relation_data)) . '` for `' . $alias .
                     '` is not possible (' . $data['data']['type'] . '->' . $alias . ')'
                 );
@@ -209,7 +213,8 @@ class EloquentDataService extends DataService
                 $ids = $this->getIdsFromDataCollection($relation_data);
                 $this->syncAllRelated($object->{$alias}(), $ids);
             } else {
-                throw new \Exception('Process hasMany fillRelationship() with `' .
+                throw new \Exception(
+                    'Process hasMany fillRelationship() with `' .
                     str_replace('"', '\'', json_encode($relation_data)) . '` for `' . $alias .
                     '` is not possible (' . $data['data']['type'] . '->' . $alias . ')'
                 );
@@ -217,6 +222,9 @@ class EloquentDataService extends DataService
         }
     }
 
+    /**
+     * @param InteractsWithPivotTable|HasMany|MorphMany $model_relation
+     */
     private function syncAllRelated($model_relation, array $ids): void
     {
         if ($model_relation instanceof HasMany
@@ -241,16 +249,10 @@ class EloquentDataService extends DataService
 
     private function getIdsFromDataCollection($data_collection): array
     {
-        return array_map(function ($data_resource) {
-            return $data_resource['id'];
-        }, $data_collection);
-    }
-
-    public function openTransaction(): void
-    {
-    }
-
-    public function closeTransaction(): void
-    {
+        return array_map(
+            function ($data_resource) {
+                return $data_resource['id'];
+            }, $data_collection
+        );
     }
 }

@@ -15,32 +15,19 @@ use Illuminate\Validation\ValidationException;
 
 trait EvaluatesRulesTrait
 {
-    /**
-     * @deprecated
-     */
-    public $errors = [];
-
     public static function bootEvaluatesRulesTrait(): void
     {
         $rules = self::$rules;
 
-        static::saving(function ($model) use ($rules) {
-            $validator = Validator::make($model->attributes, $rules);
-            if ($validator->fails()) {
-                $model->errors = $validator->errors();
+        static::saving(
+            function ($model) use ($rules): void {
+                $validator = Validator::make($model->attributes, $rules);
+                if ($validator->fails()) {
+                    $model->errors = $validator->errors();
 
-                throw new ValidationException($validator);
+                    throw new ValidationException($validator);
+                }
             }
-
-            return true;
-        });
-    }
-
-    /**
-     * @deprecated
-     */
-    public function errors()
-    {
-        return $this->errors;
+        );
     }
 }

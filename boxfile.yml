@@ -33,9 +33,9 @@ run.config:
       - xml         ## used by phpmd & phpoffice/phpexcel
       - xmlwriter   ## used by phpunit & phpoffice/phpexcel
       - simplexml   ## used by squizlabs/php_codesniffer
-    #dev_extensions:
-    #  add:
-    #    - simplexml   ## used by squizlabs/php_codesniffer
+    dev_extensions:
+      add:
+        - iconv     ## used by phpstan/phpstan (.neon file reader)
     date_timezone: 'America/Argentina/Mendoza'
     php_max_execution_time: 240
     php_max_input_time: 30

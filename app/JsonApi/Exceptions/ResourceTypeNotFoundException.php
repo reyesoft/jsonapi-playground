@@ -19,8 +19,8 @@ class ResourceTypeNotFoundException extends BaseException
         // parent::__construct(new \Exception("`${resource_type}` resource don't exist."),
         // self::HTTP_CODE_TYPE_NOT_FOUND);
         parent::__construct(
-                $this->createQueryError($resource_type, "`${resource_type}` resource don't exist."),
-                self::HTTP_CODE_TYPE_NOT_FOUND
+            $this->createQueryError($resource_type, "`${resource_type}` resource don't exist."),
+            self::HTTP_CODE_TYPE_NOT_FOUND
         );
         /*
         return $this->make(

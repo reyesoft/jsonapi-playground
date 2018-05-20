@@ -22,9 +22,8 @@ if [ "$?" -eq 0 ] || [ "${f}" ] ; then
 
     # ide helper
     php artisan migrate
-    php artisan ide-helper:models --nowrite --filename=bootstrap/cache/_ide_helper_models.php
-    php artisan ide-helper:meta --filename=bootstrap/cache/_ide_helper_meta.php
-    php artisan ide-helper:generate bootstrap/cache/.phpstorm.meta.php
+    composer ide-helper
+    composer ide-helper-models
 else
     echo 'Migrations are not required.'
 fi;

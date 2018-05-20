@@ -69,7 +69,7 @@ class Action
     public function isSaving(): bool
     {
         // in_array($action->getActionName(), ['get', 'all', 'related', 'delete']);
-        return in_array($this->getActionName(), ['create', 'update']);
+        return in_array($this->getActionName(), ['create', 'update'], true);
     }
 
     public function getId(): string

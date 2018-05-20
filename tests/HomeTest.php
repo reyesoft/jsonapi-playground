@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace tests;
+namespace Tests;
 
 class HomeTest extends TestCase
 {

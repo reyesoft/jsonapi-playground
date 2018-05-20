@@ -60,8 +60,6 @@ abstract class JsonApiRequest
     }
 
     /**
-     * @return string create, update, all, related, get
-     *
      * @throws \Exception
      */
     public function getAction(): Action
@@ -91,7 +89,7 @@ abstract class JsonApiRequest
 
     public function getParameters(): JsonApiParameters
     {
-        if (!$this->parameters) {
+        if ($this->parameters === null) {
             $parameters = new QueryParser($this->request->getQueryParams());
             $parameters->checkQuery();
             $this->parameters = new JsonApiParameters($parameters);
