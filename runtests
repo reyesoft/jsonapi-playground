@@ -17,14 +17,24 @@ php artisan migrate:status --env=testing | grep -E '^\| N|^No migrations'    >> 
 if [ "$?" -eq 0 ] || [ "${f}" ] ; then
     echo 'Migrations required. Lets do it!'
 
-    php artisan config:clear
-    php artisan migrate:refresh --seed --env=testing
+    php artisan config:clear &&
+    php artisan migrate:refresh --seed --env=testing &&
 
     # ide helper
-    php artisan migrate
-    composer ide-helper
+    php artisan migrate &&
+    composer ide-helper &&
     composer ide-helper-models
+
+    if [ $? -ne 0 ]; then
+        echo "\n ✖  Errors on migrations or generator scripts. \n"
+        exit 1
+    fi
 else
     echo 'Migrations are not required.'
 fi;
+
 phpunit
+
+if [ $? -eq 0 ]; then
+    echo "\n 🔎  Don't forget to run \n    composer coverage \n"
+fi

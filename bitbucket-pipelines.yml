@@ -20,15 +20,7 @@ pipelines:
                 # - composer coverage
                 - composer test
                 - sh resources/ci/reset.sh
-    branches:
-        master:
-            - step:
-                name: Install dependecies and test
-                image: susa4ostec/bitbucket-pipelines-php7.1-mysql
-                script:
-                    - apt-get update -q
-                    - apt-get install php7.1-soap php7.1-zip --no-install-recommends -qq --yes
-                    - sh resources/bash/bitbucket-test.sh
-                    - # run vía webhook
-                    - # git remote add production http://reyesoft@jsonapiplayground.reyesoft.com/plesk-git/jsonapiplayground.git
-                    - # git push production master:master
+
+# master is deployed via webhook
+# git remote add production http://reyesoft@jsonapiplayground.reyesoft.com/plesk-git/jsonapiplayground.git
+# git push production master:master

@@ -17,7 +17,6 @@
         <exclude name="ElseExpression" />
     </rule>
 
-
     <!-- esto a futuro deberia bajar, luego de los integration tests -->
     <rule ref="rulesets/codesize.xml/TooManyPublicMethods">
         <properties>

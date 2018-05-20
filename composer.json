@@ -95,6 +95,9 @@
     },
     "config": {
         "preferred-install": "dist",
+        "platform:": {
+            "php": "7.1"
+        },
         "discard-changes": true,
         "optimize-autoloader": true
     },
