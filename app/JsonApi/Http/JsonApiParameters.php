@@ -15,7 +15,7 @@ use App\JsonApi\Core\QueryParser;
 class JsonApiParameters
 {
     /**
-     * @var iterable|null
+     * @var iterable
      */
     private $sortParameters;
 

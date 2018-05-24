@@ -14,9 +14,6 @@
          beStrictAboutTodoAnnotatedTests="true"
          processIsolation="false"
          stopOnFailure="true">
-    <listeners>
-        <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener" />
-    </listeners>
     <logging>
         <log type="coverage-html" target="bootstrap/cache/reports/coverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="55" highLowerBound="85" />
         <log type="coverage-clover" target="bootstrap/cache/clover.xml"/>
@@ -33,10 +30,12 @@
         </whitelist>
     </filter>
     <php>
+        <!-- los mismos que .env.testing -->
         <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="MAIL_DRIVER" value="array"/>
+        <env name="DB_CONNECTION" value="mysql_test" />
     </php>
 </phpunit>

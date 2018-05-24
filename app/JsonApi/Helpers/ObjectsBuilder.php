@@ -55,10 +55,13 @@ class ObjectsBuilder
         $this->schema->modelBeforeGet($builder);
 
         return $builder
-            ->simplePaginate($this->params->getPageSize(), $columns, null, $this->params->getPageNumber())
+            ->simplePaginate($this->params->getPageSize(), $columns, 'page', $this->params->getPageNumber())
             ->items();
     }
 
+    /**
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
     public function getObject(string $resource_id): Model
     {
         $builder = $this->getEloquentBuilder();
@@ -66,7 +69,10 @@ class ObjectsBuilder
         // mover a eloquent object service?
         $this->schema->modelBeforeGet($builder);
 
-        return $builder->findOrFail($resource_id);
+        /** @var Model */
+        $object = $builder->findOrFail($resource_id);
+
+        return $object;
     }
 
     /**

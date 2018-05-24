@@ -116,9 +116,15 @@ class JsonApiResourceBuilder
 
     private function model2relationshipData(Model $model, string $alias = null): array
     {
+        /*
+         * @todo
+         * $model->id o $model->type puede que no esten definidos.
+         * Por ello se deberia crear una interfaz o modelo para ser aplicado a los que luego usa DataServiceModel
+         * Una vez solucionado, quitar "Access to an undefined property" de phpstan.src
+         */
         return [
             'id' => $model->id,
-            'type' => $alias ?? $model->type,    // @todo
+            'type' => $alias ?? $model->type,
         ];
     }
 

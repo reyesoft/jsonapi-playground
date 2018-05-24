@@ -78,14 +78,14 @@ class AppResponses extends BaseResponses
         ContainerInterface $schemes,
         EncodingParametersInterface $encoding_parameters = null,
         string $urlPrefix = null,
-        Factory $factory = null
+        Factory $factory
     ) {
         $this->extensions = null;
         $this->outputMediaType = $outputMediaType;
         $this->urlPrefix = $urlPrefix;
         $this->encoding_parameters = $encoding_parameters;
-        $this->factory = $factory;
         $this->setSchemesContainer($schemes);
+        $this->factory = $factory;
         $this->encoder = $factory->createEncoder($schemes);
     }
 

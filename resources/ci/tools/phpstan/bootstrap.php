@@ -13,7 +13,5 @@ if(!file_exists($helper_meta_file)) {
     exec('composer ide-helper');
 }
 require $helper_meta_file;
-// require './bootstrap/cache/.phpstorm.meta.php';
-// require './bootstrap/cache/_ide_helper_models.php';
 
 define('LARAVEL_START', microtime(true));

@@ -13,5 +13,8 @@ sh resources/ci/tools/find-double-spaces.sh tests/
 
 echo "php-cs-fixer..." &&
 ./vendor/bin/php-cs-fixer fix --config=resources/ci/.php-cs-fixer.dist
+echo
+
+git status -s
 
 echo "\n 💡  Don't forget to run \n    composer ci-php-md \n"

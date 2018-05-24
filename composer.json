@@ -22,8 +22,8 @@
         "mockery/mockery": "1.1.0",
         "phpunit/phpunit": "7.1.5",
         "codedungeon/phpunit-result-printer": "0.19.6",
-        "nunomaduro/collision": "2.0.2",
         "barryvdh/laravel-ide-helper": "2.4.3",
+        "doctrine/dbal": "2.7.1",
         "filp/whoops": "2.1.14",
         "phpmd/phpmd" : "@stable",
         "phpstan/phpstan": "0.9.2",
@@ -75,7 +75,11 @@
             "php artisan ide-helper:meta --filename=bootstrap/cache/.phpstorm.meta.php",
             "php artisan ide-helper:generate bootstrap/cache/_ide_helper_meta.php"
         ],
-        "ide-helper-models": "php artisan ide-helper:models --nowrite --filename=bootstrap/cache/_ide_helper_models.php",
+        "ide-helper-models":[
+            "php artisan migrate",
+            "php artisan ide-helper:models --nowrite --filename=bootstrap/cache/_ide_helper_models.php",
+            "composer autofix"
+        ],
 
         "coverage": [
             "phpdbg -qrr ./vendor/bin/phpunit",

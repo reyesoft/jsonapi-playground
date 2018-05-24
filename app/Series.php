@@ -12,6 +12,22 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Series.
+ *
+ * @property int $id
+ * @property string|null $title
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Book[] $books
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Photo[] $photos
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Series whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Series whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Series whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Series whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Series extends Model
 {
     protected $fillable = [

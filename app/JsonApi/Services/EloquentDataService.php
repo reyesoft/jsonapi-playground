@@ -15,12 +15,14 @@ use App\JsonApi\Exceptions\ResourceValidationException;
 use ArrayAccess;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\Concerns\InteractsWithPivotTable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * @property \App\JsonApi\Requests\RelatedRequest $jsonapirequest
+ */
 class EloquentDataService extends DataService
 {
     public static $transactionOpened = false;
@@ -223,7 +225,7 @@ class EloquentDataService extends DataService
     }
 
     /**
-     * @param InteractsWithPivotTable|HasMany|MorphMany $model_relation
+     * @ param HasMany|MorphMany $model_relation
      */
     private function syncAllRelated($model_relation, array $ids): void
     {
@@ -231,7 +233,9 @@ class EloquentDataService extends DataService
             || $model_relation instanceof MorphMany
         ) {
             foreach ($ids as $id) {
-                $model_relation->save($model_relation->getModel()::find($id));
+                /** @var Model $related_model */
+                $related_model = $model_relation->getQuery()->getModel()->find($id);
+                $model_relation->save($related_model);
             }
         } else {
             $model_relation->sync($ids);
