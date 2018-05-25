@@ -77,7 +77,7 @@
         ],
         "ide-helper-models":[
             "php artisan migrate",
-            "php artisan ide-helper:models --nowrite --filename=bootstrap/cache/_ide_helper_models.php",
+            "php artisan ide-helper:models --write",
             "composer autofix"
         ],
 
