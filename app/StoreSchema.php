@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\JsonApi\Core\SchemaProvider;
-use App\JsonApi\Core\SchemaRelationsTrait;
+use Reyesoft\JsonApi\Core\SchemaProvider;
+use Reyesoft\JsonApi\Core\SchemaRelationsTrait;
 
 class StoreSchema extends SchemaProvider
 {
@@ -28,6 +28,7 @@ class StoreSchema extends SchemaProvider
             'cru' => 'cr',
         ],
         'created_by' => [
+            'type' => 'enum',
             'cru' => 'r',
         ],
     ];

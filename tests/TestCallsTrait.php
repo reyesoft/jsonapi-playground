@@ -63,7 +63,7 @@ trait TestCallsTrait
         return $this->response;
     }
 
-    public function assertResponseStatus($code = 200)
+    public function assertResponseStatus($code = 200): void
     {
         $actual = $this->response->getStatusCode();
 
@@ -75,6 +75,6 @@ trait TestCallsTrait
             );
         }
 
-        return $this->assertEquals($code, $actual);
+        $this->assertSame($code, $actual);
     }
 }

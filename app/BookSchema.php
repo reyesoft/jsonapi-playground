@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\JsonApi\Core\SchemaProvider;
-use App\JsonApi\Core\SchemaRelationsTrait;
+use Reyesoft\JsonApi\Core\SchemaProvider;
+use Reyesoft\JsonApi\Core\SchemaRelationsTrait;
 
 class BookSchema extends SchemaProvider
 {
@@ -27,7 +27,9 @@ class BookSchema extends SchemaProvider
         'date_published' => [
             'type' => 'date',
         ],
-        'isbn' => [],
+        'isbn' => [
+            'type' => 'number',
+        ],
     ];
 
     protected static $relationships = [
@@ -43,8 +45,8 @@ class BookSchema extends SchemaProvider
             'schema' => PhotoSchema::class,
             'hasMany' => true,
         ],
-        'serie' => [
-            'schema' => SerieSchema::class,
+        'series' => [
+            'schema' => SeriesSchema::class,
             'hasMany' => false,
         ],
         'stores' => [

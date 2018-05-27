@@ -71,6 +71,6 @@ class ChaptersTest extends BaseTestCase
         $this->assertResponseJsonApiError('Policy Exception', 403);
 
         $chapter = Chapter::find($chapter_id);
-        $this->assertEquals($chapter->id, $chapter_id);
+        $this->assertSame((string) $chapter->id, $chapter_id);
     }
 }

@@ -20,12 +20,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (env('APP_DEBUG') && !empty($_SERVER['HTTP_CACHE_CONTROL'])) {
+        if ((bool) config('app.debug') && !empty($_SERVER['HTTP_CACHE_CONTROL'])) {
             echo number_format(microtime(true) - LARAVEL_START, 2) . PHP_EOL;
-            DB::listen(function ($query): void {
-                echo(number_format(microtime(true) - LARAVEL_START, 2) . ' TIME: ' . $query->time / 1000 .
+            DB::listen(
+                function ($query): void {
+                    echo(number_format(microtime(true) - LARAVEL_START, 2) . ' TIME: ' . $query->time / 1000 .
                         ' QUERY: ' . $query->sql . ', values: ' . json_encode($query->bindings)) . PHP_EOL;
-            });
+                }
+            );
         }
     }
 
@@ -34,5 +36,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        if ($this->app->environment() !== 'production') {
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+        }
     }
 }

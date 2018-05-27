@@ -28,7 +28,7 @@ class BooksTest extends BaseTestCase
             'author' => 'authors',
             'chapters' => 'chapters',
             'photos' => 'photos',
-            'serie' => 'series',
+            'series' => 'series',
             'stores' => 'stores',
         ],
     ];
@@ -46,13 +46,13 @@ class BooksTest extends BaseTestCase
         // with author, ok
         $author = Author::first();
         $resource['data']['relationships']['author']['data'] = ['id' => $author->id, 'type' => 'authors'];
-        unset($resource['data']['relationships']['serie']);
+        unset($resource['data']['relationships']['series']);
         $this->callPost('/v2/books', $resource);
         $this->assertResponseStatus(201);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($resource['data']['attributes']['title'], $result['data']['attributes']['title']);
-        $this->assertEquals($resource['data']['relationships']['author']['data']['id'], $author->id);
+        $this->assertSame($resource['data']['attributes']['title'], $result['data']['attributes']['title']);
+        $this->assertSame($resource['data']['relationships']['author']['data']['id'], $author->id);
 
         return $result['data']['id'];
     }
@@ -71,14 +71,14 @@ class BooksTest extends BaseTestCase
             $resource['data']['relationships']['chapters']['data'][] = ['type' => 'chapters', 'id' => $chapter_id];
         }
 
-        unset($resource['data']['relationships']['serie']);
+        unset($resource['data']['relationships']['series']);
 
         $this->callPost('/v2/books', $resource);
         $this->assertResponseStatus(201);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($resource['data']['attributes']['title'], $result['data']['attributes']['title']);
-        $this->assertEquals($resource['data']['relationships']['author']['data']['id'], $author->id);
+        $this->assertSame($resource['data']['attributes']['title'], $result['data']['attributes']['title']);
+        $this->assertSame($resource['data']['relationships']['author']['data']['id'], $author->id);
 
         return $result['data']['id'];
     }
@@ -124,7 +124,7 @@ class BooksTest extends BaseTestCase
 
         // checking saved data
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals(2, count($result['data']['relationships']['stores']['data']));
+        $this->assertCount(2, $result['data']['relationships']['stores']['data']);
         $this->assertContains($result['data']['relationships']['stores']['data'][0]['id'], $stores->pluck('id'));
     }
 
@@ -148,7 +148,7 @@ class BooksTest extends BaseTestCase
 
         // cheking saved data
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals(1, count($result['data']['relationships']['stores']['data']));
+        $this->assertCount(1, $result['data']['relationships']['stores']['data']);
         $this->assertContains($result['data']['relationships']['stores']['data'][0]['id'], $stores->pluck('id'));
     }
 
@@ -168,8 +168,8 @@ class BooksTest extends BaseTestCase
         $this->assertGreaterThan(0, $author_id);
 
         // checking included data
-        $this->assertEquals($result['included'][0]['type'], 'authors');
-        $this->assertEquals($result['included'][0]['id'], $author_id);
+        $this->assertSame($result['included'][0]['type'], 'authors');
+        $this->assertSame($result['included'][0]['id'], $author_id);
         $this->assertNotEmpty($result['included'][0]['attributes']['name']);
     }
 
@@ -189,6 +189,6 @@ class BooksTest extends BaseTestCase
 
         // checking saved data
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals(0, count($result['data']['relationships']['stores']['data']));
+        $this->assertCount(0, $result['data']['relationships']['stores']['data']);
     }
 }

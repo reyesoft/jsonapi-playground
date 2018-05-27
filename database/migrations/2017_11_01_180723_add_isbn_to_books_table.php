@@ -21,7 +21,7 @@ class AddIsbnToBooksTable extends Migration
     {
         Schema::table(
             'books', function (Blueprint $table): void {
-                $table->integer('isbn')->unsigned()->after('serie_id');
+                $table->integer('isbn')->unsigned()->after('series_id');
             }
         );
     }

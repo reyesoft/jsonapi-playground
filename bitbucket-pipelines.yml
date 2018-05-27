@@ -7,22 +7,21 @@ image: susa4ostec/bitbucket-pipelines-php7.1-mysql
 pipelines:
     default:
         - step:
-            name: Install dependecies and test
+            name: Install dependecies, CI lint and tests
             caches:
                 - composer
             script:
-                - apt-get update -q
-                - apt-get install php7.1-soap php7.1-zip --no-install-recommends -qq --yes
-                - sh resources/bash/bitbucket-test.sh
-    branches:
-        master:
-            - step:
-                name: Install dependecies and test
-                image: susa4ostec/bitbucket-pipelines-php7.1-mysql
-                script:
-                    - apt-get update -q
-                    - apt-get install php7.1-soap php7.1-zip --no-install-recommends -qq --yes
-                    - sh resources/bash/bitbucket-test.sh
-                    - # run vía webhook
-                    - # git remote add production http://reyesoft@jsonapiplayground.reyesoft.com/plesk-git/jsonapiplayground.git
-                    - # git push production master:master
+                # - apt-get update -q
+                # - apt-get install php7.1-soap php7.1-zip --no-install-recommends -qq --yes
+                - composer install --no-interaction --no-progress
+                - git clone git@bitbucket.org:reyesoft/laravel-json-api.git
+                - composer ci
+                - composer ci-php-md
+                - sh resources/ci/migrate.sh
+                # - composer coverage
+                - composer test
+                - sh resources/ci/reset.sh
+
+# master is deployed via webhook
+# git remote add production http://reyesoft@jsonapiplayground.reyesoft.com/plesk-git/jsonapiplayground.git
+# git push production master:master

@@ -14,7 +14,7 @@ use App\Author;
 use App\Book;
 use App\Chapter;
 use App\Photo;
-use App\Serie;
+use App\Series;
 use App\Store;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -29,7 +29,7 @@ abstract class TestCase extends BaseTestCase
         ],
         'books' => [
             'author',
-            'serie',
+            'series',
             'chapters',
             'stores',
             'photos',
@@ -53,13 +53,13 @@ abstract class TestCase extends BaseTestCase
         'photos' => Photo::class,
         'books' => Book::class,
         'chapters' => Chapter::class,
-        'series' => Serie::class,
+        'series' => Series::class,
         'stores' => Store::class,
     ];
 
     protected $alias = [
         'book' => 'books',
-        'serie' => 'series',
+        'series' => 'series',
         'author' => 'authors',
     ];
 }

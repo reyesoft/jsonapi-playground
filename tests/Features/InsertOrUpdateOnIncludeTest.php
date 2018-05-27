@@ -42,8 +42,8 @@ class InsertOrUpdateOnIncludeTest extends BaseTestCase
         $this->assertResponseStatus(201);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($author_data['attributes']['name'], $result['included'][0]['attributes']['name']);
-        $this->assertEquals($result['data']['relationships']['author']['data']['id'], $result['included'][0]['id']);
+        $this->assertSame($author_data['attributes']['name'], $result['included'][0]['attributes']['name']);
+        $this->assertSame($result['data']['relationships']['author']['data']['id'], $result['included'][0]['id']);
 
         return $result['data']['id'];
     }
@@ -70,8 +70,8 @@ class InsertOrUpdateOnIncludeTest extends BaseTestCase
         $this->assertResponseStatus(201);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($author_data['attributes']['name'], $result['included'][0]['attributes']['name']);
-        $this->assertEquals($result['data']['relationships']['author']['data']['id'], $result['included'][0]['id']);
+        $this->assertSame($author_data['attributes']['name'], $result['included'][0]['attributes']['name']);
+        $this->assertSame($result['data']['relationships']['author']['data']['id'], $result['included'][0]['id']);
     }
 
     /**
@@ -97,9 +97,9 @@ class InsertOrUpdateOnIncludeTest extends BaseTestCase
         $this->assertResponseStatus(200);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertNotEquals($author_data['id'], $result['included'][0]['id']);
-        $this->assertEquals($author_data['attributes']['name'], $result['included'][0]['attributes']['name']);
-        $this->assertEquals($result['data']['relationships']['author']['data']['id'], $result['included'][0]['id']);
+        $this->assertNotSame($author_data['id'], $result['included'][0]['id']);
+        $this->assertSame($author_data['attributes']['name'], $result['included'][0]['attributes']['name']);
+        $this->assertSame($result['data']['relationships']['author']['data']['id'], $result['included'][0]['id']);
     }
 
     /**
@@ -122,9 +122,9 @@ class InsertOrUpdateOnIncludeTest extends BaseTestCase
         $this->assertResponseStatus(200);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($author_data['id'], $result['included'][0]['id']);
-        $this->assertEquals($author_data['attributes']['name'], $result['included'][0]['attributes']['name']);
-        $this->assertEquals($result['data']['relationships']['author']['data']['id'], $result['included'][0]['id']);
+        $this->assertSame($author_data['id'], $result['included'][0]['id']);
+        $this->assertSame($author_data['attributes']['name'], $result['included'][0]['attributes']['name']);
+        $this->assertSame($result['data']['relationships']['author']['data']['id'], $result['included'][0]['id']);
     }
 
     public function testCreateBookWithInvalidIncluded(): void

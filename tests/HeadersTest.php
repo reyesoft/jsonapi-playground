@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace tests;
+namespace Tests;
 
 class HeadersTest extends TestCase
 {
@@ -16,7 +16,7 @@ class HeadersTest extends TestCase
     {
         foreach ($this->models as $resource => $value) {
             $response = $this->call('GET', 'v2/' . $resource);
-            $this->assertEquals('application/vnd.api+json', $response->headers->get('content-type'));
+            $this->assertSame('application/vnd.api+json', $response->headers->get('content-type'));
         }
     }
 }

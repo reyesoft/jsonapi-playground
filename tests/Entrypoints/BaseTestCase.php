@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 namespace Tests\Entrypoints;
 
-use App\JsonApi\Tests\TestJsonApiAssertionsTrait;
-use App\JsonApi\Tests\TestJsonApiLayoutTrait;
+use Reyesoft\JsonApi\Tests\TestJsonApiAssertionsTrait;
+use Reyesoft\JsonApi\Tests\TestJsonApiLayoutTrait;
 use Tests\TestCallsTrait;
 use Tests\TestCase;
 

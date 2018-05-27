@@ -41,7 +41,7 @@ class StoresTest extends BaseTestCase
         $this->assertResponseStatus(201);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($resource['data']['attributes']['name'], $result['data']['attributes']['name']);
+        $this->assertSame($resource['data']['attributes']['name'], $result['data']['attributes']['name']);
 
         return $result['data']['id'];
     }
@@ -55,7 +55,7 @@ class StoresTest extends BaseTestCase
         $this->assertResponseStatus(200);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($result['data']['id'], $store_id);
+        $this->assertSame($result['data']['id'], $store_id);
     }
 
     /**
@@ -68,7 +68,7 @@ class StoresTest extends BaseTestCase
         $this->assertResponseStatus(200);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($resource['data']['attributes']['name'], $result['data']['attributes']['name']);
+        $this->assertSame($resource['data']['attributes']['name'], $result['data']['attributes']['name']);
     }
 
     /**
@@ -89,8 +89,8 @@ class StoresTest extends BaseTestCase
         $this->assertResponseStatus(200);
 
         $store = Store::find($store_id);
-        $this->assertEquals($resource['data']['attributes']['name'], $store->name);
-        $this->assertEquals($store->private_data, $original_private_data);
+        $this->assertSame($resource['data']['attributes']['name'], $store->name);
+        $this->assertSame($store->private_data, $original_private_data);
     }
 
     /**
@@ -118,7 +118,7 @@ class StoresTest extends BaseTestCase
         $this->assertResponseStatus(201);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($resource['data']['attributes']['address'], $result['data']['attributes']['address']);
+        $this->assertSame($resource['data']['attributes']['address'], $result['data']['attributes']['address']);
 
         return $result['data']['id'];
     }
@@ -144,10 +144,10 @@ class StoresTest extends BaseTestCase
         $this->assertResponseStatus(200);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($original_address, $result['data']['attributes']['address']);
+        $this->assertSame($original_address, $result['data']['attributes']['address']);
         $store = Store::find($store_id);
-        $this->assertEquals($original_address, $store->address);
-        $this->assertNotEquals($new_address, $result['data']['attributes']['address']);
+        $this->assertSame($original_address, $store->address);
+        $this->assertNotSame($new_address, $result['data']['attributes']['address']);
     }
 
     /**
@@ -175,7 +175,7 @@ class StoresTest extends BaseTestCase
         $this->assertResponseStatus(201);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertNotEquals(
+        $this->assertNotSame(
             $resource['data']['attributes']['created_by'],
             $result['data']['attributes']['created_by']
         );
@@ -198,9 +198,9 @@ class StoresTest extends BaseTestCase
         $this->assertResponseStatus(200);
 
         $result = json_decode($this->response->getContent(), true);
-        $this->assertEquals($store->created_by, $result['data']['attributes']['created_by']);
+        $this->assertSame($store->created_by, $result['data']['attributes']['created_by']);
         $store = Store::find($store_id);
-        $this->assertEquals($original_created_by, $store->created_by);
-        $this->assertNotEquals($new_created_by, $result['data']['attributes']['created_by']);
+        $this->assertSame($original_created_by, $store->created_by);
+        $this->assertNotSame($new_created_by, $result['data']['attributes']['created_by']);
     }
 }
