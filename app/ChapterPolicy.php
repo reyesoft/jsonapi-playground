@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\JsonApi\Policy;
+use Reyesoft\JsonApi\Policy;
 
 class ChapterPolicy extends Policy
 {

@@ -14,6 +14,7 @@ pipelines:
                 # - apt-get update -q
                 # - apt-get install php7.1-soap php7.1-zip --no-install-recommends -qq --yes
                 - composer install --no-interaction --no-progress
+                - git clone git@bitbucket.org:reyesoft/laravel-json-api.git
                 - composer ci
                 - composer ci-php-md
                 - sh resources/ci/migrate.sh

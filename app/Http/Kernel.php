@@ -11,8 +11,8 @@ declare(strict_types=1);
 namespace App\Http;
 
 use App\Http\Middleware\XssProtection;
-use App\JsonApi\Http\Middleware\JsonApiMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Reyesoft\JsonApi\Http\Middleware\JsonApiMiddleware;
 
 class Kernel extends HttpKernel
 {
