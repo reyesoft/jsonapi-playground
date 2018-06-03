@@ -1,7 +1,7 @@
 #!/bin/sh
 
-sh resources/ci/pipeline/mysql-start.sh &&
-sh resources/ci/pipeline/laravel-mysql-env.sh &&
-sh resources/ci/pipeline/laravel-migrate.sh &&
+sh vendor/reyesoft/ci/db/mysql-start.sh &&
+sh vendor/reyesoft/ci/db/laravel-mysql-env.sh &&
+sh vendor/reyesoft/ci/db/laravel-migrate.sh &&
 
 exit $?

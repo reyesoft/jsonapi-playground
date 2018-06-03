@@ -8,9 +8,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Entrypoints;
+namespace Tests\Features;
 
 use App\Author;
+use Tests\Entrypoints\BaseTestCase;
 
 class InsertOrUpdateOnIncludeTest extends BaseTestCase
 {

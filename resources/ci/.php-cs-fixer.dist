@@ -116,6 +116,5 @@ return PhpCsFixer\Config::create()
             ->in('./database')
             ->in('./routes')
             ->in('./tests')
-            ->in('./laravel-json-api/src/')
     )
 ;

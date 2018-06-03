@@ -10,11 +10,10 @@
         "fideloper/proxy": "~4.0",
         "laravel/framework": "5.6.22",
         "barryvdh/laravel-cors": "0.11.0",
-        "neomerx/json-api": "2.0.5",
-        "symfony/psr-http-message-bridge": "1.0.2",
-        "zendframework/zend-diactoros": "1.7.1"
+        "reyesoft/laravel-json-api": "1.0.1"
     },
     "require-dev": {
+        "reyesoft/ci": "0.0.1",
         "friendsofphp/php-cs-fixer": "2.11.1",
         "squizlabs/php_codesniffer": "3.2.3",
         "fzaninotto/faker": "1.7.1",
@@ -43,7 +42,6 @@
             "database/factories"
         ],
         "psr-4": {
-            "Reyesoft\\JsonApi\\": "laravel-json-api/src/",
             "App\\": "app/"
         }
     },
@@ -65,7 +63,7 @@
             "@ci-php-cs-fixer"
         ],
         "ci-php-cpd": "sh resources/ci/php-cpd.sh",
-        "ci-double-spaces": "sh resources/ci/tools/find-double-spaces.sh app",
+        "ci-double-spaces": "sh vendor/reyesoft/ci/tools/find-double-spaces.sh app",
         "ci-php-csniffer": "sh resources/ci/php-csniffer.sh",
         "ci-php-csniffer-fix": "sh resources/ci/php-csniffer-fix.sh",
         "ci-php-cs-fixer": "sh resources/ci/php-cs-fixer.sh",
@@ -74,7 +72,7 @@
             "@phpstan-src",
             "@phpstan-tests"
         ],
-        "phpstan-src": "./vendor/bin/phpstan analyse -l 7 -c resources/ci/.phpstan.src.neon app ./bootstrap/*.php config laravel-json-api",
+        "phpstan-src": "./vendor/bin/phpstan analyse -l 7 -c resources/ci/.phpstan.src.neon app ./bootstrap/*.php config",
         "phpstan-tests": "./vendor/bin/phpstan analyse -l 7 -c resources/ci/.phpstan.tests.neon tests",
 
         "ide-helper": [
@@ -89,7 +87,7 @@
 
         "coverage": [
             "phpdbg -qrr ./vendor/bin/phpunit",
-            "php ./resources/ci/tools/coverage-checker.php ./bootstrap/cache/clover.xml 80"
+            "php vendor/reyesoft/ci/tools/coverage-checker.php ./bootstrap/cache/clover.xml 80"
         ],
         "test": [
             "./runtests"

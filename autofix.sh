@@ -8,8 +8,8 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "double spaces..." &&
-sh resources/ci/tools/find-double-spaces.sh app/
-sh resources/ci/tools/find-double-spaces.sh tests/
+sh vendor/reyesoft/ci/tools/find-double-spaces.sh app/
+sh vendor/reyesoft/ci/tools/find-double-spaces.sh tests/
 
 echo "php-cs-fixer..." &&
 ./vendor/bin/php-cs-fixer fix --config=resources/ci/.php-cs-fixer.dist

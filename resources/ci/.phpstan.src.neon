@@ -8,6 +8,3 @@ parameters:
     ignoreErrors:
         # Laravel
         - '#Call to an undefined static method Illuminate\\Support\\Facades\\Route::\S.+().#'
-        # JsonApi Library
-        - '#.+ErrorMutatorException::__construct\(\) does not.+#'
-        - '#Access to an undefined property.+Illuminate\\Database\\Eloquent\\Model::\$\S\.?#'
