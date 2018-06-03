@@ -10,15 +10,17 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Illuminate\Foundation\Testing\TestResponse;
+
 trait TestCallsTrait
 {
     /**
      * @param string $url
-     * @param array  $parameters
+     * @param array $parameters
      *
      * @return Response
      */
-    protected function callGet($url, array $parameters = [])
+    protected function callGet($url, array $parameters = []): TestResponse
     {
         $this->response = $this->call('GET', $url, $parameters, [], [], []);
 
@@ -30,7 +32,7 @@ trait TestCallsTrait
      *
      * @return Response
      */
-    protected function callDelete($url)
+    protected function callDelete($url): TestResponse
     {
         $this->response = $this->call('DELETE', $url, [], [], [], []);
 
@@ -43,7 +45,7 @@ trait TestCallsTrait
      *
      * @return Response
      */
-    protected function callPost($url, $content)
+    protected function callPost($url, $content): TestResponse
     {
         $this->response = $this->call('POST', $url, $content);
 
@@ -56,7 +58,7 @@ trait TestCallsTrait
      *
      * @return Response
      */
-    protected function callPatch($url, $content)
+    protected function callPatch($url, $content): TestResponse
     {
         $this->response = $this->call('PATCH', $url, $content, [], [], [], []);
 

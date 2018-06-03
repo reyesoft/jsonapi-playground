@@ -10,10 +10,7 @@ declare(strict_types=1);
 
 use App\Author;
 use App\Book;
-use App\Chapter;
-use App\Photo;
 use App\Series;
-use App\Store;
 use App\User;
 
 $factory->define(

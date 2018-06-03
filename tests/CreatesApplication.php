@@ -18,7 +18,7 @@ trait CreatesApplication
     /**
      * Creates the application.
      *
-     * @return \Illuminate\Foundation\Application
+     * @return \Illuminate\Foundation\Application|\Symfony\Component\HttpKernel\HttpKernelInterface
      */
     public function createApplication()
     {
