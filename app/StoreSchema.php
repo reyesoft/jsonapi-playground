@@ -42,6 +42,10 @@ class StoreSchema extends SchemaProvider
             'schema' => BookSchema::class,
             'hasMany' => true,
         ],
+        'countries' => [
+            'schema' => CountrySchema::class,
+            'hasMany' => true,
+        ],
     ];
 
     public function modelBeforeSave($builder)

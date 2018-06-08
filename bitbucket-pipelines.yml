@@ -13,7 +13,6 @@ pipelines:
             script:
                 - composer install --no-interaction --no-progress
                 - composer ci
-                - composer ci-php-md
                 - sh resources/ci/migrate.sh
                 # - composer coverage
                 - composer test

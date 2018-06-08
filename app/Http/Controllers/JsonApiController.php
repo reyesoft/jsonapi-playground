@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 use App\AuthorSchema;
 use App\BookSchema;
 use App\ChapterSchema;
+use App\CountrySchema;
 use App\PhotoSchema;
 use App\SeriesSchema;
 use App\StoreSchema;
@@ -25,6 +26,7 @@ class JsonApiController extends JsonApiGlobalController
         'photos' => PhotoSchema::class,
         'books' => BookSchema::class,
         'chapters' => ChapterSchema::class,
+        'countries' => CountrySchema::class,
         'series' => SeriesSchema::class,
         'stores' => StoreSchema::class,
     ];

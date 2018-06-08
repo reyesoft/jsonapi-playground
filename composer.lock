@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "195028d6eb75dfb6a69bd78dda336c3c",
+    "content-hash": "a9387a29dd7ee6c86d769566df2e9be2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -242,16 +242,16 @@
         },
         {
             "name": "dragonmantank/cron-expression",
-            "version": "v2.1.0",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dragonmantank/cron-expression.git",
-                "reference": "3f00985deec8df53d4cc1e5c33619bda1ee309a5"
+                "reference": "92a2c3768d50e21a1f26a53cb795ce72806266c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dragonmantank/cron-expression/zipball/3f00985deec8df53d4cc1e5c33619bda1ee309a5",
-                "reference": "3f00985deec8df53d4cc1e5c33619bda1ee309a5",
+                "url": "https://api.github.com/repos/dragonmantank/cron-expression/zipball/92a2c3768d50e21a1f26a53cb795ce72806266c5",
+                "reference": "92a2c3768d50e21a1f26a53cb795ce72806266c5",
                 "shasum": ""
             },
             "require": {
@@ -287,7 +287,7 @@
                 "cron",
                 "schedule"
             ],
-            "time": "2018-04-06T15:51:55+00:00"
+            "time": "2018-06-06T03:12:17+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -448,16 +448,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.22",
+            "version": "v5.6.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "637fd797a6dde8d24a9f07da77e375ec251c5d24"
+                "reference": "56290edeb0d8051826d40b4cbd8ed3c30348b2b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/637fd797a6dde8d24a9f07da77e375ec251c5d24",
-                "reference": "637fd797a6dde8d24a9f07da77e375ec251c5d24",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/56290edeb0d8051826d40b4cbd8ed3c30348b2b5",
+                "reference": "56290edeb0d8051826d40b4cbd8ed3c30348b2b5",
                 "shasum": ""
             },
             "require": {
@@ -583,7 +583,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-05-15T13:34:20+00:00"
+            "time": "2018-06-04T14:51:03+00:00"
         },
         {
             "name": "league/flysystem",
@@ -860,16 +860,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.12",
+            "version": "v2.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "258c89a6b97de7dfaf5b8c7607d0478e236b04fb"
+                "reference": "f6ce7dd93628088e1017fb5dd73b0b9fec7df9e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/258c89a6b97de7dfaf5b8c7607d0478e236b04fb",
-                "reference": "258c89a6b97de7dfaf5b8c7607d0478e236b04fb",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/f6ce7dd93628088e1017fb5dd73b0b9fec7df9e5",
+                "reference": "f6ce7dd93628088e1017fb5dd73b0b9fec7df9e5",
                 "shasum": ""
             },
             "require": {
@@ -901,10 +901,11 @@
             "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
             "keywords": [
                 "csprng",
+                "polyfill",
                 "pseudorandom",
                 "random"
             ],
-            "time": "2018-04-04T21:24:14+00:00"
+            "time": "2018-06-06T17:40:22+00:00"
         },
         {
             "name": "psr/container",
@@ -1182,11 +1183,11 @@
         },
         {
             "name": "reyesoft/laravel-json-api",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:reyesoft/laravel-json-api.git",
-                "reference": "d6cb561e2cc2dd4d8ff542d2a567c74b9771f644"
+                "reference": "57cf71b4a3125d5303861a2e18461aef787c0f49"
             },
             "require": {
                 "illuminate/contracts": "5.4.*|5.5.*|5.6.*",
@@ -1200,18 +1201,18 @@
             },
             "require-dev": {
                 "barryvdh/laravel-ide-helper": "2.4.3",
-                "codedungeon/phpunit-result-printer": "0.19.6",
+                "codedungeon/phpunit-result-printer": "0.19.10",
                 "doctrine/dbal": "2.7.1",
                 "ext-sqlite3": "*",
                 "friendsofphp/php-cs-fixer": "2.11.1",
                 "fzaninotto/faker": "1.7.1",
-                "mockery/mockery": "1.1.0",
                 "orchestra/testbench": "3.4.*|3.5.*|3.6.*",
                 "phpmd/phpmd": "@stable",
                 "phpstan/phpstan": "0.9.2",
                 "phpstan/phpstan-phpunit": "^0.9.4",
                 "phpstan/phpstan-strict-rules": "0.9.0",
-                "phpunit/phpunit": "7.1.5",
+                "phpunit/phpunit": "7.2.2",
+                "reyesoft/ci": "0.0.1",
                 "sebastian/phpcpd": "4.0.0",
                 "squizlabs/php_codesniffer": "3.2.3",
                 "weebly/phpstan-laravel": "^1.1"
@@ -1247,7 +1248,7 @@
                     "sh resources/ci/php-cpd.sh"
                 ],
                 "ci-double-spaces": [
-                    "sh resources/ci/tools/find-double-spaces.sh src"
+                    "sh vendor/reyesoft/ci/tools/find-double-spaces.sh src"
                 ],
                 "ci-php-csniffer": [
                     "sh resources/ci/php-csniffer.sh"
@@ -1284,8 +1285,8 @@
                     "composer autofix"
                 ],
                 "coverage": [
-                    "phpdbg -qrr ./vendor/bin/phpunit",
-                    "php ./resources/ci/tools/coverage-checker.php ./bootstrap/cache/clover.xml 80"
+                    "ulimit -n 10000 && phpdbg -d memory_limit=-1 -qrr ./vendor/bin/phpunit",
+                    "php vendor/reyesoft/ci/tools/coverage-checker.php ./bootstrap/cache/clover.xml 91"
                 ],
                 "test": [
                     "./runtests"
@@ -1305,7 +1306,7 @@
                 "laravel",
                 "reyesoft"
             ],
-            "time": "2018-05-29T14:29:45+00:00"
+            "time": "2018-06-05T00:07:08+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2612,16 +2613,16 @@
         },
         {
             "name": "codedungeon/phpunit-result-printer",
-            "version": "v0.19.6",
+            "version": "0.19.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikeerickson/phpunit-pretty-result-printer.git",
-                "reference": "18ae074d32d237073e97d1123971191203c128b7"
+                "reference": "3ff0ebbfeca8cf57e0493b9a0a45f22a70626989"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikeerickson/phpunit-pretty-result-printer/zipball/18ae074d32d237073e97d1123971191203c128b7",
-                "reference": "18ae074d32d237073e97d1123971191203c128b7",
+                "url": "https://api.github.com/repos/mikeerickson/phpunit-pretty-result-printer/zipball/3ff0ebbfeca8cf57e0493b9a0a45f22a70626989",
+                "reference": "3ff0ebbfeca8cf57e0493b9a0a45f22a70626989",
                 "shasum": ""
             },
             "require": {
@@ -2660,7 +2661,7 @@
                 "result-printer",
                 "testing"
             ],
-            "time": "2018-05-17T00:43:43+00:00"
+            "time": "2018-05-24T02:02:32+00:00"
         },
         {
             "name": "composer/semver",
@@ -4893,23 +4894,23 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "6.0.5",
+            "version": "6.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "4cab20a326d14de7575a8e235c70d879b569a57a"
+                "reference": "865662550c384bc1db7e51d29aeda1c2c161d69a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/4cab20a326d14de7575a8e235c70d879b569a57a",
-                "reference": "4cab20a326d14de7575a8e235c70d879b569a57a",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/865662550c384bc1db7e51d29aeda1c2c161d69a",
+                "reference": "865662550c384bc1db7e51d29aeda1c2c161d69a",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-xmlwriter": "*",
                 "php": "^7.1",
-                "phpunit/php-file-iterator": "^1.4.2",
+                "phpunit/php-file-iterator": "^2.0",
                 "phpunit/php-text-template": "^1.2.1",
                 "phpunit/php-token-stream": "^3.0",
                 "sebastian/code-unit-reverse-lookup": "^1.0.1",
@@ -4952,29 +4953,29 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-05-28T11:49:20+00:00"
+            "time": "2018-06-01T07:51:50+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "1.4.5",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "730b01bc3e867237eaac355e06a36b85dd93a8b4"
+                "reference": "e20525b0c2945c7c317fff95660698cb3d2a53bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/730b01bc3e867237eaac355e06a36b85dd93a8b4",
-                "reference": "730b01bc3e867237eaac355e06a36b85dd93a8b4",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/e20525b0c2945c7c317fff95660698cb3d2a53bc",
+                "reference": "e20525b0c2945c7c317fff95660698cb3d2a53bc",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": "^7.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -4989,7 +4990,7 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sb@sebastian-bergmann.de",
+                    "email": "sebastian@phpunit.de",
                     "role": "lead"
                 }
             ],
@@ -4999,7 +5000,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2017-11-27T13:52:08+00:00"
+            "time": "2018-05-28T12:13:49+00:00"
         },
         {
             "name": "phpunit/php-text-template",
@@ -5142,34 +5143,34 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.1.5",
+            "version": "7.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ca64dba53b88aba6af32aebc6b388068db95c435"
+                "reference": "00bc0b93f0ff4f557e9ea766557fde96da9a03dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ca64dba53b88aba6af32aebc6b388068db95c435",
-                "reference": "ca64dba53b88aba6af32aebc6b388068db95c435",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/00bc0b93f0ff4f557e9ea766557fde96da9a03dd",
+                "reference": "00bc0b93f0ff4f557e9ea766557fde96da9a03dd",
                 "shasum": ""
             },
             "require": {
+                "doctrine/instantiator": "^1.1",
                 "ext-dom": "*",
                 "ext-json": "*",
                 "ext-libxml": "*",
                 "ext-mbstring": "*",
                 "ext-xml": "*",
-                "myclabs/deep-copy": "^1.6.1",
+                "myclabs/deep-copy": "^1.7",
                 "phar-io/manifest": "^1.0.1",
                 "phar-io/version": "^1.0",
                 "php": "^7.1",
                 "phpspec/prophecy": "^1.7",
-                "phpunit/php-code-coverage": "^6.0.1",
-                "phpunit/php-file-iterator": "^1.4.3",
+                "phpunit/php-code-coverage": "^6.0.7",
+                "phpunit/php-file-iterator": "^2.0",
                 "phpunit/php-text-template": "^1.2.1",
                 "phpunit/php-timer": "^2.0",
-                "phpunit/phpunit-mock-objects": "^6.1.1",
                 "sebastian/comparator": "^3.0",
                 "sebastian/diff": "^3.0",
                 "sebastian/environment": "^3.1",
@@ -5179,10 +5180,14 @@
                 "sebastian/resource-operations": "^1.0",
                 "sebastian/version": "^2.0.1"
             },
+            "conflict": {
+                "phpunit/phpunit-mock-objects": "*"
+            },
             "require-dev": {
                 "ext-pdo": "*"
             },
             "suggest": {
+                "ext-soap": "*",
                 "ext-xdebug": "*",
                 "phpunit/php-invoker": "^2.0"
             },
@@ -5192,7 +5197,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.1-dev"
+                    "dev-master": "7.2-dev"
                 }
             },
             "autoload": {
@@ -5218,76 +5223,20 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-04-29T15:09:19+00:00"
-        },
-        {
-            "name": "phpunit/phpunit-mock-objects",
-            "version": "6.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "f9756fd4f43f014cb2dca98deeaaa8ce5500a36e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/f9756fd4f43f014cb2dca98deeaaa8ce5500a36e",
-                "reference": "f9756fd4f43f014cb2dca98deeaaa8ce5500a36e",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/instantiator": "^1.0.5",
-                "php": "^7.1",
-                "phpunit/php-text-template": "^1.2.1",
-                "sebastian/exporter": "^3.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.0"
-            },
-            "suggest": {
-                "ext-soap": "*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "6.1-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
-                }
-            ],
-            "description": "Mock Object library for PHPUnit",
-            "homepage": "https://github.com/sebastianbergmann/phpunit-mock-objects/",
-            "keywords": [
-                "mock",
-                "xunit"
-            ],
-            "time": "2018-05-29T13:54:20+00:00"
+            "time": "2018-06-05T03:40:05+00:00"
         },
         {
             "name": "reyesoft/ci",
-            "version": "0.0.1",
+            "version": "0.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reyesoft/ci.git",
-                "reference": "7833535d1575426c6b4d5a7ed5bf833f9ce82d69"
+                "reference": "56a76fd6338f36d47f15ee1f53a372486f9335fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reyesoft/ci/zipball/7833535d1575426c6b4d5a7ed5bf833f9ce82d69",
-                "reference": "7833535d1575426c6b4d5a7ed5bf833f9ce82d69",
+                "url": "https://api.github.com/repos/reyesoft/ci/zipball/56a76fd6338f36d47f15ee1f53a372486f9335fb",
+                "reference": "56a76fd6338f36d47f15ee1f53a372486f9335fb",
                 "shasum": ""
             },
             "type": "library",
@@ -5303,7 +5252,7 @@
                 "ci",
                 "reyesoft"
             ],
-            "time": "2018-06-03T17:51:53+00:00"
+            "time": "2018-06-05T15:25:49+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
