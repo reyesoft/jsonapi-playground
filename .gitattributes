@@ -7,3 +7,4 @@ CHANGELOG.md export-ignore
 package-lock.json -diff
 yarn.lock -diff
 composer.lock -diff
+Gemfile.lock -diff

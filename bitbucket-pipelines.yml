@@ -2,7 +2,7 @@
 ## This file is part of a Reyesoft Project. This can not be copied and/or
 ## distributed without the express permission of Reyesoft
 
-image: susa4ostec/bitbucket-pipelines-php7.1-mysql
+image: reyesoft/php-mysql56
 
 pipelines:
     default:
@@ -11,16 +11,12 @@ pipelines:
             caches:
                 - composer
             script:
-                # - apt-get update -q
-                # - apt-get install php7.1-soap php7.1-zip --no-install-recommends -qq --yes
                 - composer install --no-interaction --no-progress
-                - git clone git@bitbucket.org:reyesoft/laravel-json-api.git
                 - composer ci
-                - composer ci-php-md
                 - sh resources/ci/migrate.sh
                 # - composer coverage
                 - composer test
-                - sh resources/ci/reset.sh
+                - sh vendor/reyesoft/ci/db/laravel-reset.sh
 
 # master is deployed via webhook
 # git remote add production http://reyesoft@jsonapiplayground.reyesoft.com/plesk-git/jsonapiplayground.git
