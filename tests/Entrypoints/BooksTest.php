@@ -36,7 +36,7 @@ class BooksTest extends BaseTestCase
     public function testBookIndex(): void
     {
         $this->callGet('/v2/books');
-        $this->assertResponseStatus();
+        $this->assertResponseJsonApiCollection();
     }
 
     public function testBookCreate()
@@ -48,7 +48,7 @@ class BooksTest extends BaseTestCase
         $resource['data']['relationships']['author']['data'] = ['id' => $author->id, 'type' => 'authors'];
         unset($resource['data']['relationships']['series']);
         $this->callPost('/v2/books', $resource);
-        $this->assertResponseStatus(201);
+        $this->assertResponseJsonApiCreated();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($resource['data']['attributes']['title'], $result['data']['attributes']['title']);
@@ -74,7 +74,7 @@ class BooksTest extends BaseTestCase
         unset($resource['data']['relationships']['series']);
 
         $this->callPost('/v2/books', $resource);
-        $this->assertResponseStatus(201);
+        $this->assertResponseJsonApiCreated();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($resource['data']['attributes']['title'], $result['data']['attributes']['title']);
@@ -120,7 +120,7 @@ class BooksTest extends BaseTestCase
 
         // saving
         $this->callPatch('/v2/books/' . $book_id, $resource);
-        $this->assertResponseStatus();
+        $this->assertResponseJsonApiResource();
 
         // checking saved data
         $result = json_decode($this->response->getContent(), true);
@@ -144,7 +144,7 @@ class BooksTest extends BaseTestCase
 
         // saving
         $this->callPatch('/v2/books/' . $book_id, $resource);
-        $this->assertResponseStatus();
+        $this->assertResponseJsonApiResource();
 
         // cheking saved data
         $result = json_decode($this->response->getContent(), true);
@@ -159,7 +159,7 @@ class BooksTest extends BaseTestCase
     {
         $book_id = 1;
         $this->callGet('/v2/books/' . $book_id . '?include=author');
-        $this->assertResponseStatus(200);
+        $this->assertResponseJsonApiResource();
 
         $result = json_decode($this->response->getContent(), true);
 
@@ -185,7 +185,7 @@ class BooksTest extends BaseTestCase
 
         // saving
         $this->callPatch('/v2/books/' . $book_id, $resource);
-        $this->assertResponseStatus();
+        $this->assertResponseJsonApiResource();
 
         // checking saved data
         $result = json_decode($this->response->getContent(), true);

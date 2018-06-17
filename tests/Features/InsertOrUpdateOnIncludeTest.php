@@ -39,7 +39,7 @@ class InsertOrUpdateOnIncludeTest extends BaseTestCase
         ];
 
         $this->callPost('/v2/books' . '?include=author', $resource);
-        $this->assertResponseStatus(201);
+        $this->assertResponseJsonApiCreated();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($author_data['attributes']['name'], $result['included'][0]['attributes']['name']);
@@ -67,7 +67,7 @@ class InsertOrUpdateOnIncludeTest extends BaseTestCase
         ];
 
         $this->callPost('/v2/books' . '?include=author', $resource);
-        $this->assertResponseStatus(201);
+        $this->assertResponseJsonApiCreated();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($author_data['attributes']['name'], $result['included'][0]['attributes']['name']);
@@ -94,7 +94,7 @@ class InsertOrUpdateOnIncludeTest extends BaseTestCase
         ];
 
         $this->callPatch('/v2/books/' . $book_id . '?include=author', $resource);
-        $this->assertResponseStatus(200);
+        $this->assertResponseJsonApiResource();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertNotSame($author_data['id'], $result['included'][0]['id']);
@@ -119,7 +119,7 @@ class InsertOrUpdateOnIncludeTest extends BaseTestCase
         ];
 
         $this->callPatch('/v2/books/' . $book_id . '?include=author', $resource);
-        $this->assertResponseStatus(200);
+        $this->assertResponseJsonApiResource();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($author_data['id'], $result['included'][0]['id']);

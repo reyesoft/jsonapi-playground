@@ -29,7 +29,7 @@ class ChaptersTest extends BaseTestCase
     public function testChapterIndex(): string
     {
         $this->callGet('/v2/chapters');
-        $this->assertResponseStatus();
+        $this->assertResponseJsonApiCollection();
 
         $result = json_decode($this->response->getContent(), true);
 
@@ -42,7 +42,7 @@ class ChaptersTest extends BaseTestCase
     public function testChapterGet(string $chapter_id): void
     {
         $this->callGet('/v2/chapters/' . $chapter_id);
-        $this->assertResponseStatus();
+        $this->assertResponseJsonApiResource();
     }
 
     public function testChapterCantBeCreated(): void

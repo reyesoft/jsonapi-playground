@@ -15,6 +15,6 @@ class CountriesTest extends BaseTestCase
     public function testCountryIndex(): void
     {
         $this->callGet('/v2/countries/');
-        $this->assertResponseStatus();
+        $this->assertResponseJsonApiCollection();
     }
 }
