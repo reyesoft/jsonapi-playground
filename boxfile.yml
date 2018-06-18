@@ -64,6 +64,7 @@ deploy.config:
       - php artisan view:clear --no-interaction
       ## needs mysql
       - php artisan migrate --no-interaction --env force_production
+      # - php artisan auth:clear-resets
       # - php artisan multinexo:deploy
   after_live_all:
     web.main:

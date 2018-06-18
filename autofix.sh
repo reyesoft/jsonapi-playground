@@ -12,7 +12,7 @@ sh vendor/reyesoft/ci/tools/find-double-spaces.sh app/
 sh vendor/reyesoft/ci/tools/find-double-spaces.sh tests/
 
 echo "php-cs-fixer..." &&
-./vendor/bin/php-cs-fixer fix --config=resources/ci/.php-cs-fixer.dist
+./vendor/bin/php-cs-fixer fix --config=resources/rules/php-cs-fixer.dist.php
 echo
 
 git status -s
