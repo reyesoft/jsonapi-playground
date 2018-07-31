@@ -11,13 +11,13 @@ declare(strict_types=1);
 namespace Tests\Entrypoints;
 
 use Reyesoft\JsonApi\Tests\TestJsonApiAssertionsTrait;
+use Reyesoft\JsonApi\Tests\TestJsonApiCallsTrait;
 use Reyesoft\JsonApi\Tests\TestJsonApiLayoutTrait;
-use Tests\TestCallsTrait;
 use Tests\TestCase;
 
 abstract class BaseTestCase extends TestCase
 {
-    use TestCallsTrait;
+    use TestJsonApiCallsTrait;
     use TestJsonApiLayoutTrait;
     use TestJsonApiAssertionsTrait;
 }

@@ -11,12 +11,9 @@ declare(strict_types=1);
 namespace App;
 
 use Reyesoft\JsonApi\Core\SchemaProvider;
-use Reyesoft\JsonApi\Core\SchemaRelationsTrait;
 
 class StoreSchema extends SchemaProvider
 {
-    use SchemaRelationsTrait;
-
     protected $resourceType = 'stores';
     public static $model = Store::class;
 
@@ -48,10 +45,8 @@ class StoreSchema extends SchemaProvider
         ],
     ];
 
-    public function modelBeforeSave($builder)
+    public function modelBeforeSave($builder): void
     {
         $builder->created_by = 2;
-
-        return $builder;
     }
 }
