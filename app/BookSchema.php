@@ -20,6 +20,7 @@ class BookSchema extends SchemaProvider
     protected static $attributes = [
         'title' => [
             'type' => 'like',
+            'sort' => true,
         ],
         'date_published' => [
             'type' => 'date',
