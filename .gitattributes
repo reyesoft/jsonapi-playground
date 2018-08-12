@@ -3,6 +3,7 @@
 *.scss linguist-vendored
 *.js linguist-vendored
 *.svg binary
+*.pdf binary
 CHANGELOG.md export-ignore
 package-lock.json -diff
 yarn.lock -diff

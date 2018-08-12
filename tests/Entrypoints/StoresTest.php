@@ -31,14 +31,14 @@ class StoresTest extends BaseTestCase
     public function testStoreIndex(): void
     {
         $this->callGet('/v2/stores/');
-        $this->assertResponseStatus();
+        $this->assertResponseJsonApiCollection();
     }
 
     public function testStoreCreate()
     {
         $resource = $this->newResource();
         $this->callPost('/v2/stores/', $resource);
-        $this->assertResponseStatus(201);
+        $this->assertResponseJsonApiCreated();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($resource['data']['attributes']['name'], $result['data']['attributes']['name']);
@@ -52,7 +52,7 @@ class StoresTest extends BaseTestCase
     public function testStoreGet($store_id): void
     {
         $this->callGet('/v2/stores/' . $store_id);
-        $this->assertResponseStatus(200);
+        $this->assertResponseJsonApiResource();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($result['data']['id'], $store_id);
@@ -65,7 +65,7 @@ class StoresTest extends BaseTestCase
     {
         $resource = $this->newResource($store_id);
         $this->callPatch('/v2/stores/' . $store_id, $resource);
-        $this->assertResponseStatus(200);
+        $this->assertResponseJsonApiResource();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($resource['data']['attributes']['name'], $result['data']['attributes']['name']);
@@ -86,7 +86,7 @@ class StoresTest extends BaseTestCase
         $resource = $this->newResource($store_id);
         $resource['data']['attributes']['private_data'] = $original_private_data . '-wrong-access';
         $this->callPatch('/v2/stores/' . $store_id, $resource);
-        $this->assertResponseStatus(200);
+        $this->assertResponseJsonApiResource();
 
         $store = Store::find($store_id);
         $this->assertSame($resource['data']['attributes']['name'], $store->name);
@@ -101,7 +101,7 @@ class StoresTest extends BaseTestCase
         Store::findOrFail($store_id);
 
         $this->callDelete('/v2/stores/' . $store_id);
-        $this->assertResponseStatus(200);
+        $this->assertResponseJsonApiDeleted();
 
         $this->expectException(\Exception::class);
         Store::findOrFail($store_id);
@@ -115,7 +115,7 @@ class StoresTest extends BaseTestCase
         $resource = $this->newResource();
         $resource['data']['attributes']['address'] = '742 Evergreen Terrace';
         $this->callPost('/v2/stores/', $resource);
-        $this->assertResponseStatus(201);
+        $this->assertResponseJsonApiCreated();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($resource['data']['attributes']['address'], $result['data']['attributes']['address']);
@@ -141,7 +141,7 @@ class StoresTest extends BaseTestCase
         $original_address = $resource['data']['attributes']['address'];
         $resource['data']['attributes']['address'] = $new_address;
         $this->callPatch('/v2/stores/' . $store_id, $resource);
-        $this->assertResponseStatus(200);
+        $this->assertResponseJsonApiResource();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($original_address, $result['data']['attributes']['address']);
@@ -158,7 +158,7 @@ class StoresTest extends BaseTestCase
     public function testStoreCreatedByCanBeRead(string $store_id): void
     {
         $this->callGet('/v2/stores/' . $store_id);
-        $this->assertResponseStatus(200);
+        $this->assertResponseJsonApiResource();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertNotEmpty($result['data']['attributes']['created_by']);
@@ -172,7 +172,7 @@ class StoresTest extends BaseTestCase
         $resource = $this->newResource();
         $resource['data']['attributes']['created_by'] = '1';
         $this->callPost('/v2/stores/', $resource);
-        $this->assertResponseStatus(201);
+        $this->assertResponseJsonApiCreated();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertNotSame(
@@ -195,7 +195,7 @@ class StoresTest extends BaseTestCase
         $resource = $this->newResource($store_id);
         $resource['data']['attributes']['created_by'] = $new_created_by;
         $this->callPatch('/v2/stores/' . $store_id, $resource);
-        $this->assertResponseStatus(200);
+        $this->assertResponseJsonApiResource();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($store->created_by, $result['data']['attributes']['created_by']);

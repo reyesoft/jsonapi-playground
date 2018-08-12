@@ -11,12 +11,9 @@ declare(strict_types=1);
 namespace App;
 
 use Reyesoft\JsonApi\Core\SchemaProvider;
-use Reyesoft\JsonApi\Core\SchemaRelationsTrait;
 
 class PhotoSchema extends SchemaProvider
 {
-    use SchemaRelationsTrait;
-
     protected $resourceType = 'photos';
     public static $model = Photo::class;
 

@@ -11,18 +11,16 @@ declare(strict_types=1);
 namespace App;
 
 use Reyesoft\JsonApi\Core\SchemaProvider;
-use Reyesoft\JsonApi\Core\SchemaRelationsTrait;
+use Reyesoft\JsonApi\Eloquent\Filter\LikeFilter;
 
 class AuthorSchema extends SchemaProvider
 {
-    use SchemaRelationsTrait;
-
     protected $resourceType = 'authors';
     public static $model = Author::class;
 
     protected static $attributes = [
         'name' => [
-            'filter' => 'like',
+            'filter' => LikeFilter::class,
         ],
         'birthplace' => [],
         'date_of_birth' => [],

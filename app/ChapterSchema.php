@@ -11,12 +11,9 @@ declare(strict_types=1);
 namespace App;
 
 use Reyesoft\JsonApi\Core\SchemaProvider;
-use Reyesoft\JsonApi\Core\SchemaRelationsTrait;
 
 class ChapterSchema extends SchemaProvider
 {
-    use SchemaRelationsTrait;
-
     protected $resourceType = 'chapters';
     public static $model = Chapter::class;
     public static $policy = ChapterPolicy::class;

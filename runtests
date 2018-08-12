@@ -1,14 +1,17 @@
 #!/bin/sh
 
-## Copyright (C) 1997-2017 Reyesoft <info@reyesoft.com>.
+## Copyright (C) 1997-2018 Reyesoft <info@reyesoft.com>.
 ## This file is part of a Reyesoft Project. This can not be copied and/or
 ## distributed without the express permission of Reyesoft
 
 # https://stackoverflow.com/questions/16483119/an-example-of-how-to-use-getopts-in-bash?answertab=votes#tab-top
-while getopts ":f" o; do
+while getopts ":ft" o; do
     case "${o}" in
         f)
             f=1
+            ;;
+        t)
+            t=1
             ;;
     esac
 done
@@ -27,12 +30,21 @@ if [ "$?" -eq 0 ] || [ "${f}" ] ; then
         echo "\n ✖  Errors on migrations or generator scripts. \n"
         exit 1
     fi
+
+    ## this project
+    #
 else
-    echo 'Migrations are not required.'
+    echo '\033[1;30m Migrations are not required. \033[0m'
 fi;
 
-phpunit &&
 
-if [ $? -eq 0 ]; then
-    echo "\n 🔎  Don't forget to run \n    composer coverage \n"
-fi
+if [ "${t}" ] ; then
+    phpunit &&
+
+    if [ $? -eq 0 ]; then
+        echo "\n 🔎  Don't forget to run \n    composer coverage \n"
+    fi
+else
+    echo "\n\033[1;33m 💨  For a faster test (only phpunit) run \n    sh runtests -t [-f]\n \033[0m"
+    composer coverage
+fi;

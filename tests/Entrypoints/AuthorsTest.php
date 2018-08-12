@@ -32,14 +32,14 @@ class AuthorsTest extends BaseTestCase
     public function testAuthorIndex(): void
     {
         $this->callGet('/v2/authors/');
-        $this->assertResponseStatus();
+        $this->assertResponseJsonApiCollection();
     }
 
     public function testAuthorCreate()
     {
         $resource = $this->newResource();
         $this->callPost('/v2/authors/', $resource);
-        $this->assertResponseStatus(201);
+        $this->assertResponseJsonApiCreated();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($resource['data']['attributes']['name'], $result['data']['attributes']['name']);
@@ -53,7 +53,7 @@ class AuthorsTest extends BaseTestCase
     public function testAuthorGet($author_id): void
     {
         $this->callGet('/v2/authors/' . $author_id);
-        $this->assertResponseStatus(200);
+        $this->assertResponseJsonApiResource();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($result['data']['id'], $author_id);
@@ -66,7 +66,7 @@ class AuthorsTest extends BaseTestCase
     {
         $resource = $this->newResource($author_id);
         $this->callPatch('/v2/authors/' . $author_id, $resource);
-        $this->assertResponseStatus(200);
+        $this->assertResponseJsonApiResource();
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($resource['data']['attributes']['name'], $result['data']['attributes']['name']);
@@ -80,7 +80,7 @@ class AuthorsTest extends BaseTestCase
         Author::findOrFail($author_id);
 
         $this->callDelete('/v2/authors/' . $author_id);
-        $this->assertResponseStatus(200);
+        $this->assertResponseJsonApiDeleted();
 
         $this->expectException(\Exception::class);
         Author::findOrFail($author_id);

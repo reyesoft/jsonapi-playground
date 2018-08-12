@@ -15,7 +15,7 @@
          processIsolation="false"
          stopOnFailure="true">
     <logging>
-        <log type="coverage-html" target="bootstrap/cache/reports/coverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="55" highLowerBound="85" />
+        <log type="coverage-html" target="bootstrap/cache/reports/coverage" lowUpperBound="55" highLowerBound="85" />
         <log type="coverage-clover" target="bootstrap/cache/clover.xml"/>
         <log type="testdox-text" target="bootstrap/cache/reports/executed.txt"/>
     </logging>

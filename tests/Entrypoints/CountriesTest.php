@@ -12,9 +12,20 @@ namespace Tests\Entrypoints;
 
 class CountriesTest extends BaseTestCase
 {
-    public function testCountryIndex(): void
+    public function testCountryIndex(): string
     {
-        $this->callGet('/v2/countries/');
-        $this->assertResponseStatus();
+        $response = $this->callGet('/v2/countries/');
+        $this->assertResponseJsonApiCollection();
+
+        return $response->decodeResponseJson('data.0.id');
+    }
+
+    /**
+     * @depends testCountryIndex
+     */
+    public function testCountryGet($country_id): void
+    {
+        $this->callGet('/v2/countries/' . $country_id);
+        $this->assertResponseJsonApiResource();
     }
 }

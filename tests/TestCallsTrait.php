@@ -16,7 +16,6 @@ trait TestCallsTrait
 {
     /**
      * @param string $url
-     * @param array $parameters
      *
      * @return Response
      */
