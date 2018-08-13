@@ -21,6 +21,7 @@ class AuthorSchema extends SchemaProvider
     protected static $attributes = [
         'name' => [
             'filter' => LikeFilter::class,
+            'sort' => true,
         ],
         'birthplace' => [],
         'date_of_birth' => [],

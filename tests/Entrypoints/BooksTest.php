@@ -28,7 +28,6 @@ class BooksTest extends BaseTestCase
             'author' => 'authors',
             'chapters' => 'chapters',
             'photos' => 'photos',
-            'series' => 'series',
             'stores' => 'stores',
         ],
     ];
