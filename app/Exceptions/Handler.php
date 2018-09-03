@@ -56,8 +56,8 @@ class Handler extends ExceptionHandler
                 . ' File: ' . $exception->getFile() . ':' . $exception->getLine()
                 . $exception->getTraceAsString(), 500
             );
-        } else {
-            return parent::render($request, $exception);
         }
+
+        return parent::render($request, $exception);
     }
 }
