@@ -68,7 +68,7 @@ trait TestCallsTrait
     {
         $actual = $this->response->getStatusCode();
 
-        if ($actual != $code) {
+        if ($actual !== $code) {
             $content = $this->response->getContent();
             $this->fail(
                 'Failed asserting response status code that ' . $actual .

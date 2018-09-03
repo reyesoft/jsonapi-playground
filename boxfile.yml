@@ -15,6 +15,9 @@ run.config:
     ## options for nginx
     #nginx_document_root: public
 
+    apache_modules:
+      - headers
+
     ## more extensions? https://guides.nanobox.io/php/laravel/php-extensions
     extensions:
       - curl
@@ -60,12 +63,11 @@ deploy.config:
   before_live:
     web.main:
       ## needs storage
-      - mkdir -p storage/{app,framework/{sessions,cache,views}}
+      - mkdir -p storage/{app,framework/{sessions,cache,views},logs}
       - php artisan view:clear --no-interaction
+      - php artisan cache:clear --no-interaction
       ## needs mysql
       - php artisan migrate --no-interaction --env force_production
-      # - php artisan auth:clear-resets
-      # - php artisan multinexo:deploy
   after_live_all:
     web.main:
       ## don't needs services
