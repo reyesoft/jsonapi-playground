@@ -84,17 +84,17 @@ class FilterAndPaginationTest extends BaseTestCase
 
         $creators_ids = Store::select('created_by')->distinct()->take(3)->get()->pluck('created_by');
 
-        $this->callGet('/v2/stores/?filter[created_by]=' . $creators_ids[1]);
+        $this->callGet('/v2/stores?filter[created_by]=' . $creators_ids[1]);
         $this->assertContains('"created_by":' . $creators_ids[1], $this->response->getContent());
         $this->assertNotContains('"created_by":' . $creators_ids[0], $this->response->getContent());
         $this->assertNotContains('"created_by":' . $creators_ids[2], $this->response->getContent());
 
-        $this->callGet('/v2/stores/?page[size]=10000&filter[created_by]=' . $creators_ids[1] . ',' . $creators_ids[2]);
+        $this->callGet('/v2/stores?page[size]=10000&filter[created_by]=' . $creators_ids[1] . ',' . $creators_ids[2]);
         $this->assertContains('"created_by":' . $creators_ids[1], $this->response->getContent());
         $this->assertContains('"created_by":' . $creators_ids[2], $this->response->getContent());
         $this->assertNotContains('"created_by":' . $creators_ids[0], $this->response->getContent());
 
-        $this->callGet('/v2/stores/?filter[created_by]=' . $creators_ids[0] . ',' . $creators_ids[2]);
+        $this->callGet('/v2/stores?filter[created_by]=' . $creators_ids[0] . ',' . $creators_ids[2]);
         $this->assertContains('"created_by":' . $creators_ids[0], $this->response->getContent());
         $this->assertContains('"created_by":' . $creators_ids[2], $this->response->getContent());
         $this->assertNotContains('"created_by":' . $creators_ids[1], $this->response->getContent());

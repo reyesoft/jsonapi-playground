@@ -58,21 +58,20 @@
                     <li><span>GET</span> <a href="/v2/authors/1">/v2/authors/1</a></li>
                     <li><span>GET</span> <a href="/v2/authors/1/books">/v2/authors/1/books</a></li>
                     <li><span>GET</span>
-                        <a href="/v2/authors/?page[number]=1&page[size]=3&filter[name]=S&include=books,photos">
-                            /v2/authors/?page[number]=1&page[size]=3&filter[name]=S&include=books,photos
+                        <a href="/v2/authors?page[number]=1&page[size]=3&filter[name]=S&include=books,photos">
+                            /v2/authors?page[number]=1&page[size]=3&filter[name]=S&include=books,photos
                         </a>
                     </li>
                     <li><span>GET</span>
-                        <a href="/v2/books/?filter[date_published][since]=1900-01-01&filter[date_published][until]=2020-01-01">
-                            /v2/books/?filter[date_published][since]=1900-01-01&filter[date_published][until]=2020-01-01
+                        <a href="/v2/books?filter[date_published][since]=1900-01-01&filter[date_published][until]=2020-01-01">
+                            /v2/books?filter[date_published][since]=1900-01-01&filter[date_published][until]=2020-01-01
                         </a>
                     </li>
-                    <li><span>GET</span> <a href="/v2/stores/?created_by=1,3">/v2/stores/?created_by=1,3</a></li>
+                    <li><span>GET</span> <a href="/v2/stores?filter[created_by]=1,3">/v2/stores?filter[created_by]=1,3</a></li>
                 </ul>
                 <p>More resources?
                     <a href="/v2/books">books</a>
                     <a href="/v2/series">series</a>
-                    <a href="/v2/books">books</a>
                     <a href="/v2/chapters">chapters</a>
                     <a href="/v2/photos">photos</a>
                     <a href="/v2/stores">stores</a>
