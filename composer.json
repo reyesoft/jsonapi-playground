@@ -2,7 +2,7 @@
     "name": "reyesoft/jsonapi-playground",
     "description": "JsonApi playground server",
     "keywords": ["JsonApi", "php", "server"],
-    "license": "MIT",
+    "license": "proprietary",
     "type": "project",
     "minimum-stability": "stable",
     "require": {
