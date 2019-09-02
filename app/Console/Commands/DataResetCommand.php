@@ -24,7 +24,11 @@ class DataResetCommand extends Command
 
     public function handle(): void
     {
-        Artisan::call('migrate:fresh');
-        Artisan::call('db:seed');
+        Artisan::call(
+            'migrate:fresh', [
+                '--seed' => true,
+                '--force' => true,
+            ]
+        );
     }
 }
