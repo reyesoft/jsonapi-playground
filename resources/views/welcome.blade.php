@@ -90,6 +90,7 @@
                     <li>chapters resource can't be created, updated or deleted.</li>
                     <li>stores.address can be only set on create, can't be updated.</li>
                     <li>stores.created_by can be only read.</li>
+                    <li>chapter 1 cant be removed.</li>
                 </ul>
 
                 <p><small>NOTE: Information is reset every day.</small></p>

@@ -16,6 +16,7 @@ use Reyesoft\JsonApi\Eloquent\Filter\LikeFilter;
 class AuthorSchema extends SchemaProvider
 {
     protected $resourceType = 'authors';
+    public static $policy = AuthorPolicy::class;
     public static $model = Author::class;
 
     protected static $attributes = [

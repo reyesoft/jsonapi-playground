@@ -85,4 +85,13 @@ class AuthorsTest extends BaseTestCase
         $this->expectException(\Exception::class);
         Author::findOrFail($author_id);
     }
+
+    /**
+     * Business rule: chapter 1 cant be removed.
+     */
+    public function testChapter1CantBeRemoved(): void
+    {
+        $this->callDelete('/v2/authors/1');
+        $this->assertResponseJsonApiError('Policy exception');
+    }
 }

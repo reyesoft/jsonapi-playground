@@ -79,8 +79,8 @@ class FilterAndPaginationTest extends BaseTestCase
 
     public function testFilterEnum(): void
     {
-        $paginate_original_value = config('paginate.general');
-        config(['paginate.general' => 500]);
+        $paginate_original_value = config('jsonapi.paginate.allowed');
+        config(['jsonapi.paginate.allowed' => [5, 10, 25, 50, 100, 10000]]);
 
         $creators_ids = Store::select('created_by')->distinct()->take(3)->get()->pluck('created_by');
 
@@ -99,7 +99,7 @@ class FilterAndPaginationTest extends BaseTestCase
         $this->assertContains('"created_by":' . $creators_ids[2], $this->response->getContent());
         $this->assertNotContains('"created_by":' . $creators_ids[1], $this->response->getContent());
 
-        config(['paginate.general' => $paginate_original_value]);
+        config(['jsonapi.paginate.allowed' => $paginate_original_value]);
     }
 
     public function testFilterWrongAttribute(): void

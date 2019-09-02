@@ -49,7 +49,7 @@ class ChaptersTest extends BaseTestCase
     {
         $resource = $this->newResource();
         $this->callPost('/v2/chapters', $resource);
-        $this->assertResponseJsonApiError('Policy Exception', 403);
+        $this->assertResponseJsonApiError('Policy exception', 403);
     }
 
     /**
@@ -59,7 +59,7 @@ class ChaptersTest extends BaseTestCase
     {
         $resource = $this->newResource($chapter_id);
         $this->callPatch('/v2/chapters/' . $chapter_id, $resource);
-        $this->assertResponseJsonApiError('Policy Exception', 403);
+        $this->assertResponseJsonApiError('Policy exception', 403);
     }
 
     /**
@@ -68,7 +68,7 @@ class ChaptersTest extends BaseTestCase
     public function testChapterCantBeDeleted(string $chapter_id): void
     {
         $this->callDelete('/v2/chapters/' . $chapter_id);
-        $this->assertResponseJsonApiError('Policy Exception', 403);
+        $this->assertResponseJsonApiError('Policy exception', 403);
 
         $chapter = Chapter::find($chapter_id);
         $this->assertSame((string) $chapter->id, $chapter_id);
