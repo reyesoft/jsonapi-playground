@@ -2,6 +2,10 @@
 
 Online version: <http://jsonapiplayground.reyesoft.com/> 😁
 
+## Notice
+
+This example uses a private library (`laravel-json-api`). Library purchase is required.
+
 ## Resources
 
 - authors
@@ -15,13 +19,9 @@ Online version: <http://jsonapiplayground.reyesoft.com/> 😁
 
 ```
 [GET] localhost/v2/{resource}
-
 [GET] localhost/v2/{resource}/{resource_id}
-
 [GET] localhost/v2/{resource}/{resource_id}/related
-
 [PATCH] localhost/v1/{resource}/{resource_id}
-
 [DELETE] localhost/v1/{resource}/{resource_id}
 ```
 
@@ -33,7 +33,7 @@ Online version: <http://jsonapiplayground.reyesoft.com/> 😁
 phpunit
 ```
 
-## PhpCsFixer autofix
+## Code fixer
 
 ```
 sh autofix.sh
