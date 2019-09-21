@@ -11,32 +11,28 @@ declare(strict_types=1);
 namespace App;
 
 use Reyesoft\JsonApi\Core\SchemaProvider;
-use Reyesoft\JsonApi\Eloquent\Filter\LikeFilter;
+use Reyesoft\JsonApi\Eloquent\Filter\StringFilter;
 
 class AuthorSchema extends SchemaProvider
 {
     protected $resourceType = 'authors';
     public static $policy = AuthorPolicy::class;
     public static $model = Author::class;
+    protected static $attributes = [];
+    protected static $relationships = [];
 
-    protected static $attributes = [
-        'name' => [
-            'filter' => LikeFilter::class,
-            'sort' => true,
-        ],
-        'birthplace' => [],
-        'date_of_birth' => [],
-        'date_of_death' => [],
-    ];
+    public static function boot(): void
+    {
+        self::addAttribute('name')
+            ->setFilter(StringFilter::class)
+            ->sortable(true);
+        self::addAttribute('birthplace');
+        self::addAttribute('date_of_birth');
+        self::addAttribute('date_of_death');
 
-    protected static $relationships = [
-        'photos' => [
-            'schema' => PhotoSchema::class,
-            'hasMany' => true,
-        ],
-        'books' => [
-            'schema' => BookSchema::class,
-            'hasMany' => true,
-        ],
-    ];
+        self::addRelationship(PhotoSchema::class, 'photos')
+            ->setHasMany();
+        self::addRelationship(BookSchema::class, 'books')
+            ->setHasMany();
+    }
 }
