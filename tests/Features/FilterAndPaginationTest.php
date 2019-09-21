@@ -19,7 +19,7 @@ class FilterAndPaginationTest extends BaseTestCase
 {
     public function testFilterEquals(): void
     {
-        $title = Chapter::first()->title;
+        $title = Chapter::firstOrFail()->title;
 
         $this->callGet('/v2/chapters/?filter[title]=' . urlencode($title));
         $result = json_decode($this->response->getContent(), true);
@@ -35,7 +35,7 @@ class FilterAndPaginationTest extends BaseTestCase
 
     public function testFilterLike(): void
     {
-        $title = Book::orderBy('title')->first()->title;
+        $title = Book::orderBy('title')->firstOrFail()->title;
         $title = substr($title, 1, -1);
 
         $this->callGet('/v2/books/?filter[title]=' . urlencode($title));
@@ -46,7 +46,7 @@ class FilterAndPaginationTest extends BaseTestCase
 
     public function testFilterLikeEquals(): void
     {
-        $title = Book::orderByDesc('title')->first()->title;
+        $title = Book::orderByDesc('title')->firstOrFail()->title;
 
         $this->callGet('/v2/books/?filter[title]=' . urlencode($title));
         $result = json_decode($this->response->getContent(), true);
@@ -56,7 +56,9 @@ class FilterAndPaginationTest extends BaseTestCase
 
     public function testFilterDate(): void
     {
-        $middle_date = Book::orderBy('date_published')->skip(5)->first()->date_published;
+        /** @var Book $book */
+        $book = Book::orderBy('date_published')->skip(5)->first();
+        $middle_date = $book->date_published;
 
         $this->callGet(
             '/v2/books/?filter[date_published][since]=1900-01-01&filter[date_published][until]=' . $middle_date

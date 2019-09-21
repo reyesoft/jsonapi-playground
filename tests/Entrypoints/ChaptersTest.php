@@ -70,7 +70,8 @@ class ChaptersTest extends BaseTestCase
         $this->callDelete('/v2/chapters/' . $chapter_id);
         $this->assertResponseJsonApiError('Policy exception', 403);
 
-        $chapter = Chapter::find($chapter_id);
+        /** @var Chapter $chapter */
+        $chapter = Chapter::findOrFail($chapter_id);
         $this->assertSame((string) $chapter->id, $chapter_id);
     }
 }

@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+    /**
+     * @var string
+     */
     protected $namespace = 'App\Http\Controllers';
 
     public function boot(): void

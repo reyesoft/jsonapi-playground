@@ -1,10 +1,10 @@
 # JsonApi Playground
 
-Online version: <http://jsonapiplayground.reyesoft.com/> 😁
+Free data service for JSON:API clients testing: <http://jsonapiplayground.reyesoft.com/> 😁
 
 ## Notice
 
-This example uses a private library (`laravel-json-api`). Library purchase is required.
+This example uses a private library (`laravel-json-api`) and purchase is required if you need generate your own data server.
 
 ## Resources
 
@@ -15,26 +15,10 @@ This example uses a private library (`laravel-json-api`). Library purchase is re
 - stores
 - photos
 
-### Entry points
-
-```
-[GET] localhost/v2/{resource}
-[GET] localhost/v2/{resource}/{resource_id}
-[GET] localhost/v2/{resource}/{resource_id}/related
-[PATCH] localhost/v1/{resource}/{resource_id}
-[DELETE] localhost/v1/{resource}/{resource_id}
-```
-
 ## Development
 
-### Tests
+### Defining a schema for Model
 
-```
-phpunit
-```
+```php
 
-## Code fixer
-
-```
-sh autofix.sh
 ```

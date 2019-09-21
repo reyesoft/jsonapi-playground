@@ -38,7 +38,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
-    use Authenticatable, CanResetPassword;
+    use Authenticatable;
+    use CanResetPassword;
 
     /**
      * The attributes that are mass assignable.

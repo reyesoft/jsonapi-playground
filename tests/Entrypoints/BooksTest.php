@@ -43,7 +43,7 @@ class BooksTest extends BaseTestCase
         $resource = $this->newResource();
 
         // with author, ok
-        $author = Author::first();
+        $author = Author::firstOrFail();
         $resource['data']['relationships']['author']['data'] = ['id' => $author->id, 'type' => 'authors'];
         unset($resource['data']['relationships']['series']);
         $this->callPost('/v2/books', $resource);
@@ -61,7 +61,7 @@ class BooksTest extends BaseTestCase
         $resource = $this->newResource();
 
         // with author, ok
-        $author = Author::first();
+        $author = Author::firstOrFail();
         $resource['data']['relationships']['author']['data'] = ['id' => $author->id, 'type' => 'authors'];
 
         // with chapters

@@ -15,8 +15,8 @@ class HeadersTest extends TestCase
     public function testIfResponseWithCorrectHeader(): void
     {
         foreach ($this->models as $resource => $value) {
-            $response = $this->call('GET', 'v2/' . $resource);
-            $this->assertSame('application/vnd.api+json', $response->headers->get('content-type'));
+            $this->call('GET', 'v2/' . $resource)
+                ->assertHeader('content-type', 'application/vnd.api+json');
         }
     }
 }

@@ -1,0 +1,11 @@
+includes:
+	- ../../vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    bootstrap: %rootDir%/../../../resources/rules/phpstan-bootstrap.php
+    paths:
+        - app
+    level: max
+    ignoreErrors:
+        # Laravel
+        - '#Call to an undefined static method Illuminate\\Support\\Facades\\Route::\S.+().#'

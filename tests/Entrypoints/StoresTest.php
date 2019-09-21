@@ -78,7 +78,8 @@ class StoresTest extends BaseTestCase
      */
     public function testStoreUpdatePrivateData($store_id): void
     {
-        $store = Store::find($store_id);
+        /** @var Store $store */
+        $store = Store::findOrFail($store_id);
         $original_private_data = 'This data is private for JsonApi';
         $store->private_data = $original_private_data;
         $store->save();
@@ -88,7 +89,8 @@ class StoresTest extends BaseTestCase
         $this->callPatch('/v2/stores/' . $store_id, $resource);
         $this->assertResponseJsonApiResource();
 
-        $store = Store::find($store_id);
+        /** @var Store $store */
+        $store = Store::findOrFail($store_id);
         $this->assertSame($resource['data']['attributes']['name'], $store->name);
         $this->assertSame($store->private_data, $original_private_data);
     }
@@ -133,7 +135,8 @@ class StoresTest extends BaseTestCase
         $original_address = '742 Evergreen Terrace';
         $new_address = '316 Pikeland Ave';
 
-        $store = Store::find($store_id);
+        /** @var Store $store */
+        $store = Store::findOrFail($store_id);
         $store->address = $original_address;
         $store->save();
 
@@ -145,7 +148,8 @@ class StoresTest extends BaseTestCase
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($original_address, $result['data']['attributes']['address']);
-        $store = Store::find($store_id);
+        /** @var Store $store */
+        $store = Store::findOrFail($store_id);
         $this->assertSame($original_address, $store->address);
         $this->assertNotSame($new_address, $result['data']['attributes']['address']);
     }
@@ -188,7 +192,8 @@ class StoresTest extends BaseTestCase
      */
     public function testStoreCreatedByCanNotBeSetOnUpdate(string $store_id): void
     {
-        $store = Store::find($store_id);
+        /** @var Store $store */
+        $store = Store::findOrFail($store_id);
         $original_created_by = $store->created_by;
         $new_created_by = $original_created_by + 1;
 
@@ -199,7 +204,8 @@ class StoresTest extends BaseTestCase
 
         $result = json_decode($this->response->getContent(), true);
         $this->assertSame($store->created_by, $result['data']['attributes']['created_by']);
-        $store = Store::find($store_id);
+        /** @var Store $store */
+        $store = Store::findOrFail($store_id);
         $this->assertSame($original_created_by, $store->created_by);
         $this->assertNotSame($new_created_by, $result['data']['attributes']['created_by']);
     }

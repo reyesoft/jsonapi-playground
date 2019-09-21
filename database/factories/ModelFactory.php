@@ -82,7 +82,9 @@ $factory->define(
     App\Photo::class, function (Faker\Generator $faker) {
         return [
             'title' => $faker->numerify('Photo ###'),
-            'uri' => $faker->imageUrl(400, 300, 'abstract', true, 'Faker'),
+            // we use picsum because lorem faker return distinct url, but image change on each request
+            'uri' => 'https://picsum.photos/id/' . $faker->unique()->numberBetween(0, 999) . '/400/300.jpg',
+            // 'uri' => $faker->imageUrl(400, 300, null, false, 'Faker'),
         ];
     }
 );
