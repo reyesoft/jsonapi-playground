@@ -35,6 +35,18 @@ class AuthorsTest extends BaseTestCase
         $this->assertResponseJsonApiCollection();
     }
 
+    public function testAuthorIndexIncludeBooksAndPhotos(): void
+    {
+        $this->callGet('/v2/authors?include=books,photos');
+        $this->assertResponseJsonApiCollection();
+    }
+
+    public function testAuthorIndexRelatedBooks(): void
+    {
+        $this->callGet('/v2/authors/1/books');
+        $this->assertResponseJsonApiCollection();
+    }
+
     public function testAuthorCreate()
     {
         $resource = $this->newResource();

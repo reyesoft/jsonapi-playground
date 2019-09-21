@@ -49,7 +49,7 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
-                    {{ config('app.name') }}
+                    JSON:API playground
                 </div>
 
                 <h2>Data</h2>
@@ -58,8 +58,8 @@
                     <li><span>GET</span> <a href="/v2/authors/1">/v2/authors/1</a></li>
                     <li><span>GET</span> <a href="/v2/authors/1/books">/v2/authors/1/books</a></li>
                     <li><span>GET</span>
-                        <a href="/v2/authors?page[number]=1&page[size]=3&filter[name]=S&include=books,photos">
-                            /v2/authors?page[number]=1&page[size]=3&filter[name]=S&include=books,photos
+                        <a href="/v2/authors?page[number]=1&page[size]=5&filter[name]=S&include=books,photos">
+                            /v2/authors?page[number]=1&page[size]=5&filter[name]=S&include=books,photos
                         </a>
                     </li>
                     <li><span>GET</span>
